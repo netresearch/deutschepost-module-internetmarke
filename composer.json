@@ -1,0 +1,33 @@
+{
+    "name": "deutschepost/module-internetmarke",
+    "version": "1.0.0",
+    "type": "magento2-module",
+    "description": "INTERNETMARKE shipping product capabilities for the DHL Paket carrier module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "email": "plugins@netresearch.de",
+            "name": "Netresearch DTT GmbH",
+            "role": "Manufacturer",
+            "homepage": "https://www.netresearch.de/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "DeutschePost\\Internetmarke\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    },
+    "require": {
+        "php": "^7.1.3",
+        "dhl/module-shipping-core": "^1.1.0",
+        "dhl/module-carrier-paket": "^1.2.0",
+        "deutschepost/sdk-api-prodws": "^1.0.0",
+        "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
+        "magento/framework": "^102.0.0 || ^103.0.0"
+    },
+    "require-dev": {
+    }
+}
