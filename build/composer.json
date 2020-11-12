@@ -1,0 +1,26 @@
+{
+  "name": "deutschepost/module-internetmarke-meta",
+  "description": "Metapackage for testing the DHL paket carrier extension with dependencies",
+  "version": "1.0.0",
+  "type": "metapackage",
+  "require": {
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/deutschepost/sdk-api-oneclickforapp.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/deutschepost/sdk-api-prodws.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/module-shipping-core.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/module-carrier-paket.git"
+    }
+  ]
+}
