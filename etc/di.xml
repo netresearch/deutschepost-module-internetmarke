@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- # sdk preferences -->
+    <preference for="DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\ProdWS\Service\ServiceFactory"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\OneClickForApp\Service\ServiceFactory"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\TokenStorage"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\CredentialsInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\Credentials"/>
+
+    <!-- # virtual types -->
+    <virtualType name="DeutschePost\Internetmarke\ViewModel\Adminhtml\System\InfoBox\Virtual" type="Dhl\ShippingCore\ViewModel\Adminhtml\System\InfoBox">
+        <arguments>
+            <argument name="version" xsi:type="object">GlsGermany\Shipping\Model\Config\ModuleConfig</argument>
+        </arguments>
+    </virtualType>
+</config>
