@@ -1,11 +1,12 @@
 "-- Please Select --","-- Bitte wählen --"
 "Account Settings",Kontoeinstellungen
-Actions,"Aktionen"
+Actions,Aktionen
 "Basic Setup",Grundkonfiguration
 "Deutsche Post & Magento","Deutsche Post & Magento"
 "Deutsche Post Internetmarke","Deutsche Post Internetmarke"
 "Email Address",E-Mail-Adresse
 "Failed to update page formats: %1","Druckformate konnten nicht aktualisiert werden: %1"
+"Failed to update product lists: %1","Produktlisten konnten nicht aktualisiert werden: %1"
 "Page Format",Druckformat
 "Page formats are available.","Druckformate sind verfügbar"
 "Page formats were successfully updated.","Druckformate wurden erfolgreich aktualisiert."
@@ -16,6 +17,7 @@ Password,Passwort
 "Portokasse Credentials: Email Address","Portokasse Zugangsdaten: E-Mail-Adresse"
 "Portokasse Credentials: Password","Portokasse Zugangsdaten: Passwort"
 "Product list is available.","Produktliste ist verfügbar."
+"Product lists were successfully updated.","Produktlisten wurde erfolgreich aktualisiert."
 "Select a page format for shipping labels. Page formats marked with (A) print addresses.","Wählen Sie ein Druckformat für Versandetiketten. Druckformate, die mit (A) gekennzeichnet sind, können Adressen darstellen."
 "Standard Formats",Standardformate
 "To get started, shipping label formats and shipping products must be imported.","Um zu beginnen, müssen Druckformate und Versandprodukte abgerufen werden."

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\PageFormat;
 
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
-use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat as PageFormatResource;
+use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormat as PageFormatResource;
 use Magento\Framework\Model\AbstractModel;
 
 class PageFormat extends AbstractModel implements PageFormatInterface

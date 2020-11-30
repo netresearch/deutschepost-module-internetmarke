@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\ResourceModel;
+namespace DeutschePost\Internetmarke\Model\ResourceModel\PageFormat;
 
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
 use Magento\Framework\Model\AbstractModel;

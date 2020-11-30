@@ -27,7 +27,9 @@
         "deutschepost/sdk-api-prodws": "^1.0.0",
         "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
+        "magento/module-backend": "^101.0.0 || ^102.0.0",
         "magento/module-config": "^101.1.0",
+        "magento/module-shipping": "^100.3.0",
         "magento/module-store": "^101.0.0",
         "netresearch/config-fields-m2": "^1.2.2"
     },
