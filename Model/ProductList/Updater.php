@@ -54,10 +54,10 @@ class Updater
     public function updateProductLists()
     {
         try {
-            $productsWebservice = $this->productsWsFactory->create($this->logger);
+            $productsWebservice = $this->productsWsFactory->create();
             $productLists = $productsWebservice->getProductLists('NETRESEARCH');
 
-            $pricesWebservice = $this->pricesWsFactory->createInfoService($this->logger);
+            $pricesWebservice = $this->pricesWsFactory->createInfoService();
             $prices = $pricesWebservice->getContractProducts();
 
             $this->saveHandler->save($productLists, $prices);

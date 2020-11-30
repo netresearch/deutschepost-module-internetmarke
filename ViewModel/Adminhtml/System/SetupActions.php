@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\ViewModel\Adminhtml\System;
 
 use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
+use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
 use DeutschePost\Internetmarke\Model\ResourceModel\ProductList\SalesProductCollectionFactory;
 use Magento\Framework\Stdlib\DateTime\DateTime;
@@ -38,22 +39,22 @@ class SetupActions implements ArgumentInterface
     private $formatsCollectionFactory;
 
     /**
-     * @var SalesProductCollectionFactory
+     * @var SalesProductCollectionLoader
      */
-    private $productsCollectionFactory;
+    private $productCollectionLoader;
 
     public function __construct(
         UrlInterface $urlBuilder,
         DateTime $date,
         ModuleConfig $config,
         PageFormatCollectionFactory $formatsCollectionFactory,
-        SalesProductCollectionFactory $productsCollectionFactory
+        SalesProductCollectionLoader $productCollectionLoader
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->date = $date;
         $this->config = $config;
         $this->formatsCollectionFactory = $formatsCollectionFactory;
-        $this->productsCollectionFactory = $productsCollectionFactory;
+        $this->productCollectionLoader = $productCollectionLoader;
     }
 
     public function isWalletConfigured()
@@ -69,9 +70,7 @@ class SetupActions implements ArgumentInterface
 
     public function getProductsCount(): int
     {
-        $currentDate = $this->date->gmtDate();
-        $collection = $this->productsCollectionFactory->create();
-        return $collection->setDateFilter($currentDate)->getSize();
+        return $this->productCollectionLoader->getCollection()->getSize();
     }
 
     public function getFormatsUpdateUrl(): string

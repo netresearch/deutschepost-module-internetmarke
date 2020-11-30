@@ -55,7 +55,7 @@ class Updater
     public function updatePageFormats()
     {
         try {
-            $webservice = $this->webserviceFactory->createInfoService($this->logger);
+            $webservice = $this->webserviceFactory->createInfoService();
             $pageFormats = $webservice->getPageFormats();
 
             $collection = $this->collectionFactory->create();

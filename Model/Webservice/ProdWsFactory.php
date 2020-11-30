@@ -20,18 +20,23 @@ class ProdWsFactory
      */
     private $serviceFactory;
 
-    public function __construct(ServiceFactoryInterface $serviceFactory)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(ServiceFactoryInterface $serviceFactory, LoggerInterface $logger)
     {
         $this->serviceFactory = $serviceFactory;
+        $this->logger = $logger;
     }
 
     /**
-     * @param LoggerInterface $logger
      * @return ProductInformationServiceInterface
      * @throws ServiceException
      */
-    public function create(LoggerInterface $logger): ProductInformationServiceInterface
+    public function create(): ProductInformationServiceInterface
     {
-        return $this->serviceFactory->createProductInformationService('netresearch', 'A&5%bk?dx7', $logger);
+        return $this->serviceFactory->createProductInformationService('netresearch', 'A&5%bk?dx7', $this->logger);
     }
 }
