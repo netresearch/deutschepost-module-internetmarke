@@ -22,17 +22,23 @@
     },
     "require": {
         "php": "^7.1.3",
-        "dhl/module-shipping-core": "^1.1.0",
-        "dhl/module-carrier-paket": "^1.2.0",
+        "dhl/module-shipping-core": "^1.2.0",
+        "dhl/module-carrier-paket": "^1.5.0",
         "deutschepost/sdk-api-prodws": "^1.0.0",
         "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
         "magento/module-backend": "^101.0.0 || ^102.0.0",
         "magento/module-config": "^101.1.0",
+        "magento/module-sales": "^102.0.0 || ^103.0.0",
         "magento/module-shipping": "^100.3.0",
         "magento/module-store": "^101.0.0",
         "netresearch/config-fields-m2": "^1.2.2"
     },
     "require-dev": {
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.0.0.x-dev"
+        }
     }
 }
