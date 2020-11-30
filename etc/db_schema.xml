@@ -18,4 +18,110 @@
             <column name="format_id"/>
         </constraint>
     </table>
+
+    <table name="deutschepost_product_list" resource="default" engine="innodb" comment="Deutsche Post Product Price List">
+        <column name="list_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product Price List ID"/>
+        <column name="valid_from" xsi:type="datetime" nullable="false" on_update="false" comment="Valid From Date"/>
+        <column name="valid_to" xsi:type="datetime" nullable="true" on_update="false" comment="Valid To Date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="list_id"/>
+        </constraint>
+    </table>
+
+    <table name="deutschepost_product_basic" resource="default" engine="innodb" comment="Deutsche Post Basic Product">
+        <column name="product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Basic Product ProdWS ID"/>
+        <column name="product_list_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product List Reference"/>
+        <column name="version" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Basic Product Version"/>
+        <column name="name" xsi:type="varchar" nullable="false" length="150" comment="Product Name"/>
+        <column name="destination" xsi:type="varchar" nullable="false" length="16" comment="Applicable Destination"/>
+        <column name="min_length" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Length in mm"/>
+        <column name="max_length" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Length in mm"/>
+        <column name="min_width" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Width in mm"/>
+        <column name="max_width" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Width in mm"/>
+        <column name="min_height" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Height in mm"/>
+        <column name="max_height" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Height in mm"/>
+        <column name="min_weight" xsi:type="smallint" unsigned="true" nullable="true" identity="false" comment="Min Weight in g"/>
+        <column name="max_weight" xsi:type="smallint" unsigned="true" nullable="true" identity="false" comment="Max Weight in g"/>
+        <column name="price" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Base Price in Eurocent"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_id"/>
+            <column name="product_list_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="DEUTSCHEPOST_PRD_BASIC_PRD_LIST_ID_DEUTSCHEPOST_PRD_LIST_LIST_ID"
+                    table="deutschepost_product_basic" column="product_list_id"
+                    referenceTable="deutschepost_product_list" referenceColumn="list_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <table name="deutschepost_product_additional" resource="default" engine="innodb" comment="Deutsche Post Additional Product">
+        <column name="product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product Addition ProdWS ID"/>
+        <column name="product_list_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product List Reference"/>
+        <column name="version" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product Addition Version"/>
+        <column name="name" xsi:type="varchar" nullable="false" length="150" comment="Product Name"/>
+        <column name="destination" xsi:type="varchar" nullable="false" length="16" comment="Applicable Destination"/>
+        <column name="price" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Price Addition in Eurocent"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_id"/>
+            <column name="product_list_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="FK_D8A21B91C632131CF97BF457076F9534"
+                    table="deutschepost_product_additional" column="product_list_id"
+                    referenceTable="deutschepost_product_list" referenceColumn="list_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <table name="deutschepost_product_sales" resource="default" engine="innodb" comment="Deutsche Post Sales Product">
+        <column name="product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Sales Product ProdWS ID"/>
+        <column name="product_list_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Product List Reference"/>
+        <column name="ppl_id" xsi:type="int" unsigned="true" nullable="false" identity="false" comment="Sales Product PPL ID"/>
+        <column name="basic_product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Basic Product Reference"/>
+        <column name="version" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Sales Product Version"/>
+        <column name="name" xsi:type="varchar" nullable="false" length="150" comment="Product Name"/>
+        <column name="destination" xsi:type="varchar" nullable="false" length="16" comment="Applicable Destination"/>
+        <column name="min_length" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Length in mm"/>
+        <column name="max_length" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Length in mm"/>
+        <column name="min_width" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Width in mm"/>
+        <column name="max_width" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Width in mm"/>
+        <column name="min_height" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Min Height in mm"/>
+        <column name="max_height" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Max Height in mm"/>
+        <column name="min_weight" xsi:type="smallint" unsigned="true" nullable="true" identity="false" comment="Min Weight in g"/>
+        <column name="max_weight" xsi:type="smallint" unsigned="true" nullable="true" identity="false" comment="Max Weight in g"/>
+        <column name="price" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Price in Eurocent"/>
+        <column name="contract_price" xsi:type="smallint" unsigned="true" nullable="true" identity="false" comment="Contract Price in Eurocent"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_id"/>
+            <column name="product_list_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="DEUTSCHEPOST_PRD_SALES_PRD_LIST_ID_DEUTSCHEPOST_PRD_LIST_LIST_ID"
+                    table="deutschepost_product_sales" column="product_list_id"
+                    referenceTable="deutschepost_product_list" referenceColumn="list_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    referenceId="FK_22A8243772A282B9463A4A054E9B54BF"
+                    table="deutschepost_product_sales" column="basic_product_id"
+                    referenceTable="deutschepost_product_basic" referenceColumn="product_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <table name="deutschepost_product_sales_additional" resource="default" engine="innodb" comment="Deutsche Post Additional Product To Sales Product Linkage">
+        <column name="sales_product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Sales Product Reference"/>
+        <column name="additional_product_id" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Sales Product Reference"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="sales_product_id"/>
+            <column name="additional_product_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="FK_7327B7F745A9A9333B22996FEF89A995"
+                    table="deutschepost_product_sales_additional" column="sales_product_id"
+                    referenceTable="deutschepost_product_sales" referenceColumn="product_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    referenceId="FK_A9B969FA489DD653A9DF58F441917BAA"
+                    table="deutschepost_product_sales_additional" column="additional_product_id"
+                    referenceTable="deutschepost_product_additional" referenceColumn="product_id"
+                    onDelete="CASCADE"/>
+    </table>
 </schema>

@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Config\Source;
 
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
-use DeutschePost\Internetmarke\Model\ResourceModel\PageFormatCollection;
-use DeutschePost\Internetmarke\Model\ResourceModel\PageFormatCollectionFactory;
+use DeutschePost\Internetmarke\Model\ResourceModel\Pageformat\PageFormatCollection;
+use DeutschePost\Internetmarke\Model\ResourceModel\Pageformat\PageFormatCollectionFactory;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class PageFormats implements OptionSourceInterface
@@ -25,7 +25,7 @@ class PageFormats implements OptionSourceInterface
         $this->collectionFactory = $collectionFactory;
     }
 
-    public function getCollection(): PageFormatCollection
+    public function toOptionArray()
     {
         $collection = $this->collectionFactory->create();
 
@@ -33,18 +33,14 @@ class PageFormats implements OptionSourceInterface
         $collection->addFieldToFilter(PageFormatInterface::VOUCHER_COLUMNS, ['eq' => 1]);
         $collection->addFieldToFilter(PageFormatInterface::VOUCHER_ROWS, ['eq' => 1]);
 
-        return $collection;
-    }
+        /** @var PageFormatInterface[] $pageFormats */
+        $pageFormats = $collection->getItems();
 
-    public function toOptionArray()
-    {
         $emptyOption = [
             'value' => '',
             'label' => __('-- Please Select --'),
         ];
 
-        /** @var PageFormatInterface[] $pageFormats */
-        $pageFormats = $this->getCollection()->getItems();
         if (empty($pageFormats)) {
             return [$emptyOption];
         }

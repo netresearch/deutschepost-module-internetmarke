@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\ResourceModel;
+namespace DeutschePost\Internetmarke\Model\ResourceModel\PageFormat;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
