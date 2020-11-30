@@ -12,6 +12,9 @@ use DeutschePost\Internetmarke\Api\Data\SalesProductInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
+/**
+ * @method \DeutschePost\Internetmarke\Model\ProductList\SalesProduct[] getItems()
+ */
 class SalesProductCollection extends AbstractCollection
 {
     /**

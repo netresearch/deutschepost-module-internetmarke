@@ -35,6 +35,11 @@ class OneClickForAppFactory
     private $credentialsFactory;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var ModuleConfig
      */
     private $config;
@@ -43,20 +48,21 @@ class OneClickForAppFactory
         ServiceFactoryInterface $oneClickForAppFactory,
         TokenStorageInterfaceFactory $tokenStorageFactory,
         CredentialsInterfaceFactory $credentialsFactory,
+        LoggerInterface $logger,
         ModuleConfig $config
     ) {
         $this->serviceFactory = $oneClickForAppFactory;
         $this->tokenStorageFactory = $tokenStorageFactory;
         $this->credentialsFactory = $credentialsFactory;
+        $this->logger = $logger;
         $this->config = $config;
     }
 
     /**
-     * @param LoggerInterface $logger
      * @return AccountInformationServiceInterface
      * @throws ServiceException
      */
-    public function createInfoService(LoggerInterface $logger): AccountInformationServiceInterface
+    public function createInfoService(): AccountInformationServiceInterface
     {
         $credentials = $this->credentialsFactory->create([
             'username' => $this->config->getAccountEmail(),
@@ -67,15 +73,14 @@ class OneClickForAppFactory
             'tokenStorage' => $this->tokenStorageFactory->create(),
         ]);
 
-        return $this->serviceFactory->createAccountInformationService($credentials, $logger);
+        return $this->serviceFactory->createAccountInformationService($credentials, $this->logger);
     }
 
     /**
-     * @param LoggerInterface $logger
      * @return OrderServiceInterface
      * @throws ServiceException
      */
-    public function createOrderService(LoggerInterface $logger): OrderServiceInterface
+    public function createOrderService(): OrderServiceInterface
     {
         $credentials = $this->credentialsFactory->create([
             'username' => $this->config->getAccountEmail(),
@@ -86,6 +91,6 @@ class OneClickForAppFactory
             'tokenStorage' => $this->tokenStorageFactory->create(),
         ]);
 
-        return $this->serviceFactory->createOrderService($credentials, $logger);
+        return $this->serviceFactory->createOrderService($credentials, $this->logger);
     }
 }
