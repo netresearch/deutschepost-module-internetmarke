@@ -9,6 +9,11 @@
         <dhlshippingsolutions>
             <dpim>
                 <version>1.0.0</version>
+
+                <!-- todo(nr): add log configuration via system.xml -->
+                <logging>1</logging>
+                <loglevel>200</loglevel>
+
                 <account>
                     <portokasse_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 </account>
