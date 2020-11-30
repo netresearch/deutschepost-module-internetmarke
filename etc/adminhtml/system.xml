@@ -18,7 +18,8 @@
                     <attribute type="view_model">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\InfoBox</attribute>
                 </field>
 
-                <include path="DeutschePost_Internetmarke::system/200_account.xml"/>
+                <include path="DeutschePost_Internetmarke::system/100_account.xml"/>
+                <include path="DeutschePost_Internetmarke::system/200_setup.xml"/>
             </group>
         </section>
     </system>
