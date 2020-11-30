@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <block class="Magento\Backend\Block\Template" name="deutschepost_internetmarke_setup_actions" template="DeutschePost_Internetmarke::system/config/actions.phtml">
+            <arguments>
+                <argument name="view_model" xsi:type="object">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\SetupActions</argument>
+            </arguments>
+        </block>
+    </body>
+</page>

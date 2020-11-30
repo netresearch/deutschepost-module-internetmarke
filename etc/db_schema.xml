@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="deutschepost_internetmarke_pageformat" resource="default" engine="innodb" comment="Deutsche Post Internetmarke Page Format">
+        <column name="format_id" xsi:type="int" unsigned="true" nullable="false" identity="false" comment="Page Format ID"/>
+        <column name="name" xsi:type="varchar" nullable="false" length="255" comment="Name"/>
+        <column name="description" xsi:type="varchar" nullable="false" length="255" comment="Description"/>
+        <column name="print_medium" xsi:type="varchar" nullable="false" length="16" comment="Print Medium"/>
+        <column name="voucher_columns" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Voucher Columns Per Page"/>
+        <column name="voucher_rows" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Voucher Rows Per Page"/>
+        <column name="is_address_possible" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Address Support Flag"/>
+        <column name="is_image_possible" xsi:type="smallint" unsigned="true" nullable="false" identity="false" comment="Image Support Flag"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="format_id"/>
+        </constraint>
+    </table>
+</schema>

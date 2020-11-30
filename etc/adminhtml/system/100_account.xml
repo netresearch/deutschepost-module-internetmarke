@@ -5,15 +5,15 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="account" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+    <group id="account" translate="label" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
         <label>Account Settings</label>
 
-        <field id="portokasse_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+        <field id="portokasse_username" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10"
                translate="label tooltip" type="text">
             <label>Email Address</label>
             <tooltip>Portokasse Credentials: Email Address</tooltip>
         </field>
-        <field id="portokasse_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+        <field id="portokasse_password" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20"
                translate="label tooltip" type="obscure">
             <label>Password</label>
             <tooltip>Portokasse Credentials: Password</tooltip>
