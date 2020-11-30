@@ -1,0 +1,17 @@
+{
+    "deutschepost_internetmarke_pageformat": {
+        "column": {
+            "format_id": true,
+            "name": true,
+            "description": true,
+            "print_medium": true,
+            "voucher_columns": true,
+            "voucher_rows": true,
+            "is_address_possible": true,
+            "is_image_possible": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
