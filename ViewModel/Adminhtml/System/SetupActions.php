@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\ViewModel\Adminhtml\System;
 
 use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
-use DeutschePost\Internetmarke\Model\Config\Source\PageFormats;
+use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
+use DeutschePost\Internetmarke\Model\ResourceModel\ProductList\SalesProductCollectionFactory;
+use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
@@ -21,20 +23,37 @@ class SetupActions implements ArgumentInterface
     private $urlBuilder;
 
     /**
+     * @var DateTime
+     */
+    private $date;
+
+    /**
      * @var ModuleConfig
      */
     private $config;
 
     /**
-     * @var PageFormats
+     * @var PageFormatCollectionFactory
      */
-    private $pageFormatSource;
+    private $formatsCollectionFactory;
 
-    public function __construct(UrlInterface $urlBuilder, ModuleConfig $config, PageFormats $pageFormatSource)
-    {
+    /**
+     * @var SalesProductCollectionFactory
+     */
+    private $productsCollectionFactory;
+
+    public function __construct(
+        UrlInterface $urlBuilder,
+        DateTime $date,
+        ModuleConfig $config,
+        PageFormatCollectionFactory $formatsCollectionFactory,
+        SalesProductCollectionFactory $productsCollectionFactory
+    ) {
         $this->urlBuilder = $urlBuilder;
+        $this->date = $date;
         $this->config = $config;
-        $this->pageFormatSource = $pageFormatSource;
+        $this->formatsCollectionFactory = $formatsCollectionFactory;
+        $this->productsCollectionFactory = $productsCollectionFactory;
     }
 
     public function isWalletConfigured()
@@ -44,12 +63,15 @@ class SetupActions implements ArgumentInterface
 
     public function getPageFormatCount(): int
     {
-        return $this->pageFormatSource->getCollection()->getSize();
+        $collection = $this->formatsCollectionFactory->create();
+        return $collection->getSize();
     }
 
     public function getProductsCount(): int
     {
-        return 0;
+        $currentDate = $this->date->gmtDate();
+        $collection = $this->productsCollectionFactory->create();
+        return $collection->setDateFilter($currentDate)->getSize();
     }
 
     public function getFormatsUpdateUrl(): string

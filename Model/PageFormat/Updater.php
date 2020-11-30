@@ -10,7 +10,7 @@ namespace DeutschePost\Internetmarke\Model\PageFormat;
 
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterfaceFactory;
-use DeutschePost\Internetmarke\Model\ResourceModel\PageFormatCollectionFactory;
+use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
