@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage;
 
 use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory;
+use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
 use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -18,11 +18,11 @@ use Magento\Shipping\Model\Shipment\Request;
 class SendRequestStage implements CreateShipmentsStageInterface
 {
     /**
-     * @var OneClickForAppFactory
+     * @var OneClickForAppFactoryInterface
      */
     private $webserviceFactory;
 
-    public function __construct(OneClickForAppFactory $webserviceFactory)
+    public function __construct(OneClickForAppFactoryInterface $webserviceFactory)
     {
         $this->webserviceFactory = $webserviceFactory;
     }
@@ -36,6 +36,10 @@ class SendRequestStage implements CreateShipmentsStageInterface
      */
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
+        if (empty($requests)) {
+            return [];
+        }
+
         $apiRequest = $artifactsContainer->getApiRequest();
 
         try {

@@ -61,21 +61,25 @@ class ModuleConfig
 
     public function getAccountEmail(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_PORTOKASSE_EMAIL);
+        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_PORTOKASSE_EMAIL);
     }
 
     public function getAccountPassword(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_PORTOKASSE_PASSWORD);
+        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_PORTOKASSE_PASSWORD);
     }
 
-    public function getPageFormat(): PageFormatInterface
+    public function getPageFormat(): ?PageFormatInterface
     {
         $pageFormatId = $this->scopeConfig->getValue(self::CONFIG_PATH_PAGE_FORMAT);
 
         /** @var \DeutschePost\Internetmarke\Model\PageFormat\PageFormat $pageFormat */
         $pageFormat = $this->pageFormatFactory->create();
         $this->pageFormatResource->load($pageFormat, $pageFormatId);
+
+        if (!$pageFormat->getId()) {
+            return null;
+        }
 
         return $pageFormat;
     }

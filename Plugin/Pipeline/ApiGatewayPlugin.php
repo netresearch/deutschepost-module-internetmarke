@@ -74,6 +74,10 @@ class ApiGatewayPlugin
             }
         }
 
+        if (empty($ours)) {
+            return $proceed($theirs);
+        }
+
         $apiGateway = $this->apiGatewayFactory->create(['storeId' => $storeId]);
         return array_merge($proceed($theirs), $apiGateway->createShipments($ours));
     }
