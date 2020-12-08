@@ -75,6 +75,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
      *
      * @param int $storeId
      * @return int[] Prices, indexed by product PPL ID
+     * @throws LocalizedException
      */
     private function getPrices(int $storeId): array
     {
@@ -85,18 +86,25 @@ class MapRequestStage implements CreateShipmentsStageInterface
             $prices[$product->getPPLId()] = $product->getPrice();
         }
 
+        if (empty($prices)) {
+            throw new LocalizedException(__('Please update shipping products in the module configuration.'));
+        }
+
         return $prices;
     }
 
     /**
      * Create SDK page format from local data for usage in the cart position builder.
      *
-     * @param int $storeId
      * @return PageFormatInterface
+     * @throws LocalizedException
      */
     private function getPageFormat(): PageFormatInterface
     {
         $pageFormat = $this->config->getPageFormat();
+        if (!$pageFormat) {
+            throw new LocalizedException(__('Please update page formats in the module configuration.'));
+        }
 
         return $this->pageFormatFactory->create([
             'id' => $pageFormat->getId(),
@@ -124,8 +132,22 @@ class MapRequestStage implements CreateShipmentsStageInterface
      */
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
-        $productPrices = $this->getPrices($artifactsContainer->getStoreId());
-        $pageFormat = $this->getPageFormat();
+        try {
+            $productPrices = $this->getPrices($artifactsContainer->getStoreId());
+            $pageFormat = $this->getPageFormat();
+        } catch (LocalizedException $exception) {
+            // mark all requests as failed
+            foreach ($requests as $requestIndex => $shipmentRequest) {
+                $artifactsContainer->addError(
+                    (string) $requestIndex,
+                    $shipmentRequest->getOrderShipment(),
+                    $exception->getMessage()
+                );
+            }
+
+            // no requests passed the stage
+            return [];
+        }
 
         $builder = ShoppingCartPositionBuilder::forPageFormat($pageFormat);
 
