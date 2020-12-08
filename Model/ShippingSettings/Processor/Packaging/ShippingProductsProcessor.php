@@ -82,7 +82,7 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
             $option->setLabel('Deutsche Post ' . $salesProduct->getName());
 
             $dpProducts[] = $option;
-        };
+        }
 
         foreach ($optionsData as $optionGroup) {
             foreach ($optionGroup->getInputs() as $input) {
