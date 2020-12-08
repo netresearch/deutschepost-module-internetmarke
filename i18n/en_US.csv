@@ -12,7 +12,9 @@ Actions,Actions
 "Page formats were successfully updated.","Page formats were successfully updated."
 Password,Password
 "Please complete your account settings (wallet credentials) to proceed.","Please complete your account settings (wallet credentials) to proceed."
+"Please update page formats in the module configuration.","Please update page formats in the module configuration."
 "Please update page formats.","Please update page formats."
+"Please update shipping products in the module configuration.","Please update shipping products in the module configuration."
 "Please update shipping products.","Please update shipping products."
 "Portokasse Credentials: Email Address","Portokasse Credentials: Email Address"
 "Portokasse Credentials: Password","Portokasse Credentials: Password"

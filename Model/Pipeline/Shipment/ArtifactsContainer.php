@@ -33,7 +33,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * Container for the API (SDK) request data.
      *
-     * @var Order
+     * @var Order|null
      */
     private $apiRequest;
 
@@ -159,9 +159,9 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * Obtain the prepared request objects, ready for the web service call.
      *
-     * @return Order
+     * @return Order|null
      */
-    public function getApiRequest(): Order
+    public function getApiRequest(): ?Order
     {
         return $this->apiRequest;
     }

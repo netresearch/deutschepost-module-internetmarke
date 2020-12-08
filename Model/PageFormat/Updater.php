@@ -11,14 +11,14 @@ namespace DeutschePost\Internetmarke\Model\PageFormat;
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterfaceFactory;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory;
+use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
 
 class Updater
 {
     /**
-     * @var OneClickForAppFactory
+     * @var OneClickForAppFactoryInterface
      */
     private $webserviceFactory;
 
@@ -38,7 +38,7 @@ class Updater
     private $logger;
 
     public function __construct(
-        OneClickForAppFactory $webserviceFactory,
+        OneClickForAppFactoryInterface $webserviceFactory,
         PageFormatCollectionFactory $collectionFactory,
         PageFormatInterfaceFactory $itemFactory,
         LoggerInterface $logger

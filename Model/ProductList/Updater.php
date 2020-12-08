@@ -9,20 +9,20 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\ProductList;
 
 use DeutschePost\Internetmarke\Model\ResourceModel\ProductList\SaveHandler;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory;
-use DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory;
+use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
+use DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
 
 class Updater
 {
     /**
-     * @var ProdWsFactory
+     * @var ProdWsFactoryInterface
      */
     private $productsWsFactory;
 
     /**
-     * @var OneClickForAppFactory
+     * @var OneClickForAppFactoryInterface
      */
     private $pricesWsFactory;
 
@@ -37,8 +37,8 @@ class Updater
     private $logger;
 
     public function __construct(
-        ProdWsFactory $productsWsFactory,
-        OneClickForAppFactory $pricesWsFactory,
+        ProdWsFactoryInterface $productsWsFactory,
+        OneClickForAppFactoryInterface $pricesWsFactory,
         SaveHandler $saveHandler,
         LoggerInterface $logger
     ) {

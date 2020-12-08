@@ -11,10 +11,11 @@ namespace DeutschePost\Internetmarke\Controller\Adminhtml\Config\Update;
 use DeutschePost\Internetmarke\Model\ProductList\Updater;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 
-class Products extends Action
+class Products extends Action implements HttpGetActionInterface
 {
     public const ADMIN_RESOURCE = 'Magento_Shipping::config_shipping';
 

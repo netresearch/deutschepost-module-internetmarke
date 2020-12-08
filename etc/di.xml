@@ -12,6 +12,10 @@
     <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\CredentialsInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\Credentials"/>
     <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface" type="DeutschePost\Sdk\OneClickForApp\Service\AccountInformationService\PageFormat"/>
 
+    <!-- # service interface preferences -->
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory"/>
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory"/>
+
     <!-- # data interface preferences -->
     <preference for="DeutschePost\Internetmarke\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\PageFormat\PageFormat"/>
 

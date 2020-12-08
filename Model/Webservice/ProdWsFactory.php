@@ -13,7 +13,7 @@ use DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface;
 use DeutschePost\Sdk\ProdWS\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
-class ProdWsFactory
+class ProdWsFactory implements ProdWsFactoryInterface
 {
     /**
      * @var ServiceFactoryInterface
@@ -31,10 +31,6 @@ class ProdWsFactory
         $this->logger = $logger;
     }
 
-    /**
-     * @return ProductInformationServiceInterface
-     * @throws ServiceException
-     */
     public function create(): ProductInformationServiceInterface
     {
         return $this->serviceFactory->createProductInformationService('netresearch', 'A&5%bk?dx7', $this->logger);
