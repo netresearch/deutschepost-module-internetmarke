@@ -17,7 +17,7 @@ use DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterfaceFactory;
 use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
-class OneClickForAppFactory
+class OneClickForAppFactory implements OneClickForAppFactoryInterface
 {
     /**
      * @var ServiceFactoryInterface
@@ -58,10 +58,6 @@ class OneClickForAppFactory
         $this->config = $config;
     }
 
-    /**
-     * @return AccountInformationServiceInterface
-     * @throws ServiceException
-     */
     public function createInfoService(): AccountInformationServiceInterface
     {
         $credentials = $this->credentialsFactory->create([
@@ -76,10 +72,6 @@ class OneClickForAppFactory
         return $this->serviceFactory->createAccountInformationService($credentials, $this->logger);
     }
 
-    /**
-     * @return OrderServiceInterface
-     * @throws ServiceException
-     */
     public function createOrderService(): OrderServiceInterface
     {
         $credentials = $this->credentialsFactory->create([

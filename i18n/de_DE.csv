@@ -12,7 +12,9 @@ Actions,Aktionen
 "Page formats were successfully updated.","Druckformate wurden erfolgreich aktualisiert."
 Password,Passwort
 "Please complete your account settings (wallet credentials) to proceed.","Bitte vervollständigen Sie ihre Kontoeinstellungen (Zugangsdaten Portokosse), um fortzufahren."
-"Please update page formats.","Bitte aktualisieren Sie die Druckformate"
+"Please update page formats in the module configuration.","Bitte aktualisieren Sie die Druckformate in der Modulkonfiguration."
+"Please update page formats.","Bitte aktualisieren Sie die Druckformate."
+"Please update shipping products in the module configuration.","Bitte aktualisieren Sie die Versandprodukte in der Modulkonfiguration."
 "Please update shipping products.","Bitte aktualisieren Sie die Versandprodukte."
 "Portokasse Credentials: Email Address","Portokasse Zugangsdaten: E-Mail-Adresse"
 "Portokasse Credentials: Password","Portokasse Zugangsdaten: Passwort"
