@@ -17,6 +17,8 @@ use Magento\Shipping\Model\Shipment\Request;
 
 class ApiGateway
 {
+    public const API_IDENTIFIER = 'oneclickforapp';
+
     /**
      * @var CreateShipmentsPipelineInterface
      */
