@@ -18,6 +18,8 @@
 
     <!-- # data interface preferences -->
     <preference for="DeutschePost\Internetmarke\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\PageFormat\PageFormat"/>
+    <preference for="DeutschePost\Internetmarke\Api\Data\SalesProductInterface" type="DeutschePost\Internetmarke\Model\ProductList\SalesProduct"/>
+    <preference for="DeutschePost\Internetmarke\Api\Data\TrackAdditionalInterface" type="DeutschePost\Internetmarke\Model\Shipment\TrackAdditional"/>
 
     <!-- # virtual types -->
     <virtualType name="DeutschePost\Internetmarke\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Util\ApiLogHandler">
@@ -35,11 +37,6 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\CreateShipmentsPipeline">
         <arguments>
             <argument name="stages" xsi:type="array">
@@ -50,11 +47,29 @@
             <argument name="artifactsContainerFactory" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponseProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="setLabelApi" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\SetLabelApi</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- # argument di overrides -->
     <type name="DeutschePost\Internetmarke\Model\Pipeline\ApiGateway">
         <arguments>
             <argument name="pipeline" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual</argument>
+            <argument name="responseProcessor" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\ResourceModel\Shipment\TrackAdditional">
+        <arguments>
+            <argument name="connectionName" xsi:type="const">Dhl\ShippingCore\Setup\Module\Constants::SALES_CONNECTION_NAME</argument>
         </arguments>
     </type>
     <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory">
@@ -81,5 +96,14 @@
     <!-- # interceptor plugins -->
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
         <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\ApiGatewayPlugin"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Shipment">
+        <plugin name="addDeutschePostTrackDetails" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\AddTrackDetails"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track">
+        <plugin name="saveDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\SaveTrackExtension"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection">
+        <plugin name="loadDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\LoadTrackExtension"/>
     </type>
 </config>

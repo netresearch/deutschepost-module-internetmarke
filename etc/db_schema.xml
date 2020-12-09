@@ -124,4 +124,17 @@
                     referenceTable="deutschepost_product_additional" referenceColumn="product_id"
                     onDelete="CASCADE"/>
     </table>
+
+    <table name="deutschepost_shipment_track" resource="sales" engine="innodb" comment="Deutsche Post Additional Tracking Information">
+        <column name="track_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="false" comment="Shipment Track Reference"/>
+        <column name="label_api" xsi:type="varchar" nullable="false" length="16" comment="API Identifier"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="track_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="FK_072E08BEDED2D50F146BA8AC07738DDB"
+                    table="deutschepost_shipment_track" column="track_id"
+                    referenceTable="sales_shipment_track" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
 </schema>

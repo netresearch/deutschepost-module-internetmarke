@@ -96,5 +96,15 @@
             "FK_7327B7F745A9A9333B22996FEF89A995": true,
             "FK_A9B969FA489DD653A9DF58F441917BAA": true
         }
+    },
+    "deutschepost_shipment_track": {
+        "column": {
+            "track_id": true,
+            "label_api": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_072E08BEDED2D50F146BA8AC07738DDB": true
+        }
     }
 }
