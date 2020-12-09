@@ -90,6 +90,9 @@
             <argument name="packagingPackageOptionsProcessors" xsi:type="array">
                 <item name="deutschePostShippingProductsProcessor" sortOrder="230" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging\ShippingProductsProcessor</item>
             </argument>
+            <argument name="globalProcessors" xsi:type="array">
+                <item name="productFilter" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging\ProductFilterProcessor</item>
+            </argument>
         </arguments>
     </type>
 
