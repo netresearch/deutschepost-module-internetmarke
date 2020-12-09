@@ -1,0 +1,110 @@
+{
+    "deutschepost_internetmarke_pageformat": {
+        "column": {
+            "format_id": true,
+            "name": true,
+            "description": true,
+            "print_medium": true,
+            "voucher_columns": true,
+            "voucher_rows": true,
+            "is_address_possible": true,
+            "is_image_possible": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "deutschepost_product_list": {
+        "column": {
+            "list_id": true,
+            "valid_from": true,
+            "valid_to": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "deutschepost_product_basic": {
+        "column": {
+            "product_id": true,
+            "product_list_id": true,
+            "version": true,
+            "name": true,
+            "destination": true,
+            "min_length": true,
+            "max_length": true,
+            "min_width": true,
+            "max_width": true,
+            "min_height": true,
+            "max_height": true,
+            "min_weight": true,
+            "max_weight": true,
+            "price": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "DEUTSCHEPOST_PRD_BASIC_PRD_LIST_ID_DEUTSCHEPOST_PRD_LIST_LIST_ID": true
+        }
+    },
+    "deutschepost_product_additional": {
+        "column": {
+            "product_id": true,
+            "product_list_id": true,
+            "version": true,
+            "name": true,
+            "destination": true,
+            "price": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_D8A21B91C632131CF97BF457076F9534": true
+        }
+    },
+    "deutschepost_product_sales": {
+        "column": {
+            "product_id": true,
+            "product_list_id": true,
+            "ppl_id": true,
+            "basic_product_id": true,
+            "version": true,
+            "name": true,
+            "destination": true,
+            "min_length": true,
+            "max_length": true,
+            "min_width": true,
+            "max_width": true,
+            "min_height": true,
+            "max_height": true,
+            "min_weight": true,
+            "max_weight": true,
+            "price": true,
+            "contract_price": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "DEUTSCHEPOST_PRD_SALES_PRD_LIST_ID_DEUTSCHEPOST_PRD_LIST_LIST_ID": true,
+            "FK_22A8243772A282B9463A4A054E9B54BF": true
+        }
+    },
+    "deutschepost_product_sales_additional": {
+        "column": {
+            "sales_product_id": true,
+            "additional_product_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_7327B7F745A9A9333B22996FEF89A995": true,
+            "FK_A9B969FA489DD653A9DF58F441917BAA": true
+        }
+    },
+    "deutschepost_shipment_track": {
+        "column": {
+            "track_id": true,
+            "label_api": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_072E08BEDED2D50F146BA8AC07738DDB": true
+        }
+    }
+}
