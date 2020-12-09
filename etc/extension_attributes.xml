@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\ShipmentTrackInterface">
+        <attribute code="dpdhl_label_api" type="string">
+            <join reference_table="deutschepost_shipment_track"
+                  reference_field="track_id"
+                  join_on_field="entity_id">
+                <field>label_api</field>
+            </join>
+        </attribute>
+    </extension_attributes>
+</config>

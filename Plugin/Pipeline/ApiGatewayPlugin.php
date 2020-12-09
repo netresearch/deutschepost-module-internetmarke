@@ -45,6 +45,17 @@ class ApiGatewayPlugin
     }
 
     /**
+     * Intercept the DHL Paket API gateway to invoke the Internetmarke API.
+     *
+     * The array of shipment requests gets divided by selected shipping product:
+     * BCS product orders are sent to the BCS API, Internetmarke product orders
+     * are sent to the One Click For App API.
+     *
+     * Note that there is currently no way to tell apart bulk shipment from
+     * packaging popup requests. This needs a solution once we implement bulk
+     * shipment with Internetmarke products because they require different
+     * post processors to be registered.
+     *
      * @param ApiGateway $subject
      * @param callable $proceed
      * @param Request[] $shipmentRequests
