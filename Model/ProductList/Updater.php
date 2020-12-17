@@ -27,6 +27,11 @@ class Updater
     private $pricesWsFactory;
 
     /**
+     * @var ProductFilter
+     */
+    private $productFilter;
+
+    /**
      * @var SaveHandler
      */
     private $saveHandler;
@@ -39,11 +44,13 @@ class Updater
     public function __construct(
         ProdWsFactoryInterface $productsWsFactory,
         OneClickForAppFactoryInterface $pricesWsFactory,
+        ProductFilter $productFilter,
         SaveHandler $saveHandler,
         LoggerInterface $logger
     ) {
         $this->productsWsFactory = $productsWsFactory;
         $this->pricesWsFactory = $pricesWsFactory;
+        $this->productFilter = $productFilter;
         $this->saveHandler = $saveHandler;
         $this->logger = $logger;
     }
@@ -55,7 +62,7 @@ class Updater
     {
         try {
             $productsWebservice = $this->productsWsFactory->create();
-            $productLists = $productsWebservice->getProductLists('NETRESEARCH');
+            $productLists = $this->productFilter->filter($productsWebservice->getProductLists('NETRESEARCH'));
 
             $pricesWebservice = $this->pricesWsFactory->createInfoService();
             $prices = $pricesWebservice->getContractProducts();
