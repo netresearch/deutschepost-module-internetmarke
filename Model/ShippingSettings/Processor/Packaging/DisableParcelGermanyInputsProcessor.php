@@ -16,12 +16,13 @@ use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInter
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInterfaceFactory;
 use Dhl\ShippingCore\Api\ShippingConfigInterface;
 use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\CompatibilityProcessorInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes as CoreCodes;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
- * Disable DHL services if a Deutsche Post product was chosen as shipping product.
+ * Disable inputs defined by DHL Paket which do not apply to Deutsche Post shipping products.
  */
-class ServiceCompatibilityProcessor implements CompatibilityProcessorInterface
+class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInterface
 {
     /**
      * @var ShippingConfigInterface
@@ -69,6 +70,20 @@ class ServiceCompatibilityProcessor implements CompatibilityProcessorInterface
             return $compatibilityData;
         }
 
+        $incompatibleInputs = [
+            // all inputs of the given service options
+            Codes::PACKAGING_SERVICE_BULKY_GOODS,
+            Codes::PACKAGING_SERVICE_CHECK_OF_AGE,
+            Codes::PACKAGING_SERVICE_INSURANCE,
+            Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING,
+            Codes::PACKAGING_SERVICE_RETURN_SHIPMENT,
+            Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE,
+            // some inputs of the "package details" package option
+            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_WIDTH),
+            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_LENGTH),
+            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_HEIGHT),
+        ];
+
         $shipmentDate = $this->shipmentDate->getDate($shipment->getStoreId());
         $originCountry = $this->shippingConfig->getOriginCountry($shipment->getStoreId());
         $destinationCountry = $order->getShippingAddress()->getCountryId();
@@ -78,18 +93,11 @@ class ServiceCompatibilityProcessor implements CompatibilityProcessorInterface
 
         foreach ($productCollection->getItems() as $id => $salesProduct) {
             $rule = $this->compatibilityFactory->create();
-            $rule->setId('disableNotSupportedInternetmarkeServices' . $id);
+            $rule->setId('disableParcelGermanyInputsForProduct' . $id);
             $rule->setAction('disable');
             $rule->setTriggerValue((string) $salesProduct->getPPLId());
             $rule->setMasters(['packageDetails.productCode']);
-            $rule->setSubjects([
-                Codes::PACKAGING_SERVICE_BULKY_GOODS,
-                Codes::PACKAGING_SERVICE_CHECK_OF_AGE,
-                Codes::PACKAGING_SERVICE_INSURANCE,
-                Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING,
-                Codes::PACKAGING_SERVICE_RETURN_SHIPMENT,
-                Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE
-            ]);
+            $rule->setSubjects($incompatibleInputs);
 
             $compatibilityData[$rule->getId()] = $rule;
         }
