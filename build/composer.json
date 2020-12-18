@@ -16,11 +16,15 @@
     },
     {
       "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/module-carrier-paket.git"
+    },
+    {
+      "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/module-shipping-core.git"
     },
     {
       "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/module-carrier-paket.git"
+      "url": "https://git.netresearch.de/dhl/global-web-services/module-unified-tracking.git"
     },
     {
       "type": "vcs",
@@ -29,6 +33,10 @@
     {
       "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-parcel-management.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-tracking.git"
     }
   ]
 }

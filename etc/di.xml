@@ -95,6 +95,18 @@
             </argument>
         </arguments>
     </type>
+    <type name="DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
+        <arguments>
+            <argument name="configurations" xsi:type="array">
+                <item name="dpim" xsi:type="object">DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration</item>
+            </argument>
+        </arguments>
+    </type>
 
     <!-- # interceptor plugins -->
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
@@ -108,5 +120,8 @@
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection">
         <plugin name="loadDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\LoadTrackExtension"/>
+    </type>
+    <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
+        <plugin name="changeCarrierCode" type="DeutschePost\Internetmarke\Plugin\Pipeline\SendRequestStagePlugin"/>
     </type>
 </config>
