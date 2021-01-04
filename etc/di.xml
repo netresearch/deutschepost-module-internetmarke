@@ -55,7 +55,7 @@
     <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponseProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="setLabelApi" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\SetLabelApi</item>
+                <item name="initTrackExtension" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\CreateTrackExtension</item>
             </argument>
         </arguments>
     </virtualType>
@@ -106,22 +106,17 @@
                 <item name="dpim" xsi:type="object">DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration</item>
             </argument>
         </arguments>
+        <plugin name="changeCarrierCode" type="DeutschePost\Internetmarke\Plugin\Pipeline\Tracking\SendRequestStagePlugin"/>
     </type>
 
     <!-- # interceptor plugins -->
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
-        <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\ApiGatewayPlugin"/>
-    </type>
-    <type name="Magento\Sales\Model\Order\Shipment">
-        <plugin name="addDeutschePostTrackDetails" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\AddTrackDetails"/>
+        <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\Shipment\ApiGatewayPlugin"/>
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track">
         <plugin name="saveDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\SaveTrackExtension"/>
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection">
         <plugin name="loadDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\LoadTrackExtension"/>
-    </type>
-    <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
-        <plugin name="changeCarrierCode" type="DeutschePost\Internetmarke\Plugin\Pipeline\SendRequestStagePlugin"/>
     </type>
 </config>

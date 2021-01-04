@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Plugin\Pipeline;
+namespace DeutschePost\Internetmarke\Plugin\Pipeline\Shipment;
 
 use DeutschePost\Internetmarke\Api\Data\SalesProductInterface;
 use DeutschePost\Internetmarke\Model\Pipeline\ApiGatewayFactory;
