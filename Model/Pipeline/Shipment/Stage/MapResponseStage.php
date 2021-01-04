@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage;
 
 use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer;
+use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse;
+use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse\LabelResponseFactory;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -20,7 +20,7 @@ use Magento\Shipping\Model\Shipment\Request;
 class MapResponseStage implements CreateShipmentsStageInterface
 {
     /**
-     * @var LabelResponseInterfaceFactory
+     * @var LabelResponseFactory
      */
     private $shipmentResponseFactory;
 
@@ -30,7 +30,7 @@ class MapResponseStage implements CreateShipmentsStageInterface
     private $errorResponseFactory;
 
     public function __construct(
-        LabelResponseInterfaceFactory $shipmentResponseFactory,
+        LabelResponseFactory $shipmentResponseFactory,
         ShipmentErrorResponseInterfaceFactory $errorResponseFactory
     ) {
         $this->shipmentResponseFactory = $shipmentResponseFactory;
@@ -74,10 +74,13 @@ class MapResponseStage implements CreateShipmentsStageInterface
                 $voucher = array_shift($vouchers);
 
                 $responseData = [
-                    LabelResponseInterface::REQUEST_INDEX => $requestIndex,
-                    LabelResponseInterface::SALES_SHIPMENT => $shipmentRequest->getOrderShipment(),
-                    LabelResponseInterface::TRACKING_NUMBER => $voucher->getTrackId() ?? $voucher->getVoucherId(),
-                    LabelResponseInterface::SHIPPING_LABEL_CONTENT => $voucher->getLabel(),
+                    LabelResponse::REQUEST_INDEX => $requestIndex,
+                    LabelResponse::SALES_SHIPMENT => $shipmentRequest->getOrderShipment(),
+                    LabelResponse::TRACKING_NUMBER => $voucher->getTrackId() ?? $voucher->getVoucherId(),
+                    LabelResponse::SHIPPING_LABEL_CONTENT => $voucher->getLabel(),
+                    LabelResponse::SHOP_ORDER_ID => $apiResponse->getId(),
+                    LabelResponse::VOUCHER_ID => $voucher->getVoucherId(),
+                    LabelResponse::VOUCHER_TRACK_ID => $voucher->getTrackId(),
                 ];
 
                 $artifactsContainer->addLabelResponse(

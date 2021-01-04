@@ -100,7 +100,9 @@
     "deutschepost_shipment_track": {
         "column": {
             "track_id": true,
-            "label_api": true
+            "shop_order_id": true,
+            "voucher_id": true,
+            "voucher_track_id": true
         },
         "constraint": {
             "PRIMARY": true,
