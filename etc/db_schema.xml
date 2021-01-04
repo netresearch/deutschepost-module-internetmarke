@@ -127,7 +127,9 @@
 
     <table name="deutschepost_shipment_track" resource="sales" engine="innodb" comment="Deutsche Post Additional Tracking Information">
         <column name="track_id" xsi:type="int" padding="10" unsigned="true" nullable="false" identity="false" comment="Shipment Track Reference"/>
-        <column name="label_api" xsi:type="varchar" nullable="false" length="16" comment="API Identifier"/>
+        <column name="shop_order_id" xsi:type="varchar" nullable="false" length="18" comment="DP Shop Order ID"/>
+        <column name="voucher_id" xsi:type="varchar" nullable="false" length="20" comment="DP Franking ID"/>
+        <column name="voucher_track_id" xsi:type="varchar" nullable="true" length="255" comment="DP Shipment Number for Trackable Products"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="track_id"/>
         </constraint>

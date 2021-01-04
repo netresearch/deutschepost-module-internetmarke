@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Plugin\Pipeline;
+namespace DeutschePost\Internetmarke\Plugin\Pipeline\Tracking;
 
 use DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration;
 use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
@@ -24,7 +24,7 @@ class SendRequestStagePlugin
     {
         foreach ($requests as $request) {
             $trackExtensionAttributes = $request->getSalesTrack()->getExtensionAttributes();
-            if ($trackExtensionAttributes->getDpdhlLabelApi()) {
+            if ($trackExtensionAttributes->getDpdhlOrderId()) {
                 $request->getSalesTrack()->setCarrierCode(TrackingConfiguration::CARRIER_CODE);
             }
         }

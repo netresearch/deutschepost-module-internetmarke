@@ -27,8 +27,23 @@ class TrackAdditional extends AbstractModel implements TrackAdditionalInterface
         return (int) parent::getId();
     }
 
-    public function getLabelApi(): string
+    public function getTrackId(): ?int
     {
-        return $this->getData(self::LABEL_API);
+        return $this->getData(self::TRACK_ID);
+    }
+
+    public function getShopOrderId(): string
+    {
+        return $this->getData(self::SHOP_ORDER_ID);
+    }
+
+    public function getVoucherId(): string
+    {
+        return $this->getData(self::VOUCHER_ID);
+    }
+
+    public function getVoucherTrackId(): ?string
+    {
+        return $this->getData(self::VOUCHER_TRACK_ID);
     }
 }
