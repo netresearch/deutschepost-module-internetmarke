@@ -50,7 +50,7 @@ phpunit-essential-2.3:
     - merge_requests
   variables:
     PHP_VERSION: "7.1"
-    MAGENTO_TAG_VERSION: "2.3"
+    MAGENTO_TAG_VERSION: "2.3.6"
     MAGENTO_EDITION: "ce"
 
 phpunit-essential-2.4:
@@ -65,18 +65,26 @@ phpunit-essential-2.4:
     matrix:
       - PHP_VERSION: "7.4"
         MAGENTO_TAG_VERSION: "2.4"
-        MAGENTO_EDITION: [ "ee", "ce" ]
+        MAGENTO_EDITION: ["ee", "ce"]
 
 # Additional tests (in between versions of Magento or PHP)
-phpunit-additional-2.3:
+phpunit-additional-2.3-7.2:
   stage: test-additional
   extends: .phpunit
   parallel:
     matrix:
-      - PHP_VERSION: ["7.2", "7.3"]
-        MAGENTO_TAG_VERSION: "2.3"
+      - PHP_VERSION: "7.2"
+        MAGENTO_TAG_VERSION: "2.3.6"
         MAGENTO_EDITION: ["ee", "ce"]
 
+phpunit-additional-2.3-7.3:
+  stage: test-additional
+  extends: .phpunit
+  parallel:
+    matrix:
+      - PHP_VERSION: ["7.3"]
+        MAGENTO_TAG_VERSION: "2.3"
+        MAGENTO_EDITION: ["ee", "ce"]
 
 phpunit-additional-2.4:
   stage: test-additional
