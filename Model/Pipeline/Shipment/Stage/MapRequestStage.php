@@ -15,10 +15,10 @@ use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterfaceFactory;
 use DeutschePost\Sdk\OneClickForApp\Model\ShoppingCartPositionBuilder;
-use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
+use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 

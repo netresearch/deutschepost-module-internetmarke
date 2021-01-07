@@ -12,9 +12,9 @@ use DeutschePost\Internetmarke\Api\Data\SalesProductInterface;
 use DeutschePost\Internetmarke\Model\Pipeline\ApiGatewayFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
-use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Shipping\Model\Shipment\Request;
 
 class ApiGatewayPlugin

@@ -10,11 +10,11 @@ namespace DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging;
 
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Dhl\ShippingCore\Api\ShippingConfigInterface;
 use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
+use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
