@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
+    <!-- Hook into DHL Paket as Internetmarke does not offer standalone shipping. -->
+    <carrier code="dhlpaket">
+        <packageOptions>
+            <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_OPTION_PACKAGE_DETAILS">
+                <inputs>
+                    <input code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_INPUT_PRODUCT_CODE">
+                        <inputType>select</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
+        </packageOptions>
+    </carrier>
+</carriers>

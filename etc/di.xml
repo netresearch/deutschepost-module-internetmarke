@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- # sdk preferences -->
+    <preference for="DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\ProdWS\Service\ServiceFactory"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\OneClickForApp\Service\ServiceFactory"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\TokenStorage"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\CredentialsInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\Credentials"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface" type="DeutschePost\Sdk\OneClickForApp\Service\AccountInformationService\PageFormat"/>
+
+    <!-- # service interface preferences -->
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory"/>
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory"/>
+
+    <!-- # data interface preferences -->
+    <preference for="DeutschePost\Internetmarke\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\PageFormat\PageFormat"/>
+    <preference for="DeutschePost\Internetmarke\Api\Data\SalesProductInterface" type="DeutschePost\Internetmarke\Model\ProductList\SalesProduct"/>
+    <preference for="DeutschePost\Internetmarke\Api\Data\TrackAdditionalInterface" type="DeutschePost\Internetmarke\Model\Shipment\TrackAdditional"/>
+
+    <!-- # virtual types -->
+    <virtualType name="DeutschePost\Internetmarke\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Util\ApiLogHandler">
+        <arguments>
+            <argument name="fileName" xsi:type="string">var/log/deutschepost_internetmarke.log</argument>
+            <argument name="logEnabledConfigPath" xsi:type="const">DeutschePost\Internetmarke\Model\Config\ModuleConfig::CONFIG_PATH_ENABLE_LOGGING</argument>
+            <argument name="logLevelConfigPath" xsi:type="const">DeutschePost\Internetmarke\Model\Config\ModuleConfig::CONFIG_PATH_LOGLEVEL</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Logger\Virtual" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="apilog" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Handler\Virtual</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\CreateShipmentsPipeline">
+        <arguments>
+            <argument name="stages" xsi:type="array">
+                <item name="mapRequest" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\MapRequestStage</item>
+                <item name="send" sortOrder="200" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\SendRequestStage</item>
+                <item name="mapResponse" sortOrder="300" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\MapResponseStage</item>
+            </argument>
+            <argument name="artifactsContainerFactory" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponseProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="initTrackExtension" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\CreateTrackExtension</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- # argument di overrides -->
+    <type name="DeutschePost\Internetmarke\Model\Pipeline\ApiGateway">
+        <arguments>
+            <argument name="pipeline" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual</argument>
+            <argument name="responseProcessor" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\ResourceModel\Shipment\TrackAdditional">
+        <arguments>
+            <argument name="connectionName" xsi:type="const">Dhl\ShippingCore\Setup\Module\Constants::SALES_CONNECTION_NAME</argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory">
+        <arguments>
+            <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory">
+        <arguments>
+            <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Packaging\PackagingDataCompositeProcessor">
+        <arguments>
+            <argument name="packagingCompatibilityProcessors" xsi:type="array">
+                <item name="deutschePostDisableParcelGermanyInputs" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging\DisableParcelGermanyInputsProcessor</item>
+            </argument>
+            <argument name="packagingPackageOptionsProcessors" xsi:type="array">
+                <item name="deutschePostShippingProductsProcessor" sortOrder="230" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging\ShippingProductsProcessor</item>
+            </argument>
+            <argument name="globalProcessors" xsi:type="array">
+                <item name="productFilter" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging\ProductFilterProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
+        <arguments>
+            <argument name="configurations" xsi:type="array">
+                <item name="dpim" xsi:type="object">DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration</item>
+            </argument>
+        </arguments>
+        <plugin name="changeCarrierCode" type="DeutschePost\Internetmarke\Plugin\Pipeline\Tracking\SendRequestStagePlugin"/>
+    </type>
+
+    <!-- # interceptor plugins -->
+    <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
+        <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\Shipment\ApiGatewayPlugin"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track">
+        <plugin name="saveDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\SaveTrackExtension"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection">
+        <plugin name="loadDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\LoadTrackExtension"/>
+    </type>
+</config>
