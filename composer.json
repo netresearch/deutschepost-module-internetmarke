@@ -22,8 +22,8 @@
     },
     "require": {
         "php": "^7.1.3",
-        "dhl/module-shipping-core": "^1.2.0",
-        "dhl/module-carrier-paket": "^1.5.0",
+        "dhl/module-shipping-core": "^1.1.4",
+        "dhl/module-carrier-paket": "^1.4.1",
         "dhl/module-unified-tracking": "^1.2.0",
         "deutschepost/sdk-api-prodws": "^1.0.0",
         "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
