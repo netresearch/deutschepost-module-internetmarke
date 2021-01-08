@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Webservice;
 
 use DeutschePost\Sdk\ProdWS\Api\ProductInformationServiceInterface;
-use DeutschePost\Sdk\ProdWS\Exception\ServiceException;
 
 interface ProdWsFactoryInterface
 {
     /**
      * @return ProductInformationServiceInterface
-     * @throws ServiceException
+     * @throws \RuntimeException
      */
     public function create(): ProductInformationServiceInterface;
 }

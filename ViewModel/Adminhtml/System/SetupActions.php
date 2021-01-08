@@ -11,7 +11,6 @@ namespace DeutschePost\Internetmarke\ViewModel\Adminhtml\System;
 use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
-use DeutschePost\Internetmarke\Model\ResourceModel\ProductList\SalesProductCollectionFactory;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
@@ -57,7 +56,7 @@ class SetupActions implements ArgumentInterface
         $this->productCollectionLoader = $productCollectionLoader;
     }
 
-    public function isWalletConfigured()
+    public function isWalletConfigured(): bool
     {
         return $this->config->getAccountEmail() && $this->config->getAccountPassword();
     }
