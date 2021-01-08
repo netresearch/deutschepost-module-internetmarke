@@ -60,7 +60,6 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
      */
     public function process(array $optionsData, ShipmentInterface $shipment): array
     {
-        /** @var \Magento\Sales\Model\Order $order */
         $order = $shipment->getOrder();
         $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 

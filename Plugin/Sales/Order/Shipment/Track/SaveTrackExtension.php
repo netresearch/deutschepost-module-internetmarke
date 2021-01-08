@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track;
 
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\CreateTrackExtension;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ResponseProcessor\CreateTrackExtension;
 use DeutschePost\Internetmarke\Model\ResourceModel\Shipment\TrackAdditional as TrackAdditionalResource;
 use DeutschePost\Internetmarke\Model\Shipment\TrackAdditional;
 use Dhl\Paket\Model\Carrier\Paket;
@@ -46,7 +46,7 @@ class SaveTrackExtension
      * key can be added to the extension attributes model. Finally, the
      * model gets persisted.
      *
-     * @see \DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\CreateTrackExtension
+     * @see \DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ResponseProcessor\CreateTrackExtension
      *
      * @param TrackResource $subject
      * @param TrackResource $result
@@ -66,19 +66,20 @@ class SaveTrackExtension
             return $result;
         }
 
-        /** @var TrackAdditional $trackAdditional */
-        $trackAdditional = $shipment->getData(CreateTrackExtension::TRACK_EXTENSION_KEY);
-        if (!$trackAdditional) {
+        /** @var TrackAdditional[] $shipmentTracks */
+        $shipmentTracks = $shipment->getData(CreateTrackExtension::TRACK_EXTENSION_KEY);
+        if (!$shipmentTracks) {
             // not a DP shipment, regular DHL shipment
             return $result;
         }
 
-        try {
-            $trackAdditional->setData(TrackAdditional::TRACK_ID, $track->getEntityId());
-            $this->resource->save($trackAdditional);
-            $shipment->unsetData(CreateTrackExtension::TRACK_EXTENSION_KEY);
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+        foreach ($shipmentTracks as $trackAdditional) {
+            try {
+                $trackAdditional->setData(TrackAdditional::TRACK_ID, $track->getEntityId());
+                $this->resource->save($trackAdditional);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+            }
         }
 
         return $result;
