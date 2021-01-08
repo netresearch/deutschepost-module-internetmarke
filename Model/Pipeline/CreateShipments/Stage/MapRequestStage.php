@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
 use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer;
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\OrderFactory;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\OrderFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterfaceFactory;
