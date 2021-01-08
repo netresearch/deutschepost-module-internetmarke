@@ -16,6 +16,10 @@
     },
     {
       "type": "vcs",
+      "url": "https://git.netresearch.de/deutschepost/sdk-api-oneclickforrefund.git"
+    },
+    {
+      "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/module-carrier-paket.git"
     },
     {

@@ -10,7 +10,6 @@ namespace DeutschePost\Internetmarke\Test\Integration\TestCase\Controller;
 
 use DeutschePost\Internetmarke\Model\PageFormat\PageFormat;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollection;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory;
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
 use DeutschePost\Internetmarke\Test\Integration\Provider\PageFormatsProvider;
 use DeutschePost\Internetmarke\Test\Integration\TestDouble\OneClickForAppTestFactory;
