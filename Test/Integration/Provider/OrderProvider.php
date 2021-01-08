@@ -41,6 +41,7 @@ B64;
     /**
      * Obtain SDK response object.
      *
+     * @param string $voucherId
      * @return OrderInterface
      */
     public static function getSingleVoucherOrder(string $voucherId): OrderInterface
