@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ResponseProcessor;
 
 use DeutschePost\Internetmarke\Api\Data\TrackAdditionalInterfaceFactory;
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponse;
 use DeutschePost\Internetmarke\Model\Shipment\TrackAdditional;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
@@ -63,12 +63,19 @@ class CreateTrackExtension implements ShipmentResponseProcessorInterface
             ];
 
             try {
+                /** @var Shipment $shipment */
+                $shipment = $labelResponse->getSalesShipment();
+
                 /** @var TrackAdditional $trackAdditional */
                 $trackAdditional = $this->factory->create(['data' => $additionalData]);
 
-                /** @var Shipment $shipment */
-                $shipment = $labelResponse->getSalesShipment();
-                $shipment->setData(self::TRACK_EXTENSION_KEY, $trackAdditional);
+                $shipmentTracks = $shipment->getData(self::TRACK_EXTENSION_KEY);
+                if (!is_array($shipmentTracks)) {
+                    $shipmentTracks = [$trackAdditional];
+                } else {
+                    $shipmentTracks[] = $trackAdditional;
+                }
+                $shipment->setData(self::TRACK_EXTENSION_KEY, $shipmentTracks);
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage(), ['exception' => $exception]);
             }

@@ -26,7 +26,7 @@ class PageFormatCollection extends AbstractCollection
      * @return $this
      * @throws \Exception
      */
-    public function replace()
+    public function replace(): self
     {
         $connection = $this->getConnection();
         $connection->beginTransaction();

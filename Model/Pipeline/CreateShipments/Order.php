@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments;
 
 class Order
 {

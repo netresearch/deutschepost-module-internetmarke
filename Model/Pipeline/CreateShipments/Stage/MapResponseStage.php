@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer;
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse;
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse\LabelResponseFactory;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponse;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponseFactory;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;

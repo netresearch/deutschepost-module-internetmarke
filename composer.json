@@ -27,6 +27,7 @@
         "dhl/module-unified-tracking": "^1.2.0",
         "deutschepost/sdk-api-prodws": "^1.0.0",
         "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
+        "deutschepost/sdk-api-oneclickforrefund": "^1.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
         "magento/module-backend": "^101.0.0 || ^102.0.0",
         "magento/module-config": "^101.1.0",
