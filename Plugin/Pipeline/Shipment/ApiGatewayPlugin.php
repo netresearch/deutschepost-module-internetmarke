@@ -14,6 +14,7 @@ use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -91,5 +92,42 @@ class ApiGatewayPlugin
 
         $apiGateway = $this->apiGatewayFactory->create(['storeId' => $storeId]);
         return array_merge($proceed($theirs), $apiGateway->createShipments($ours));
+    }
+
+    /**
+     * Intercept the DHL Paket API gateway to invoke the Internetmarke API.
+     *
+     * The array of cancel requests gets divided by availability of the
+     * extension attribute ´dpdhl_order_id´. All cancel requests that have the
+     * extension attribute will go the the One Click For Refund API
+     * and others will go to the BCS API.
+     *
+     * @param ApiGateway $subject
+     * @param callable $proceed
+     * @param TrackRequestInterface[] $cancelRequests
+     * @return array
+     */
+    public function aroundCancelShipments(ApiGateway $subject, callable $proceed, array $cancelRequests): array
+    {
+        $storeId = current($cancelRequests)->getStoreId();
+
+        $ours = [];
+        $theirs = [];
+        foreach ($cancelRequests as $requestIndex => $cancelRequest) {
+            $track = $cancelRequest->getSalesTrack();
+            $extensionAttributes = $track->getExtensionAttributes();
+            if ($extensionAttributes && $extensionAttributes->getDpdhlOrderId()) {
+                $ours[$requestIndex] = $cancelRequest;
+            } else {
+                $theirs[$requestIndex] = $cancelRequest;
+            }
+        }
+
+        if (empty($ours)) {
+            return $proceed($theirs);
+        }
+
+        $apiGateway = $this->apiGatewayFactory->create(['storeId' => $storeId]);
+        return array_merge($proceed($theirs), $apiGateway->cancelShipments($ours));
     }
 }

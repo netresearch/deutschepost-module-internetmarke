@@ -7,15 +7,18 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- # sdk preferences -->
     <preference for="DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\ProdWS\Service\ServiceFactory"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\OneClickForApp\Service\ServiceFactory"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\TokenStorage"/>
     <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\CredentialsInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\Credentials"/>
     <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface" type="DeutschePost\Sdk\OneClickForApp\Service\AccountInformationService\PageFormat"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\OneClickForApp\Service\ServiceFactory"/>
+    <preference for="DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterface" type="DeutschePost\Sdk\OneClickForApp\Auth\TokenStorage"/>
+    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\Data\CredentialsInterface" type="DeutschePost\Sdk\OneClickForRefund\Auth\Credentials"/>
+    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\TokenStorageInterface" type="DeutschePost\Sdk\OneClickForRefund\Auth\TokenStorage"/>
+    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\ServiceFactoryInterface" type="DeutschePost\Sdk\OneClickForRefund\Service\ServiceFactory"/>
 
     <!-- # service interface preferences -->
     <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory"/>
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactory"/>
     <preference for="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory"/>
-
     <!-- # data interface preferences -->
     <preference for="DeutschePost\Internetmarke\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\PageFormat\PageFormat"/>
     <preference for="DeutschePost\Internetmarke\Api\Data\SalesProductInterface" type="DeutschePost\Internetmarke\Model\ProductList\SalesProduct"/>
@@ -40,22 +43,35 @@
     <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\CreateShipmentsPipeline">
         <arguments>
             <argument name="stages" xsi:type="array">
-                <item name="mapRequest" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\MapRequestStage</item>
-                <item name="send" sortOrder="200" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\SendRequestStage</item>
-                <item name="mapResponse" sortOrder="300" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage\MapResponseStage</item>
+                <item name="mapRequest" sortOrder="100" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage\MapRequestStage</item>
+                <item name="send" sortOrder="200" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage\SendRequestStage</item>
+                <item name="mapResponse" sortOrder="300" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage\MapResponseStage</item>
             </argument>
-            <argument name="artifactsContainerFactory" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual</argument>
+            <argument name="artifactsContainerFactory" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\DeleteShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Track\RequestTracksPipeline">
         <arguments>
-            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer</argument>
+            <argument name="stages" xsi:type="array">
+                <item name="requestRefund" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\Stage\RequestRefundStage</item>
+            </argument>
+            <argument name="artifactsContainerFactory" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponseProcessor">
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponseProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="initTrackExtension" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ResponseProcessor\CreateTrackExtension</item>
+                <item name="initTrackExtension" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ResponseProcessor\CreateTrackExtension</item>
             </argument>
         </arguments>
     </virtualType>
@@ -63,8 +79,10 @@
     <!-- # argument di overrides -->
     <type name="DeutschePost\Internetmarke\Model\Pipeline\ApiGateway">
         <arguments>
-            <argument name="pipeline" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual</argument>
-            <argument name="responseProcessor" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponseProcessor\Virtual</argument>
+            <argument name="creationPipeline" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipmentsPipeline\Virtual</argument>
+            <argument name="deletionPipeline" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\DeleteShipmentsPipeline\Virtual</argument>
+            <argument name="createResponseProcessor" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponseProcessor\Virtual</argument>
+            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
     <type name="DeutschePost\Internetmarke\Model\ResourceModel\Shipment\TrackAdditional">
@@ -73,6 +91,11 @@
         </arguments>
     </type>
     <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory">
+        <arguments>
+            <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactory">
         <arguments>
             <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
         </arguments>
@@ -112,6 +135,9 @@
     <!-- # interceptor plugins -->
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
         <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\Shipment\ApiGatewayPlugin"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Shipment">
+        <plugin name="updateDeutschePostTrackTitle" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\UpdateTitle"/>
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track">
         <plugin name="saveDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\SaveTrackExtension"/>

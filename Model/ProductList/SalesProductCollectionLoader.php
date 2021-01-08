@@ -36,7 +36,7 @@ class SalesProductCollectionLoader
      * @param string $date
      * @return SalesProductCollection
      */
-    public function getCollectionByUtcDate(string $date)
+    public function getCollectionByUtcDate(string $date): SalesProductCollection
     {
         $productCollection = $this->productCollectionFactory->create();
         $productCollection->setDateFilter($date);
@@ -49,7 +49,7 @@ class SalesProductCollectionLoader
      * @param \DateTimeInterface $date
      * @return SalesProductCollection
      */
-    public function getCollectionByDate(\DateTimeInterface $date)
+    public function getCollectionByDate(\DateTimeInterface $date): SalesProductCollection
     {
         $date = $date->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i:s');
         return $this->getCollectionByUtcDate($date);
@@ -60,7 +60,7 @@ class SalesProductCollectionLoader
      *
      * @return SalesProductCollection
      */
-    public function getCollection()
+    public function getCollection(): SalesProductCollection
     {
         $date = $this->date->gmtDate();
         return $this->getCollectionByUtcDate($date);

@@ -10,7 +10,6 @@ namespace DeutschePost\Internetmarke\Model\Webservice;
 
 use DeutschePost\Sdk\ProdWS\Api\ProductInformationServiceInterface;
 use DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface;
-use DeutschePost\Sdk\ProdWS\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
 class ProdWsFactory implements ProdWsFactoryInterface
@@ -33,6 +32,10 @@ class ProdWsFactory implements ProdWsFactoryInterface
 
     public function create(): ProductInformationServiceInterface
     {
-        return $this->serviceFactory->createProductInformationService('netresearch', 'A&5%bk?dx7', $this->logger);
+        return $this->serviceFactory->createProductInformationService(
+            'netresearch',
+            'A&5%bk?dx7',
+            $this->logger
+        );
     }
 }
