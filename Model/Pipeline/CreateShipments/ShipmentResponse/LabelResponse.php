@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\ShipmentResponse;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse;
 
 use Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse as CoreLabelResponse;
 

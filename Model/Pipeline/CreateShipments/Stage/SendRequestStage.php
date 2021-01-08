@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\Pipeline\Shipment\Stage;
+namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
-use DeutschePost\Internetmarke\Model\Pipeline\Shipment\ArtifactsContainer;
+use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
 use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
