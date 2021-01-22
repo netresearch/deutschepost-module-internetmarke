@@ -1,0 +1,30 @@
+<?php
+/**
+ * See LICENSE.md for license details.
+ */
+/** @var \Magento\Backend\Block\Template $block */
+/** @var \DeutschePost\Internetmarke\ViewModel\Adminhtml\System\SetupActions $viewModel */
+$viewModel = $block->getData('view_model');
+?>
+<?php if (!$viewModel->isWalletConfigured()): ?>
+    <span class="message-warning"><?= $block->escapeHtml(__('Please complete your account settings (wallet credentials) to proceed.')) ?></span>
+<?php else: ?>
+    <a href="<?= $block->escapeUrl($viewModel->getFormatsUpdateUrl()); ?>" class="action-default">
+        <span><?= $block->escapeHtml(__('Update Page Formats')) ?></span>
+    </a>
+    <a href="<?= $block->escapeUrl($viewModel->getProductsUpdateUrl()); ?>" class="action-default">
+        <span><?= $block->escapeHtml(__('Update Product List')) ?></span>
+    </a>
+    <p class="note">
+        <?php if ($viewModel->getPageFormatCount() > 0): ?>
+            <span class="message-success"><?= $block->escapeHtml(__('Page formats are available.')) ?></span>
+        <?php else: ?>
+            <span class="message-warning"><?= $block->escapeHtml(__('Please update page formats.')) ?></span>
+        <?php endif; ?>
+        <?php if ($viewModel->getProductsCount() > 0): ?>
+            <span class="message-success"><?= $block->escapeHtml(__('Product list is available.')) ?></span>
+        <?php else: ?>
+            <span class="message-warning"><?= $block->escapeHtml(__('Please update shipping products.')) ?></span>
+        <?php endif; ?>
+    </p>
+<?php endif; ?>
