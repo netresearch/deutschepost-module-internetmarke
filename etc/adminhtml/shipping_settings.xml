@@ -11,5 +11,8 @@
                 </inputs>
             </shippingOption>
         </packageOptions>
+        <metadata>
+            <imageUrl>Dhl_ShippingCore::images/logo-dpdhl.svg</imageUrl>
+        </metadata>
     </carrier>
 </carriers>

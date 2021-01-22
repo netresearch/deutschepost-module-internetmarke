@@ -5,16 +5,36 @@
 /** @var \Magento\Framework\View\Element\Template $block */
 ?>
 <div class="col content">
+    <p><?= $block->escapeHtml(__('With Deutsche Post Internetmarke, you can ship your orders cost-effectively with mail products.'))?></p>
+    <p><?= $block->escapeHtml(__('The module allows to request Deutsche Post Internetmarke stamps directly within your Magento suite.'))?></p>
     <p>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        <?= $block->escapeHtml(__('To get started, you need a Portokasse account.')) ?>
+        <?= $block->escapeHtml(
+            __(
+                'If you do not have a Portokasse account yet, please %1register and create a new account%2.',
+                '<a href="' . $block->escapeUrl('https://portokasse.deutschepost.de/portokasse/#!/register/') . '" target="_blank" rel="noreferrer">',
+                '</a>'
+            ),
+            ['a']
+        ) ?>
     </p>
 </div>
 <div class="col side">
     <aside>
         <div class="section">
-            <h3><?= $block->escapeHtml(__('Deutsche Post & Magento')) ?></h3>
+            <h3><?= $block->escapeHtml(__('Post & DHL and Magento')) ?></h3>
             <p>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat
+                <?= $block->escapeHtml(
+                    __(
+                        'Having issues configuring the extension? Please take a look at the %1support portal (FAQ)%2 first or contact the support desk:',
+                        '<a href="' . $block->escapeUrl('https://dhl.support.netresearch.de/') . '" target="_blank" rel="noreferrer">',
+                        '</a>'
+                    ),
+                    ['a']
+                ) ?>
+                <a href="mailto:<?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>">
+                    <?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>
+                </a>
             </p>
         </div>
     </aside>
