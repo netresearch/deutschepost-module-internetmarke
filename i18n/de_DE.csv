@@ -2,11 +2,12 @@
 "Account Settings",Kontoeinstellungen
 Actions,Aktionen
 "Basic Setup",Grundkonfiguration
-"Deutsche Post & Magento","Deutsche Post & Magento"
 "Deutsche Post Internetmarke","Deutsche Post Internetmarke"
 "Email Address",E-Mail-Adresse
 "Failed to update page formats: %1","Druckformate konnten nicht aktualisiert werden: %1"
 "Failed to update product lists: %1","Produktlisten konnten nicht aktualisiert werden: %1"
+"Having issues configuring the extension? Please take a look at the %1support portal (FAQ)%2 first or contact the support desk:","Wenn Sie Fragen zur Konfiguration haben oder auf Probleme stoßen, werfen Sie bitte zuerst einen Blick in das %1Support Portal (FAQ)%2 oder kontaktieren Sie unser Support-Team:"
+"If you do not have a Portokasse account yet, please %1register and create a new account%2.","Sollten Sie bisher noch nicht für eine Portokasse angemeldet sein, führen Sie die %1Registrierung für Neukunden%2 durch."
 "Page Format",Druckformat
 "Page formats are available.","Druckformate sind verfügbar"
 "Page formats were successfully updated.","Druckformate wurden erfolgreich aktualisiert."
@@ -18,11 +19,16 @@ Password,Passwort
 "Please update shipping products.","Bitte aktualisieren Sie die Versandprodukte."
 "Portokasse Credentials: Email Address","Portokasse Zugangsdaten: E-Mail-Adresse"
 "Portokasse Credentials: Password","Portokasse Zugangsdaten: Passwort"
+"Post & DHL and Magento","Versenden mit Post & DHL"
 "Product list is available.","Produktliste ist verfügbar."
 "Product lists were successfully updated.","Produktlisten wurde erfolgreich aktualisiert."
 "Select a page format for shipping labels. Page formats marked with (A) print addresses.","Wählen Sie ein Druckformat für Versandetiketten. Druckformate, die mit (A) gekennzeichnet sind, können Adressen darstellen."
 "Standard Formats",Standardformate
+"The module allows to request Deutsche Post Internetmarke stamps directly within your Magento suite.","Das Modul ermöglicht es Ihnen, Frankierungen direkt in Ihrer Magento-Instanz zu erzeugen."
 "To get started, shipping label formats and shipping products must be imported.","Um zu beginnen, müssen Druckformate und Versandprodukte abgerufen werden."
+"To get started, you need a Portokasse account.","Für die Verwendung von Deutsche Post Internetmarke benötigen Sie eine Portokasse."
 "Update Page Formats","Druckformate aktualisieren"
 "Update Product List","Produktliste aktualisieren"
 "Voucher %1 could not be cancelled: %2","Das Label %1 konnte nicht storniert werden: %2"
+"With Deutsche Post Internetmarke, you can ship your orders cost-effectively with mail products.","Mit Deutsche Post Internetmarke können Sie Bestellungen kosteneffizient per Briefprodukt versenden."
+dhl.support@netresearch.de,dhl.support@netresearch.de
