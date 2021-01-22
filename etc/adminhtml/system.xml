@@ -16,6 +16,7 @@
                     <frontend_model>Netresearch\ConfigFields\Block\InfoBox</frontend_model>
                     <attribute type="body_template">DeutschePost_Internetmarke::system/config/infobox.phtml</attribute>
                     <attribute type="view_model">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\InfoBox</attribute>
+                    <attribute type="logo">DeutschePost_Internetmarke::images/logo-dp.svg</attribute>
                 </field>
 
                 <include path="DeutschePost_Internetmarke::system/100_account.xml"/>
