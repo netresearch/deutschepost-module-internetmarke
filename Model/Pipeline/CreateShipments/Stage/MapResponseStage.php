@@ -52,9 +52,10 @@ class MapResponseStage implements CreateShipmentsStageInterface
     {
         // handle requests that failed during previous stages
         foreach ($artifactsContainer->getErrors() as $requestIndex => $error) {
+            $errorMessage =  __('Label could not be created: %1', $error['message']);
             $responseData = [
                 ShipmentErrorResponseInterface::REQUEST_INDEX => (string) $requestIndex,
-                ShipmentErrorResponseInterface::ERRORS => $error['message'],
+                ShipmentErrorResponseInterface::ERRORS => $errorMessage,
                 ShipmentErrorResponseInterface::SALES_SHIPMENT => $error['shipment'],
             ];
 
