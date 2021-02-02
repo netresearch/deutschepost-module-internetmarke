@@ -8,6 +8,7 @@ Actions,Aktionen
 "Failed to update product lists: %1","Produktlisten konnten nicht aktualisiert werden: %1"
 "Having issues configuring the extension? Please take a look at the %1support portal (FAQ)%2 first or contact the support desk:","Wenn Sie Fragen zur Konfiguration haben oder auf Probleme stoßen, werfen Sie bitte zuerst einen Blick in das %1Support Portal (FAQ)%2 oder kontaktieren Sie unser Support-Team:"
 "If you do not have a Portokasse account yet, please %1register and create a new account%2.","Sollten Sie bisher noch nicht für eine Portokasse angemeldet sein, führen Sie die %1Registrierung für Neukunden%2 durch."
+"Label could not be created: %1","Versandetikett konnte nicht erstellt werden: %1"
 "Page Format",Druckformat
 "Page formats are available.","Druckformate sind verfügbar"
 "Page formats were successfully updated.","Druckformate wurden erfolgreich aktualisiert."
