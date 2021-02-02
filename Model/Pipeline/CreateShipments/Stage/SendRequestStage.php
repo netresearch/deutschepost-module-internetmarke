@@ -10,6 +10,7 @@ namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
+use DeutschePost\Sdk\OneClickForApp\Exception\DetailedServiceException;
 use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -50,6 +51,18 @@ class SendRequestStage implements CreateShipmentsStageInterface
                 $apiRequest->getPageFormatId()
             );
             $artifactsContainer->setApiResponse($order);
+        } catch (DetailedServiceException $exception) {
+            // mark all requests as failed
+            foreach ($requests as $requestIndex => $shipmentRequest) {
+                $artifactsContainer->addError(
+                    (string) $requestIndex,
+                    $shipmentRequest->getOrderShipment(),
+                    $exception->getMessage()
+                );
+            }
+
+            // no requests passed the stage
+            return [];
         } catch (ServiceException $exception) {
             // mark all requests as failed
             foreach ($requests as $requestIndex => $shipmentRequest) {
