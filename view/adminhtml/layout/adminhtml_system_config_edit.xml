@@ -6,6 +6,15 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <!-- insert our additional information to DHL Paket -->
+        <referenceBlock name="dhlpaket_infobox_additional">
+            <block class="Magento\Backend\Block\Template" name="internetmarke" template="DeutschePost_Internetmarke::system/config/infobox/dhlpaket/additional.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\Config\InfoBox\Additional</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
         <block class="Magento\Backend\Block\Template" name="deutschepost_internetmarke_setup_actions" template="DeutschePost_Internetmarke::system/config/actions.phtml">
             <arguments>
                 <argument name="view_model" xsi:type="object">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\SetupActions</argument>
