@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+
+- Update shipping products weekly via cron job.
+- Define web service log settings in module configuration.
+
 ### Fixed
 
 - Show web service error messages in packaging popup.
