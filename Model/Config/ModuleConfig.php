@@ -16,18 +16,18 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class ModuleConfig
 {
     // Defaults
-    private const CONFIG_PATH_VERSION = 'dhlshippingsolutions/dpim/version';
+    public const CONFIG_PATH_VERSION = 'dhlshippingsolutions/dpim/version';
 
-    // todo(nr): add settings to system.xml
-    public const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dpim/logging';
-    public const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dpim/loglevel';
+    // 100_general.xml
+    public const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dpim/general/logging';
+    public const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dpim/general/logging_group/loglevel';
 
-    // 100_account.xml
-    private const CONFIG_PATH_PORTOKASSE_EMAIL = 'dhlshippingsolutions/dpim/account/portokasse_username';
-    private const CONFIG_PATH_PORTOKASSE_PASSWORD = 'dhlshippingsolutions/dpim/account/portokasse_password';
+    // 200_account.xml
+    public const CONFIG_PATH_PORTOKASSE_EMAIL = 'dhlshippingsolutions/dpim/account/portokasse_username';
+    public const CONFIG_PATH_PORTOKASSE_PASSWORD = 'dhlshippingsolutions/dpim/account/portokasse_password';
 
-    // 200_setup.xml
-    private const CONFIG_PATH_PAGE_FORMAT = 'dhlshippingsolutions/dpim/setup/page_format';
+    // 300_setup.xml
+    public const CONFIG_PATH_PAGE_FORMAT = 'dhlshippingsolutions/dpim/setup/page_format';
 
     /**
      * @var ScopeConfigInterface
