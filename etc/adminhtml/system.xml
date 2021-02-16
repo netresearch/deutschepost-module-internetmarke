@@ -19,8 +19,9 @@
                     <attribute type="logo">DeutschePost_Internetmarke::images/logo-dp.svg</attribute>
                 </field>
 
-                <include path="DeutschePost_Internetmarke::system/100_account.xml"/>
-                <include path="DeutschePost_Internetmarke::system/200_setup.xml"/>
+                <include path="DeutschePost_Internetmarke::system/100_general.xml"/>
+                <include path="DeutschePost_Internetmarke::system/200_account.xml"/>
+                <include path="DeutschePost_Internetmarke::system/300_setup.xml"/>
             </group>
         </section>
     </system>
