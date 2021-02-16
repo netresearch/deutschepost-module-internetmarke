@@ -34,7 +34,7 @@
     </virtualType>
     <virtualType name="DeutschePost\Internetmarke\Model\Logger\Virtual" type="Monolog\Logger">
         <arguments>
-            <argument name="name" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</argument>
+            <argument name="name" xsi:type="string">internetmarke</argument>
             <argument name="handlers" xsi:type="array">
                 <item name="apilog" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Handler\Virtual</item>
             </argument>
@@ -105,6 +105,16 @@
             <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\Util\ApiLogAnonymizer">
+        <arguments>
+            <argument name="patterns" xsi:type="array">
+                <item name="dpimPartnerSignature" xsi:type="string"><![CDATA[|PARTNER_SIGNATURE>([^<]+)<|]]></item>
+                <item name="dpimUserName" xsi:type="string"><![CDATA[|username>([^<]+)<|]]></item>
+                <item name="dpimPassword" xsi:type="string"><![CDATA[|password>([^<]+)<|]]></item>
+                <item name="dpimUserToken" xsi:type="string"><![CDATA[|userToken>([^<]+)<|]]></item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Packaging\PackagingDataCompositeProcessor">
         <arguments>
             <argument name="packagingCompatibilityProcessors" xsi:type="array">
@@ -120,7 +130,7 @@
     </type>
     <type name="DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration">
         <arguments>
-            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+            <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
@@ -144,5 +154,19 @@
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection">
         <plugin name="loadDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\LoadTrackExtension"/>
+    </type>
+
+    <!-- config path type pools-->
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="dhlshippingsolutions/dpim/account/portokasse_username" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dpim/account/portokasse_password" xsi:type="string">1</item>
+            </argument>
+            <argument name="environment" xsi:type="array">
+                <item name="dhlshippingsolutions/dpim/general/logging" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dpim/general/logging_group/loglevel" xsi:type="string">1</item>
+            </argument>
+        </arguments>
     </type>
 </config>
