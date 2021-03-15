@@ -11,11 +11,11 @@ namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponse;
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponseFactory;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 
 class MapResponseStage implements CreateShipmentsStageInterface
 {

@@ -22,9 +22,9 @@
     },
     "require": {
         "php": "^7.1.3",
-        "dhl/module-shipping-core": "^1.1.5",
-        "dhl/module-carrier-paket": "^1.4.1",
-        "dhl/module-unified-tracking": "^1.2.0",
+        "dhl/module-shipping-core": "^2.0.0",
+        "dhl/module-carrier-paket": "^2.0.0",
+        "dhl/module-unified-tracking": "^2.0.0",
         "deutschepost/sdk-api-prodws": "^1.0.0",
         "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
         "deutschepost/sdk-api-oneclickforrefund": "^1.0.0",
@@ -36,6 +36,12 @@
         "magento/module-sales": "^102.0.0 || ^103.0.0",
         "magento/module-shipping": "^100.3.0",
         "magento/module-store": "^101.0.0",
-        "netresearch/config-fields-m2": "^1.2.2"
+        "netresearch/config-fields-m2": "^1.2.2",
+        "netresearch/module-shipping-core": "~2.0.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.0.0.x-dev"
+        }
     }
 }
