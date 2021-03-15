@@ -6,17 +6,18 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging;
+namespace DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\Compatibility;
 
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInterface;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInterfaceFactory;
-use Dhl\ShippingCore\Api\ShippingConfigInterface;
-use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\CompatibilityProcessorInterface;
-use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes as CoreCodes;
+use Magento\Framework\Exception\LocalizedException;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CompatibilityInterfaceFactory;
+use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
+use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\CompatibilityProcessorInterface;
+use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes as CoreCodes;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
@@ -57,31 +58,42 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
     }
 
     /**
-     * @param CompatibilityInterface[] $compatibilityData
-     * @param ShipmentInterface $shipment
+     * @param string $carrierCode
+     * @param array $rules
+     * @param int $storeId
+     * @param string $countryCode
+     * @param string $postalCode
+     * @param ShipmentInterface|null $shipment
      * @return CompatibilityInterface[]
+     * @throws LocalizedException
      */
-    public function process(array $compatibilityData, ShipmentInterface $shipment): array
-    {
+    public function process(
+        string $carrierCode,
+        array $rules,
+        int $storeId,
+        string $countryCode,
+        string $postalCode,
+        ShipmentInterface $shipment = null
+    ): array {
         $order = $shipment->getOrder();
         $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 
         if ($carrierCode !== Paket::CARRIER_CODE) {
-            return $compatibilityData;
+            return $rules;
         }
 
         $incompatibleInputs = [
             // all inputs of the given service options
-            Codes::PACKAGING_SERVICE_BULKY_GOODS,
-            Codes::PACKAGING_SERVICE_CHECK_OF_AGE,
-            Codes::PACKAGING_SERVICE_INSURANCE,
-            Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING,
-            Codes::PACKAGING_SERVICE_RETURN_SHIPMENT,
-            Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE,
+            Codes::SERVICE_OPTION_BULKY_GOODS,
+            Codes::SERVICE_OPTION_CHECK_OF_AGE,
+            Codes::SERVICE_OPTION_INSURANCE,
+            Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING,
+            Codes::SERVICE_OPTION_RETURN_SHIPMENT,
+            Codes::SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE,
             // some inputs of the "package details" package option
-            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_WIDTH),
-            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_LENGTH),
-            sprintf('%s.%s', CoreCodes::PACKAGING_OPTION_PACKAGE_DETAILS, CoreCodes::PACKAGING_INPUT_HEIGHT),
+            sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_WIDTH),
+            sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_LENGTH),
+            sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_HEIGHT),
         ];
 
         $shipmentDate = $this->shipmentDate->getDate($shipment->getStoreId());
@@ -99,9 +111,9 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
             $rule->setMasters(['packageDetails.productCode']);
             $rule->setSubjects($incompatibleInputs);
 
-            $compatibilityData[$rule->getId()] = $rule;
+            $rules[$rule->getId()] = $rule;
         }
 
-        return $compatibilityData;
+        return $rules;
     }
 }

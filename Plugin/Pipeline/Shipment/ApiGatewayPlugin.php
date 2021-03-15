@@ -12,11 +12,11 @@ use DeutschePost\Internetmarke\Api\Data\SalesProductInterface;
 use DeutschePost\Internetmarke\Model\Pipeline\ApiGatewayFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
+use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
 class ApiGatewayPlugin
 {

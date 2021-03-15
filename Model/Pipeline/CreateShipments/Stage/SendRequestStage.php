@@ -12,9 +12,9 @@ use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
 use DeutschePost\Sdk\OneClickForApp\Exception\DetailedServiceException;
 use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 
 class SendRequestStage implements CreateShipmentsStageInterface
 {
