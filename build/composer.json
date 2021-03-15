@@ -41,6 +41,10 @@
     {
       "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-tracking.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/magento-modules/shipping/module-shipping-core.git"
     }
   ]
 }
