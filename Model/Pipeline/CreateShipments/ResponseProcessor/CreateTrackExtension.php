@@ -11,10 +11,10 @@ namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ResponseProc
 use DeutschePost\Internetmarke\Api\Data\TrackAdditionalInterfaceFactory;
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponse;
 use DeutschePost\Internetmarke\Model\Shipment\TrackAdditional;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
 use Magento\Sales\Model\Order\Shipment;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
 use Psr\Log\LoggerInterface;
 
 class CreateTrackExtension implements ShipmentResponseProcessorInterface
@@ -52,7 +52,7 @@ class CreateTrackExtension implements ShipmentResponseProcessorInterface
      * @param LabelResponseInterface[] $labelResponses
      * @param ShipmentErrorResponseInterface[] $errorResponses
      */
-    public function processResponse(array $labelResponses, array $errorResponses)
+    public function processResponse(array $labelResponses, array $errorResponses): void
     {
         /** @var LabelResponse $labelResponse */
         foreach ($labelResponses as $labelResponse) {
