@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace DeutschePost\Internetmarke\Model\ShippingSettings\Processor\Packaging;
+namespace DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\ShippingOptions;
 
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
-use Dhl\ShippingCore\Api\ShippingConfigInterface;
-use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
-use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Magento\Sales\Api\Data\ShipmentInterface;
+use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
+use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\ShippingOptionsProcessorInterface;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 
 class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
 {
@@ -53,18 +53,29 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
     }
 
     /**
-     * @param ShippingOptionInterface[] $optionsData
-     * @param ShipmentInterface $shipment
+     * @param string $carrierCode
+     * @param array $shippingOptions
+     * @param int $storeId
+     * @param string $countryCode
+     * @param string $postalCode
+     * @param ShipmentInterface|null $shipment
      *
      * @return ShippingOptionInterface[]
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function process(array $optionsData, ShipmentInterface $shipment): array
-    {
+    public function process(
+        string $carrierCode,
+        array $shippingOptions,
+        int $storeId,
+        string $countryCode,
+        string $postalCode,
+        ShipmentInterface $shipment = null
+    ): array {
         $order = $shipment->getOrder();
         $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 
         if ($carrierCode !== Paket::CARRIER_CODE) {
-            return $optionsData;
+            return $shippingOptions;
         }
 
         $shipmentDate = $this->shipmentDate->getDate($shipment->getStoreId());
@@ -83,9 +94,9 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
             $dpProducts[] = $option;
         }
 
-        foreach ($optionsData as $optionGroup) {
+        foreach ($shippingOptions as $optionGroup) {
             foreach ($optionGroup->getInputs() as $input) {
-                if ($input->getCode() === Codes::PACKAGING_INPUT_PRODUCT_CODE) {
+                if ($input->getCode() === Codes::PACKAGE_INPUT_PRODUCT_CODE) {
                     $products = array_merge($input->getOptions(), $dpProducts);
                     $input->setOptions($products);
                     break 2;
@@ -93,6 +104,6 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
             }
         }
 
-        return $optionsData;
+        return $shippingOptions;
     }
 }

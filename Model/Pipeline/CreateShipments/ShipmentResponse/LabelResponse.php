@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse;
 
-use Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse as CoreLabelResponse;
+use Netresearch\ShippingCore\Model\Pipeline\Shipment\ShipmentResponse\LabelResponse as CoreLabelResponse;
 
 /**
  * The response type consumed by the core carrier to persist label binary and tracking number.

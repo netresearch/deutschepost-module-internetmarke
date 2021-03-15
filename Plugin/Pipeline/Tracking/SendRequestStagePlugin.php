@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Plugin\Pipeline\Tracking;
 
 use DeutschePost\Internetmarke\Model\Tracking\TrackingConfiguration;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 use Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
 class SendRequestStagePlugin
 {

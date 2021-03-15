@@ -15,16 +15,16 @@ use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterfaceFactory;
 use DeutschePost\Sdk\OneClickForApp\Model\ShoppingCartPositionBuilder;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
-use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
+use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Magento\Directory\Model\Country;
 use Magento\Directory\Model\ResourceModel\Country\Collection;
 use Magento\Directory\Model\ResourceModel\Country\CollectionFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
 
 class MapRequestStage implements CreateShipmentsStageInterface
 {

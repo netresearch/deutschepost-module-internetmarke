@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments;
 
 use DeutschePost\Sdk\OneClickForApp\Api\Data\OrderInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Magento\Sales\Model\Order\Shipment;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 
 class ArtifactsContainer implements ArtifactsContainerInterface
 {
@@ -64,7 +64,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param int $storeId
      * @return void
      */
-    public function setStoreId(int $storeId)
+    public function setStoreId(int $storeId): void
     {
         $this->storeId = $storeId;
     }
