@@ -12,9 +12,9 @@ use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainer
 use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ResponseDataMapper;
 use DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactoryInterface;
 use DeutschePost\Sdk\OneClickForRefund\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 
 class RequestRefundStage implements RequestTracksStageInterface
 {
