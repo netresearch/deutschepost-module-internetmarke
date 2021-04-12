@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Config\Source;
 
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
-use DeutschePost\Internetmarke\Model\ResourceModel\Pageformat\PageFormatCollectionFactory;
+use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class PageFormats implements OptionSourceInterface
