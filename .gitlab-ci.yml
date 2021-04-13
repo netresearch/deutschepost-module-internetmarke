@@ -99,7 +99,7 @@ package-build:
   stage: build
   only:
     - master
-    - /^(release|hotfix)-.*$/
+    - /^release-.+$/
   script:
     - zip -r
       -x "*build/*" "*Test/*" "*doc/src*" "*.gitignore" "*.gitlab-ci.yml" "*.git*"
@@ -114,7 +114,7 @@ package-validate:
   stage: validate
   only:
     - master
-    - /^(release|hotfix)-.*$/
+    - /^release-.+$/
   script:
     - ci-validate $(ci-get-package-name).zip
   dependencies:
@@ -125,6 +125,7 @@ github:
   when: manual
   only:
     - master
+    - /^release-.+$/
   variables:
     GIT_STRATEGY: "clone"
     VAULT_PATH: "projects/DHL/Github/module-internetmarke"
