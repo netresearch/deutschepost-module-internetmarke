@@ -1,6 +1,6 @@
 {
     "name": "deutschepost/module-internetmarke",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "magento2-module",
     "description": "INTERNETMARKE shipping product capabilities for the DHL Paket carrier module",
     "license": "OSL-3.0",
