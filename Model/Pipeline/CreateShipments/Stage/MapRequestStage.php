@@ -16,15 +16,13 @@ use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
 use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterfaceFactory;
 use DeutschePost\Sdk\OneClickForApp\Model\ShoppingCartPositionBuilder;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
-use Magento\Directory\Model\Country;
-use Magento\Directory\Model\ResourceModel\Country\Collection;
-use Magento\Directory\Model\ResourceModel\Country\CollectionFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
+use Netresearch\ShippingCore\Api\Util\CountryCodeInterface;
 
 class MapRequestStage implements CreateShipmentsStageInterface
 {
@@ -59,9 +57,9 @@ class MapRequestStage implements CreateShipmentsStageInterface
     private $requestExtractorFactory;
 
     /**
-     * @var Collection
+     * @var CountryCodeInterface
      */
-    private $countryCollection;
+    private $country;
 
     public function __construct(
         ShipmentDate $shipmentDate,
@@ -70,7 +68,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
         PageFormatInterfaceFactory $pageFormatFactory,
         OrderFactory $orderFactory,
         RequestExtractorInterfaceFactory $requestExtractorFactory,
-        CollectionFactory $countryCollectionFactory
+        CountryCodeInterface $country
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
@@ -78,7 +76,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
         $this->pageFormatFactory = $pageFormatFactory;
         $this->orderFactory = $orderFactory;
         $this->requestExtractorFactory = $requestExtractorFactory;
-        $this->countryCollection = $countryCollectionFactory->create();
+        $this->country = $country;
     }
 
     /**
@@ -133,23 +131,6 @@ class MapRequestStage implements CreateShipmentsStageInterface
     }
 
     /**
-     * Get three-letter country code from two-letter country code.
-     *
-     * @param string $iso2Code
-     * @return string
-     * @throws NoSuchEntityException
-     */
-    private function getIso3Code(string $iso2Code): string
-    {
-        $country = $this->countryCollection->load()->getItemById($iso2Code);
-        if (!$country instanceof Country) {
-            throw new NoSuchEntityException(__('The country code %1 is not available.', $iso2Code));
-        }
-
-        return (string) $country->getData('iso3_code');
-    }
-
-    /**
      * Transform core shipment requests into request objects suitable for the label API.
      *
      * Requests with mapping errors are removed from requests and instantly added as error responses.
@@ -182,6 +163,8 @@ class MapRequestStage implements CreateShipmentsStageInterface
         $positions = [];
         foreach ($requests as $requestIndex => $request) {
             $requestExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $request]);
+            $shipper = $requestExtractor->getShipper();
+            $recipient = $requestExtractor->getRecipient();
 
             try {
                 $packages = $requestExtractor->getPackages();
@@ -192,8 +175,8 @@ class MapRequestStage implements CreateShipmentsStageInterface
 
             foreach ($packages as $packageId => $package) {
                 try {
-                    $shipperCountry = $this->getIso3Code($requestExtractor->getShipper()->getCountryCode());
-                    $recipientCountry = $this->getIso3Code($requestExtractor->getRecipient()->getCountryCode());
+                    $shipperCountry = $this->country->getIso3Code($shipper->getCountryCode());
+                    $recipientCountry = $this->country->getIso3Code($recipient->getCountryCode());
                 } catch (NoSuchEntityException $exception) {
                     $artifactsContainer->addError(
                         $requestIndex,
@@ -205,26 +188,26 @@ class MapRequestStage implements CreateShipmentsStageInterface
 
                 $builder->setItemDetails((int) $package->getProductCode(), $productPrices[$package->getProductCode()]);
                 $builder->setShipperAddress(
-                    $requestExtractor->getShipper()->getContactCompanyName(),
+                    $shipper->getContactCompanyName(),
                     $shipperCountry,
-                    $requestExtractor->getShipper()->getPostalCode(),
-                    $requestExtractor->getShipper()->getCity(),
-                    $requestExtractor->getShipper()->getStreetName(),
-                    $requestExtractor->getShipper()->getStreetNumber()
+                    $shipper->getPostalCode(),
+                    $shipper->getCity(),
+                    $shipper->getStreetName(),
+                    $shipper->getStreetNumber()
                 );
 
                 $builder->setRecipientAddress(
-                    $requestExtractor->getRecipient()->getContactPersonLastName(),
-                    $requestExtractor->getRecipient()->getContactPersonFirstName(),
+                    $recipient->getContactPersonLastName(),
+                    $recipient->getContactPersonFirstName(),
                     $recipientCountry,
-                    $requestExtractor->getRecipient()->getPostalCode(),
-                    $requestExtractor->getRecipient()->getCity(),
-                    $requestExtractor->getRecipient()->getStreetName(),
-                    $requestExtractor->getRecipient()->getStreetNumber(),
+                    $recipient->getPostalCode(),
+                    $recipient->getCity(),
+                    $recipient->getStreetName(),
+                    $recipient->getStreetNumber(),
                     null,
                     null,
-                    $requestExtractor->getRecipient()->getContactCompanyName(),
-                    $requestExtractor->getRecipient()->getAddressAddition()
+                    $recipient->getContactCompanyName(),
+                    $recipient->getAddressAddition()
                 );
 
                 $positions[] = $builder->create();
