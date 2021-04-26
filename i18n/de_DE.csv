@@ -33,6 +33,7 @@ Password,Passwort
 "Record communication with Deutsche Post web services.","Kommunikation mit den Webservices von Deutsche Post aufzeichnen."
 "Select a page format for shipping labels. Page formats marked with (A) print addresses.","Wählen Sie ein Druckformat für Versandetiketten. Druckformate, die mit (A) gekennzeichnet sind, können Adressen darstellen."
 "Standard Formats",Standardformate
+"The country code %1 is not available.","Ländercode %1 ist ungültig."
 "The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.","Die Protokollierungsstufe <em>Info</em> sollte nur beim Lösen von Problemen eingestellt werden, da dies zu sehr großen Protokolldateien führen kann."
 "The module allows to request Deutsche Post Internetmarke stamps directly within your Magento suite.","Das Modul ermöglicht es Ihnen, Frankierungen direkt in Ihrer Magento-Instanz zu erzeugen."
 "To get started, shipping label formats and shipping products must be imported.","Um zu beginnen, müssen Druckformate und Versandprodukte abgerufen werden."
