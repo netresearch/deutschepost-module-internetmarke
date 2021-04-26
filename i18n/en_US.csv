@@ -33,7 +33,6 @@ Password,Password
 "Record communication with Deutsche Post web services.","Record communication with Deutsche Post web services."
 "Select a page format for shipping labels. Page formats marked with (A) print addresses.","Select a page format for shipping labels. Page formats marked with (A) print addresses."
 "Standard Formats","Standard Formats"
-"The country code %1 is not available.","The country code %1 is not available."
 "The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.","The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files."
 "The module allows to request Deutsche Post Internetmarke stamps directly within your Magento suite.","The module allows to request Deutsche Post Internetmarke stamps directly within your Magento suite."
 "To get started, shipping label formats and shipping products must be imported.","To get started, shipping label formats and shipping products must be imported."
