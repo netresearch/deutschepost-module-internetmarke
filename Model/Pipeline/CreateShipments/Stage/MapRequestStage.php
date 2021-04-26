@@ -19,7 +19,11 @@ use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
 use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
+use Magento\Directory\Model\Country;
+use Magento\Directory\Model\ResourceModel\Country\Collection;
+use Magento\Directory\Model\ResourceModel\Country\CollectionFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Shipping\Model\Shipment\Request;
 
 class MapRequestStage implements CreateShipmentsStageInterface
@@ -54,13 +58,19 @@ class MapRequestStage implements CreateShipmentsStageInterface
      */
     private $requestExtractorFactory;
 
+    /**
+     * @var Collection
+     */
+    private $countryCollection;
+
     public function __construct(
         ShipmentDate $shipmentDate,
         SalesProductCollectionLoader $productCollectionLoader,
         ModuleConfig $config,
         PageFormatInterfaceFactory $pageFormatFactory,
         OrderFactory $orderFactory,
-        RequestExtractorInterfaceFactory $requestExtractorFactory
+        RequestExtractorInterfaceFactory $requestExtractorFactory,
+        CollectionFactory $countryCollectionFactory
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
@@ -68,6 +78,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
         $this->pageFormatFactory = $pageFormatFactory;
         $this->orderFactory = $orderFactory;
         $this->requestExtractorFactory = $requestExtractorFactory;
+        $this->countryCollection = $countryCollectionFactory->create();
     }
 
     /**
@@ -122,6 +133,23 @@ class MapRequestStage implements CreateShipmentsStageInterface
     }
 
     /**
+     * Get three-letter country code from two-letter country code.
+     *
+     * @param string $iso2Code
+     * @return string
+     * @throws NoSuchEntityException
+     */
+    private function getIso3Code(string $iso2Code): string
+    {
+        $country = $this->countryCollection->load()->getItemById($iso2Code);
+        if (!$country instanceof Country) {
+            throw new NoSuchEntityException(__('The country code %1 is not available.', $iso2Code));
+        }
+
+        return (string) $country->getData('iso3_code');
+    }
+
+    /**
      * Transform core shipment requests into request objects suitable for the label API.
      *
      * Requests with mapping errors are removed from requests and instantly added as error responses.
@@ -163,10 +191,22 @@ class MapRequestStage implements CreateShipmentsStageInterface
             }
 
             foreach ($packages as $packageId => $package) {
+                try {
+                    $shipperCountry = $this->getIso3Code($requestExtractor->getShipper()->getCountryCode());
+                    $recipientCountry = $this->getIso3Code($requestExtractor->getRecipient()->getCountryCode());
+                } catch (NoSuchEntityException $exception) {
+                    $artifactsContainer->addError(
+                        $requestIndex,
+                        $request->getOrderShipment(),
+                        $exception->getMessage()
+                    );
+                    break;
+                }
+
                 $builder->setItemDetails((int) $package->getProductCode(), $productPrices[$package->getProductCode()]);
                 $builder->setShipperAddress(
                     $requestExtractor->getShipper()->getContactCompanyName(),
-                    $requestExtractor->getShipper()->getCountryCode(),
+                    $shipperCountry,
                     $requestExtractor->getShipper()->getPostalCode(),
                     $requestExtractor->getShipper()->getCity(),
                     $requestExtractor->getShipper()->getStreetName(),
@@ -176,7 +216,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
                 $builder->setRecipientAddress(
                     $requestExtractor->getRecipient()->getContactPersonLastName(),
                     $requestExtractor->getRecipient()->getContactPersonFirstName(),
-                    $requestExtractor->getRecipient()->getCountryCode(),
+                    $recipientCountry,
                     $requestExtractor->getRecipient()->getPostalCode(),
                     $requestExtractor->getRecipient()->getCity(),
                     $requestExtractor->getRecipient()->getStreetName(),
