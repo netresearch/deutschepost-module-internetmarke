@@ -15,7 +15,6 @@ Requirements
 
 Compatibility
 -------------
-* Magento >= 2.2.6+
 * Magento >= 2.3.0+
 
 Installation Instructions
