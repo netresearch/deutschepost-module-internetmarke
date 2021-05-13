@@ -13,6 +13,7 @@ use DeutschePost\Internetmarke\Model\Pipeline\ApiGatewayFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
+use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
@@ -115,6 +116,11 @@ class ApiGatewayPlugin
         $theirs = [];
         foreach ($cancelRequests as $requestIndex => $cancelRequest) {
             $track = $cancelRequest->getSalesTrack();
+            if (!$track instanceof ShipmentTrackInterface) {
+                // probably coming from AbstractCarrierOnline::rollBack where no track was created yet.
+                continue;
+            }
+
             $extensionAttributes = $track->getExtensionAttributes();
             if ($extensionAttributes && $extensionAttributes->getDpdhlOrderId()) {
                 $ours[$requestIndex] = $cancelRequest;
