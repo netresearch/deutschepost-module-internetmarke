@@ -10,6 +10,7 @@ namespace DeutschePost\Internetmarke\Plugin\Pipeline\Shipment;
 
 use DeutschePost\Internetmarke\Api\Data\SalesProductInterface;
 use DeutschePost\Internetmarke\Model\Pipeline\ApiGatewayFactory;
+use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\TrackRequest\RollbackRequestFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
@@ -32,6 +33,11 @@ class ApiGatewayPlugin
     private $productCollectionLoader;
 
     /**
+     * @var RollbackRequestFactory
+     */
+    private $rollbackRequestFactory;
+
+    /**
      * @var ApiGatewayFactory
      */
     private $apiGatewayFactory;
@@ -39,11 +45,40 @@ class ApiGatewayPlugin
     public function __construct(
         ShipmentDate $shipmentDate,
         SalesProductCollectionLoader $productCollectionLoader,
+        RollbackRequestFactory $rollbackRequestFactory,
         ApiGatewayFactory $apiGatewayFactory
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
+        $this->rollbackRequestFactory = $rollbackRequestFactory;
         $this->apiGatewayFactory = $apiGatewayFactory;
+    }
+
+    /**
+     * Obtain the cancellation request for an Internetmarke voucher.
+     *
+     * When a voucher is cancelled via shipment details page, then the shipment track
+     * is set and the request can be used for cancellation. When the voucher is cancelled
+     * via label rollback (and the track with its extension attributes is not yet persisted),
+     * then a new cancellation request gets created with all necessary data set.
+     *
+     * @param TrackRequestInterface $cancelRequest
+     * @return TrackRequestInterface|null
+     */
+    private function getCancellationRequest(TrackRequestInterface $cancelRequest): ?TrackRequestInterface
+    {
+        $track = $cancelRequest->getSalesTrack();
+
+        // check if we have a regular Internetmarke voucher cancellation request
+        if ($track instanceof ShipmentTrackInterface
+            && $track->getExtensionAttributes()
+            && $track->getExtensionAttributes()->getDpdhlOrderId()
+        ) {
+            return $cancelRequest;
+        }
+
+        // fall back to creating a new cancellation request if applicable
+        return $this->rollbackRequestFactory->create($cancelRequest->getStoreId(), $cancelRequest->getTrackNumber());
     }
 
     /**
@@ -115,15 +150,8 @@ class ApiGatewayPlugin
         $ours = [];
         $theirs = [];
         foreach ($cancelRequests as $requestIndex => $cancelRequest) {
-            $track = $cancelRequest->getSalesTrack();
-            if (!$track instanceof ShipmentTrackInterface) {
-                // probably coming from AbstractCarrierOnline::rollBack where no track was created yet.
-                continue;
-            }
-
-            $extensionAttributes = $track->getExtensionAttributes();
-            if ($extensionAttributes && $extensionAttributes->getDpdhlOrderId()) {
-                $ours[$requestIndex] = $cancelRequest;
+            if ($ourRequest = $this->getCancellationRequest($cancelRequest)) {
+                $ours[$requestIndex] = $ourRequest;
             } else {
                 $theirs[$requestIndex] = $cancelRequest;
             }
