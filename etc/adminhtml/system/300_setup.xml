@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="setup" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="0" showInStore="0">
+        <label>Basic Setup</label>
+        <comment>To get started, shipping label formats and shipping products must be imported.</comment>
+
+        <field id="actions" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10"
+               translate="label" type="note">
+            <label>Actions</label>
+            <frontend_model>DeutschePost\Internetmarke\Block\Adminhtml\System\Config\Field\SetupActions</frontend_model>
+        </field>
+        <field id="page_format" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20"
+               translate="label comment" type="select">
+            <label>Page Format</label>
+            <comment>Select a page format for shipping labels. Page formats marked with (A) print addresses.</comment>
+            <source_model>DeutschePost\Internetmarke\Model\Config\Source\PageFormats</source_model>
+        </field>
+    </group>
+</include>
