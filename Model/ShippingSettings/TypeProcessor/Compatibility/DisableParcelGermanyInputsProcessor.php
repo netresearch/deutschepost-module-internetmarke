@@ -90,6 +90,7 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
             Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING,
             Codes::SERVICE_OPTION_RETURN_SHIPMENT,
             Codes::SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE,
+            Codes::SERVICE_OPTION_PREMIUM,
             // some inputs of the "package details" package option
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_WIDTH),
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_LENGTH),
