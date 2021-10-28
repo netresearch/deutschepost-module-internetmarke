@@ -13,8 +13,10 @@ use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\L
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ShipmentResponse\LabelResponseFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentResponseInterface;
 use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 
 class MapResponseStage implements CreateShipmentsStageInterface
@@ -54,9 +56,9 @@ class MapResponseStage implements CreateShipmentsStageInterface
         foreach ($artifactsContainer->getErrors() as $requestIndex => $error) {
             $errorMessage =  __('Label could not be created: %1', $error['message']);
             $responseData = [
-                ShipmentErrorResponseInterface::REQUEST_INDEX => (string) $requestIndex,
+                ShipmentResponseInterface::REQUEST_INDEX => (string) $requestIndex,
+                ShipmentResponseInterface::SALES_SHIPMENT => $error['shipment'],
                 ShipmentErrorResponseInterface::ERRORS => $errorMessage,
-                ShipmentErrorResponseInterface::SALES_SHIPMENT => $error['shipment'],
             ];
 
             $artifactsContainer->addErrorResponse(
@@ -71,14 +73,15 @@ class MapResponseStage implements CreateShipmentsStageInterface
 
             // handle requests that passed previous stages successfully
             foreach ($requests as $requestIndex => $shipmentRequest) {
-                // vouchers are returned in the same sequence like they are requested
+                // vouchers are returned in the same sequence as they are requested
                 $voucher = array_shift($vouchers);
 
                 $responseData = [
-                    LabelResponse::REQUEST_INDEX => $requestIndex,
-                    LabelResponse::SALES_SHIPMENT => $shipmentRequest->getOrderShipment(),
-                    LabelResponse::TRACKING_NUMBER => $voucher->getTrackId() ?? $voucher->getVoucherId(),
-                    LabelResponse::SHIPPING_LABEL_CONTENT => $voucher->getLabel(),
+                    ShipmentResponseInterface::REQUEST_INDEX => $requestIndex,
+                    ShipmentResponseInterface::SALES_SHIPMENT => $shipmentRequest->getOrderShipment(),
+                    LabelResponseInterface::TRACKING_NUMBER => $voucher->getTrackId() ?? $voucher->getVoucherId(),
+                    LabelResponseInterface::SHIPPING_LABEL_CONTENT => $voucher->getLabel(),
+                    LabelResponseInterface::DOCUMENTS => [], // no use case for adding the voucher as separate document
                     LabelResponse::SHOP_ORDER_ID => $apiResponse->getId(),
                     LabelResponse::VOUCHER_ID => $voucher->getVoucherId(),
                     LabelResponse::VOUCHER_TRACK_ID => $voucher->getTrackId(),
