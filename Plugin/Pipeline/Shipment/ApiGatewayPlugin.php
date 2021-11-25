@@ -14,11 +14,13 @@ use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\TrackRequest\Rollb
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Pipeline\ApiGateway;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
+use Magento\Framework\Registry;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
 
 class ApiGatewayPlugin
 {
@@ -38,6 +40,16 @@ class ApiGatewayPlugin
     private $rollbackRequestFactory;
 
     /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
+     * @var ShipmentResponseProcessorInterface
+     */
+    private $bulkCreateResponseProcessor;
+
+    /**
      * @var ApiGatewayFactory
      */
     private $apiGatewayFactory;
@@ -46,11 +58,15 @@ class ApiGatewayPlugin
         ShipmentDate $shipmentDate,
         SalesProductCollectionLoader $productCollectionLoader,
         RollbackRequestFactory $rollbackRequestFactory,
+        Registry $registry,
+        ShipmentResponseProcessorInterface $bulkCreateResponseProcessor,
         ApiGatewayFactory $apiGatewayFactory
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
         $this->rollbackRequestFactory = $rollbackRequestFactory;
+        $this->registry = $registry;
+        $this->bulkCreateResponseProcessor = $bulkCreateResponseProcessor;
         $this->apiGatewayFactory = $apiGatewayFactory;
     }
 
@@ -126,7 +142,17 @@ class ApiGatewayPlugin
             return $proceed($theirs);
         }
 
-        $apiGateway = $this->apiGatewayFactory->create(['storeId' => $storeId]);
+        if ($this->registry->registry('current_shipment')) {
+            // packaging popup, manual action
+            $apiGateway = $this->apiGatewayFactory->create(['storeId' => $storeId]);
+        } else {
+            // mass action
+            $apiGateway = $this->apiGatewayFactory->create([
+                'storeId' => $storeId,
+                'createResponseProcessor' => $this->bulkCreateResponseProcessor,
+            ]);
+        }
+
         return array_merge($proceed($theirs), $apiGateway->createShipments($ours));
     }
 
