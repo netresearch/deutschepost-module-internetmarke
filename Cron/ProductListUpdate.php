@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Cron;
 
+use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
 use DeutschePost\Internetmarke\Model\ProductList\Updater;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
@@ -18,6 +19,11 @@ use Psr\Log\LoggerInterface;
 class ProductListUpdate
 {
     /**
+     * @var ModuleConfig
+     */
+    private $config;
+
+    /**
      * @var Updater
      */
     private $updater;
@@ -27,8 +33,9 @@ class ProductListUpdate
      */
     private $logger;
 
-    public function __construct(Updater $updater, LoggerInterface $logger)
+    public function __construct(ModuleConfig $config, Updater $updater, LoggerInterface $logger)
     {
+        $this->config = $config;
         $this->updater = $updater;
         $this->logger = $logger;
     }
@@ -43,6 +50,10 @@ class ProductListUpdate
      */
     public function execute()
     {
+        if (!$this->config->getAccountEmail() || !$this->config->getAccountPassword()) {
+            return;
+        }
+
         try {
             $this->updater->updateProductLists();
         } catch (CouldNotSaveException $exception) {
