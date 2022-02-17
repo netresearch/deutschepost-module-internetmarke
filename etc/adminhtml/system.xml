@@ -14,6 +14,7 @@
                 <field id="dpimInfoBox" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1"
                        extends="dhlshippingsolutions/dhlglobalwebservices/shippingCoreInfoBox">
                     <frontend_model>Netresearch\ConfigFields\Block\InfoBox</frontend_model>
+                    <attribute type="header_template">Netresearch_ShippingCore::system/config/infoBoxHeader.phtml</attribute>
                     <attribute type="body_template">DeutschePost_Internetmarke::system/config/infobox.phtml</attribute>
                     <attribute type="view_model">DeutschePost\Internetmarke\ViewModel\Adminhtml\System\InfoBox</attribute>
                     <attribute type="logo">DeutschePost_Internetmarke::images/logo-dp.svg</attribute>
