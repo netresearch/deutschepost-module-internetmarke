@@ -17,6 +17,7 @@ Errors,Fehler
 "Log Level",Protokollierungsstufe
 Logging,Protokollierung
 "Page Format",Druckformat
+"Page Formats","Druckformate"
 "Page formats are available.","Druckformate sind verfügbar"
 "Page formats were successfully updated.","Druckformate wurden erfolgreich aktualisiert."
 Password,Passwort
@@ -28,6 +29,7 @@ Password,Passwort
 "Portokasse Credentials: Email Address","Portokasse Zugangsdaten: E-Mail-Adresse"
 "Portokasse Credentials: Password","Portokasse Zugangsdaten: Passwort"
 "Post & DHL and Magento","Versenden mit Post & DHL"
+"Product List","Produktliste"
 "Product list is available.","Produktliste ist verfügbar."
 "Product lists were successfully updated.","Produktlisten wurde erfolgreich aktualisiert."
 "Record communication with Deutsche Post web services.","Kommunikation mit den Webservices von Deutsche Post aufzeichnen."
