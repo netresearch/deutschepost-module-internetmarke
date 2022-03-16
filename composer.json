@@ -22,7 +22,7 @@
     },
     "require": {
         "php": "^7.1.3",
-        "dhl/module-shipping-core": "^2.0.0",
+        "dhl/module-shipping-core": "^2.0.1",
         "dhl/module-carrier-paket": "^2.4.0",
         "dhl/module-unified-tracking": "^2.0.1",
         "deutschepost/sdk-api-prodws": "^1.0.0",
@@ -36,6 +36,6 @@
         "magento/module-shipping": "^100.3.0",
         "magento/module-store": "^101.0.0",
         "netresearch/config-fields-m2": "^1.2.4",
-        "netresearch/module-shipping-core": "^2.6.0"
+        "netresearch/module-shipping-core": "^2.7.0"
     }
 }

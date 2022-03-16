@@ -145,6 +145,14 @@
             <argument name="bulkCreateResponseProcessor" xsi:type="object">DeutschePost\Internetmarke\Model\Pipeline\BulkShipment\CreateLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
+    <type name="Netresearch\ShippingCore\Model\Config\Validator">
+        <arguments>
+            <argument name="itemValidators" xsi:type="array">
+                <item name="dpim_page_formats" xsi:type="object" sortOrder="3001">DeutschePost\Internetmarke\Model\Config\ItemValidator\PageFormatsValidator</item>
+                <item name="dpim_product_list" xsi:type="object" sortOrder="3002">DeutschePost\Internetmarke\Model\Config\ItemValidator\ProductListValidator</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Netresearch\ShippingCore\Model\Util\ApiLogAnonymizer">
         <arguments>
             <argument name="patterns" xsi:type="array">
