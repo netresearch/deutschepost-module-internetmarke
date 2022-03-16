@@ -17,6 +17,7 @@ Errors,Errors
 "Log Level","Log Level"
 Logging,Logging
 "Page Format","Page Format"
+"Page Formats","Page Formats"
 "Page formats are available.","Page formats are available."
 "Page formats were successfully updated.","Page formats were successfully updated."
 Password,Password
@@ -28,6 +29,7 @@ Password,Password
 "Portokasse Credentials: Email Address","Portokasse Credentials: Email Address"
 "Portokasse Credentials: Password","Portokasse Credentials: Password"
 "Post & DHL and Magento","Post & DHL and Magento"
+"Product List","Product List"
 "Product list is available.","Product list is available."
 "Product lists were successfully updated.","Product lists were successfully updated."
 "Record communication with Deutsche Post web services.","Record communication with Deutsche Post web services."
