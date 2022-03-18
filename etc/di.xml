@@ -153,6 +153,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Netresearch\ShippingCore\Model\Shipping\GetProductName">
+        <arguments>
+            <argument name="nameProviders" xsi:type="array">
+                <item name="dpim" xsi:type="object" sortOrder="3001">DeutschePost\Internetmarke\Model\Shipping\ProductNameProvider</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Netresearch\ShippingCore\Model\Util\ApiLogAnonymizer">
         <arguments>
             <argument name="patterns" xsi:type="array">
@@ -167,9 +174,6 @@
     <!-- # interceptor plugins -->
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
         <plugin name="addDeutschePostShipmentsPipeline" type="DeutschePost\Internetmarke\Plugin\Pipeline\Shipment\ApiGatewayPlugin"/>
-    </type>
-    <type name="Magento\Sales\Model\Order\Shipment">
-        <plugin name="updateDeutschePostTrackTitle" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\UpdateTitle"/>
     </type>
     <type name="Magento\Sales\Model\ResourceModel\Order\Shipment\Track">
         <plugin name="saveDeutschePostTrackExtension" type="DeutschePost\Internetmarke\Plugin\Sales\Order\Shipment\Track\SaveTrackExtension"/>

@@ -36,7 +36,7 @@ class SalesProduct extends AbstractModel implements SalesProductInterface
 
     public function getName(): string
     {
-        return $this->getData(self::NAME);
+        return (string) $this->getData(self::NAME);
     }
 
     public function getPrice(): int
