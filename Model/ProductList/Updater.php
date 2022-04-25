@@ -58,7 +58,7 @@ class Updater
     /**
      * @throws CouldNotSaveException
      */
-    public function updateProductLists()
+    public function updateProductLists(): void
     {
         try {
             $productsWebservice = $this->productsWsFactory->create();

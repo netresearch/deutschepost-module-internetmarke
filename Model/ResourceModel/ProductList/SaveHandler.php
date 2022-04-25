@@ -45,7 +45,7 @@ class SaveHandler
      * @param ContractProductInterface[] $contractProducts
      * @throws \Exception
      */
-    public function save(array $productLists, array $contractProducts)
+    public function save(array $productLists, array $contractProducts): void
     {
         $listData = [];
         $salesData = [];
