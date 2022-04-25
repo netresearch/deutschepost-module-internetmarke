@@ -21,13 +21,13 @@
         ]
     },
     "require": {
-        "php": "^7.1.3",
-        "dhl/module-shipping-core": "^2.1.0",
-        "dhl/module-carrier-paket": "^2.5.0",
-        "dhl/module-unified-tracking": "^2.0.1",
-        "deutschepost/sdk-api-prodws": "^1.0.0",
-        "deutschepost/sdk-api-oneclickforapp": "^1.0.0",
-        "deutschepost/sdk-api-oneclickforrefund": "^1.0.0",
+        "php": "^7.2.0 || ^8.1.0",
+        "dhl/module-shipping-core": "^2.2.0",
+        "dhl/module-carrier-paket": "^2.6.0",
+        "dhl/module-unified-tracking": "^2.1.0",
+        "deutschepost/sdk-api-prodws": "^1.1.0",
+        "deutschepost/sdk-api-oneclickforapp": "^1.1.0",
+        "deutschepost/sdk-api-oneclickforrefund": "^1.1.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
         "magento/module-backend": "^101.0.0 || ^102.0.0",
         "magento/module-config": "^101.1.0",
@@ -35,7 +35,12 @@
         "magento/module-sales": "^102.0.0 || ^103.0.0",
         "magento/module-shipping": "^100.3.0",
         "magento/module-store": "^101.0.0",
-        "netresearch/config-fields-m2": "^1.2.4",
-        "netresearch/module-shipping-core": "^2.7.0"
+        "netresearch/config-fields-m2": "^1.3.0",
+        "netresearch/module-shipping-core": "^2.8.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.3.0.x-dev"
+        }
     }
 }

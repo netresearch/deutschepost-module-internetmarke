@@ -82,7 +82,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param string $errorMessage
      * @return void
      */
-    public function addError(string $requestIndex, Shipment $shipment, string $errorMessage)
+    public function addError(string $requestIndex, Shipment $shipment, string $errorMessage): void
     {
         $this->errors[$requestIndex] = [
             'shipment' => $shipment,
@@ -96,7 +96,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param Order $shipmentOrder
      * @return void
      */
-    public function setApiRequest(Order $shipmentOrder)
+    public function setApiRequest(Order $shipmentOrder): void
     {
         $this->apiRequest = $shipmentOrder;
     }
@@ -107,7 +107,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param OrderInterface $apiResponse
      * @return void
      */
-    public function setApiResponse(OrderInterface $apiResponse)
+    public function setApiResponse(OrderInterface $apiResponse): void
     {
         $this->apiResponse = $apiResponse;
     }
@@ -119,7 +119,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param LabelResponseInterface $labelResponse
      * @return void
      */
-    public function addLabelResponse(string $requestIndex, LabelResponseInterface $labelResponse)
+    public function addLabelResponse(string $requestIndex, LabelResponseInterface $labelResponse): void
     {
         $this->labelResponses[$requestIndex] = $labelResponse;
     }
@@ -131,7 +131,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param ShipmentErrorResponseInterface $errorResponse
      * @return void
      */
-    public function addErrorResponse(string $requestIndex, ShipmentErrorResponseInterface $errorResponse)
+    public function addErrorResponse(string $requestIndex, ShipmentErrorResponseInterface $errorResponse): void
     {
         $this->errorResponses[$requestIndex] = $errorResponse;
     }
