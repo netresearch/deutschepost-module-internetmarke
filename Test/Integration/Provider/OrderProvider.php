@@ -70,7 +70,7 @@ B64;
         $pdf = self::getLabelPdf();
 
         $vouchers = array_map(
-            function (string $voucherId) use ($pdf) {
+            static function (string $voucherId) use ($pdf) {
                 return new Voucher($voucherId, $voucherId, $pdf);
             },
             $voucherIds
