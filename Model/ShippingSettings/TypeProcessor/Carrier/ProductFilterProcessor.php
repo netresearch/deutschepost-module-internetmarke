@@ -57,7 +57,7 @@ class ProductFilterProcessor implements CarrierDataProcessorInterface
                     continue;
                 }
 
-                $options = array_filter($input->getOptions(), function (OptionInterface $option) {
+                $options = array_filter($input->getOptions(), static function (OptionInterface $option) {
                     // remove inapplicable options
                     return (strpos($option->getLabel(), 'Deutsche Post') !== 0);
                 });
