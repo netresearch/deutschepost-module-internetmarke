@@ -53,7 +53,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param TrackResponseInterface $trackResponse
      * @return void
      */
-    public function addTrackResponse(string $requestIndex, TrackResponseInterface $trackResponse)
+    public function addTrackResponse(string $requestIndex, TrackResponseInterface $trackResponse): void
     {
         $this->trackResponses[$requestIndex] = $trackResponse;
     }
@@ -65,7 +65,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param TrackErrorResponseInterface $errorResponse
      * @return void
      */
-    public function addErrorResponse(string $requestIndex, TrackErrorResponseInterface $errorResponse)
+    public function addErrorResponse(string $requestIndex, TrackErrorResponseInterface $errorResponse): void
     {
         $this->errorResponses[$requestIndex] = $errorResponse;
     }
