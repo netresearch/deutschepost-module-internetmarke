@@ -48,7 +48,7 @@ class ProductListUpdate
      *
      * @throws CouldNotSaveException
      */
-    public function execute()
+    public function execute(): void
     {
         if (!$this->config->getAccountEmail() || !$this->config->getAccountPassword()) {
             return;

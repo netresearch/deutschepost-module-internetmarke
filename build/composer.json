@@ -20,6 +20,22 @@
     },
     {
       "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-bcs.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-parcel-management.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-location-finder.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-tracking.git"
+    },
+    {
+      "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/module-carrier-paket.git"
     },
     {
@@ -29,18 +45,6 @@
     {
       "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/module-unified-tracking.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-bcs.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-parcel-management.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-tracking.git"
     },
     {
       "type": "vcs",

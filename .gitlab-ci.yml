@@ -1,4 +1,4 @@
-image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
+image: registry.netresearch.de/magento-ci/ci-toolchain:latest
 
 services:
   - name: registry.netresearch.de/ci-helper/gitlab-worker-dind
@@ -41,6 +41,7 @@ runtime-analysis:
 
 # Crucial tests (lowest Mage+PHP + highest Mage+PHP)
 phpunit-7.3-ce2.3:
+  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
   stage: test
   extends: .phpunit
   only:
@@ -53,7 +54,7 @@ phpunit-7.3-ce2.3:
     MAGENTO_TAG_VERSION: "2.3"
     MAGENTO_EDITION: "ce"
 
-phpunit-7.4-ce2.4:
+phpunit-8.1-ce2.4:
   stage: test
   extends: .phpunit
   only:
@@ -62,12 +63,13 @@ phpunit-7.4-ce2.4:
     - /^(release|hotfix)-.*$/
     - merge_requests
   variables:
-    PHP_VERSION: "7.4"
-    MAGENTO_TAG_VERSION: "2.4.2"
+    PHP_VERSION: "8.1"
+    MAGENTO_TAG_VERSION: "2.4"
     MAGENTO_EDITION: "ce"
 
 # Additional tests (in between versions of Magento or PHP)
 phpunit-7.4-ce2.3:
+  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
   stage: test-additional
   extends: .phpunit
   only:
@@ -79,7 +81,8 @@ phpunit-7.4-ce2.3:
     MAGENTO_TAG_VERSION: "2.3"
     MAGENTO_EDITION: "ce"
 
-phpunit-7.3-ce2.4:
+phpunit-7.4-ce2.4:
+  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
   stage: test-additional
   extends: .phpunit
   only:
@@ -87,8 +90,8 @@ phpunit-7.3-ce2.4:
     - master
     - /^(release|hotfix)-.*$/
   variables:
-    PHP_VERSION: "7.3"
-    MAGENTO_TAG_VERSION: "2.4.2"
+    PHP_VERSION: "7.4"
+    MAGENTO_TAG_VERSION: "2.4"
     MAGENTO_EDITION: "ce"
 
 package-build:

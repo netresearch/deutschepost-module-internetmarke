@@ -52,7 +52,7 @@ class Updater
     /**
      * @throws CouldNotSaveException
      */
-    public function updatePageFormats()
+    public function updatePageFormats(): void
     {
         try {
             $webservice = $this->webserviceFactory->createInfoService();
