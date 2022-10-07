@@ -16,7 +16,7 @@ use Magento\Framework\App\ResourceConnection;
  * Low-level product list access.
  *
  * The model/resource model/collection triad is needed nowhere
- * in the application right now so we speed things up by
+ * in the application right now, so we speed things up by
  * accessing data directly via the connection.
  *
  * We also operate directly on the SDK data. Mapping it all
@@ -146,13 +146,28 @@ class SaveHandler
         $connection->beginTransaction();
 
         try {
-            $connection->delete($connection->getTableName(self::LIST_TABLE));
+            $connection->delete($this->resourceConnection->getTableName(self::LIST_TABLE));
 
-            $connection->insertMultiple($connection->getTableName(self::LIST_TABLE), $listData);
-            $connection->insertMultiple($connection->getTableName(self::BASIC_PRODUCT_TABLE), $basicData);
-            $connection->insertMultiple($connection->getTableName(self::ADDITIONAL_PRODUCT_TABLE), $additionalData);
-            $connection->insertMultiple($connection->getTableName(self::SALES_PRODUCT_TABLE), $salesData);
-            $connection->insertMultiple($connection->getTableName(self::PRODUCT_REFERENCE_TABLE), $referenceData);
+            $connection->insertMultiple(
+                $this->resourceConnection->getTableName(self::LIST_TABLE),
+                $listData
+            );
+            $connection->insertMultiple(
+                $this->resourceConnection->getTableName(self::BASIC_PRODUCT_TABLE),
+                $basicData
+            );
+            $connection->insertMultiple(
+                $this->resourceConnection->getTableName(self::ADDITIONAL_PRODUCT_TABLE),
+                $additionalData
+            );
+            $connection->insertMultiple(
+                $this->resourceConnection->getTableName(self::SALES_PRODUCT_TABLE),
+                $salesData
+            );
+            $connection->insertMultiple(
+                $this->resourceConnection->getTableName(self::PRODUCT_REFERENCE_TABLE),
+                $referenceData
+            );
 
             $connection->commit();
         } catch (\Exception $exception) {
