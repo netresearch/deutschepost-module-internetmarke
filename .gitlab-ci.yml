@@ -32,28 +32,14 @@ runtime-analysis:
     - /^(release|hotfix)-.*$/
     - merge_requests
   variables:
-    PHP_VERSION: "7.4"
-    MAGENTO_TAG_VERSION: "2.4.2"
+    PHP_VERSION: "8.1"
+    MAGENTO_TAG_VERSION: "2.4"
   script:
     - ci-install
     - ci-validate-schema
     - ci-validate-i18n
 
 # Crucial tests (lowest Mage+PHP + highest Mage+PHP)
-phpunit-7.3-ce2.3:
-  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
-  stage: test
-  extends: .phpunit
-  only:
-    - develop
-    - master
-    - /^(release|hotfix)-.*$/
-    - merge_requests
-  variables:
-    PHP_VERSION: "7.3"
-    MAGENTO_TAG_VERSION: "2.3"
-    MAGENTO_EDITION: "ce"
-
 phpunit-8.1-ce2.4:
   stage: test
   extends: .phpunit
@@ -65,6 +51,20 @@ phpunit-8.1-ce2.4:
   variables:
     PHP_VERSION: "8.1"
     MAGENTO_TAG_VERSION: "2.4"
+    MAGENTO_EDITION: "ce"
+
+phpunit-7.3-ce2.3:
+  stage: test
+  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
+  extends: .phpunit
+  only:
+    - develop
+    - master
+    - /^(release|hotfix)-.*$/
+    - merge_requests
+  variables:
+    PHP_VERSION: "7.3"
+    MAGENTO_TAG_VERSION: "2.3"
     MAGENTO_EDITION: "ce"
 
 # Additional tests (in between versions of Magento or PHP)
@@ -79,19 +79,6 @@ phpunit-7.4-ce2.3:
   variables:
     PHP_VERSION: "7.4"
     MAGENTO_TAG_VERSION: "2.3"
-    MAGENTO_EDITION: "ce"
-
-phpunit-7.4-ce2.4:
-  image: registry.netresearch.de/magento-ci/ci-toolchain:7.2
-  stage: test-additional
-  extends: .phpunit
-  only:
-    - develop
-    - master
-    - /^(release|hotfix)-.*$/
-  variables:
-    PHP_VERSION: "7.4"
-    MAGENTO_TAG_VERSION: "2.4"
     MAGENTO_EDITION: "ce"
 
 package-build:
