@@ -86,6 +86,7 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
             // all inputs of the given service options
             Codes::SERVICE_OPTION_BULKY_GOODS,
             Codes::SERVICE_OPTION_CHECK_OF_AGE,
+            Codes::SERVICE_OPTION_ENDORSEMENT,
             Codes::SERVICE_OPTION_INSURANCE,
             Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING,
             Codes::SERVICE_OPTION_RETURN_SHIPMENT,
