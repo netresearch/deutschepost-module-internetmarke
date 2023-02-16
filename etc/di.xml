@@ -107,6 +107,11 @@
             <argument name="deleteResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
+    <type name="DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage\MapRequestStage">
+        <arguments>
+            <argument name="country" xsi:type="object">Netresearch\ShippingCore\Model\Util\Alpha3Converter</argument>
+        </arguments>
+    </type>
     <type name="DeutschePost\Internetmarke\Model\ResourceModel\Shipment\TrackAdditional">
         <arguments>
             <argument name="connectionName" xsi:type="const">Netresearch\ShippingCore\Setup\Module\Constants::SALES_CONNECTION_NAME</argument>
