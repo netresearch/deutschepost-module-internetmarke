@@ -22,7 +22,7 @@ use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
-use Netresearch\ShippingCore\Api\Util\CountryCodeInterface;
+use Netresearch\ShippingCore\Api\Util\CountryCodeConverterInterface;
 
 class MapRequestStage implements CreateShipmentsStageInterface
 {
@@ -57,7 +57,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
     private $requestExtractorFactory;
 
     /**
-     * @var CountryCodeInterface
+     * @var CountryCodeConverterInterface
      */
     private $country;
 
@@ -68,7 +68,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
         PageFormatInterfaceFactory $pageFormatFactory,
         OrderFactory $orderFactory,
         RequestExtractorInterfaceFactory $requestExtractorFactory,
-        CountryCodeInterface $country
+        CountryCodeConverterInterface $country
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
@@ -175,8 +175,8 @@ class MapRequestStage implements CreateShipmentsStageInterface
 
             foreach ($packages as $packageId => $package) {
                 try {
-                    $shipperCountry = $this->country->getIso3Code($shipper->getCountryCode());
-                    $recipientCountry = $this->country->getIso3Code($recipient->getCountryCode());
+                    $shipperCountry = $this->country->convert($shipper->getCountryCode());
+                    $recipientCountry = $this->country->convert($recipient->getCountryCode());
                 } catch (NoSuchEntityException $exception) {
                     $artifactsContainer->addError(
                         $requestIndex,
