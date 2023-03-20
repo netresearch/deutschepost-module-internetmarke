@@ -11,15 +11,25 @@ namespace DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\Shippi
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as ServiceCodes;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\ShippingOptionsProcessorInterface;
 use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes as CoreCodes;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\OrderSelectionManager;
 
-class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
+class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInterface
 {
+    /**
+     * @var OrderSelectionManager
+     */
+    private $selectionManager;
+
     /**
      * @var ShippingConfigInterface
      */
@@ -41,11 +51,13 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
     private $optionFactory;
 
     public function __construct(
+        OrderSelectionManager $selectionManager,
         ShippingConfigInterface $shippingConfig,
         SalesProductCollectionLoader $productCollectionLoader,
         ShipmentDate $shipmentDate,
         OptionInterfaceFactory $optionFactory
     ) {
+        $this->selectionManager = $selectionManager;
         $this->shippingConfig = $shippingConfig;
         $this->productCollectionLoader = $productCollectionLoader;
         $this->shipmentDate = $shipmentDate;
@@ -53,6 +65,11 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
     }
 
     /**
+     * Add Deutsche Post shipping products to the shipping product options.
+     *
+     * In case some service selection was made in checkout that cannot be
+     * fulfilled with INTERNETMARKE products, do not add anything.
+     *
      * @param string $carrierCode
      * @param array $shippingOptions
      * @param int $storeId
@@ -61,7 +78,7 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
      * @param ShipmentInterface|null $shipment
      *
      * @return ShippingOptionInterface[]
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function process(
         string $carrierCode,
@@ -75,6 +92,40 @@ class ShippingProductsProcessor implements ShippingOptionsProcessorInterface
         $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 
         if ($carrierCode !== Paket::CARRIER_CODE) {
+            return $shippingOptions;
+        }
+
+        if (!$shipment) {
+            // checkout scope, nothing to modify.
+            return $shippingOptions;
+        }
+
+        $packageDetails = $shippingOptions[Codes::PACKAGE_OPTION_DETAILS] ?? false;
+        if (!$packageDetails instanceof ShippingOptionInterface) {
+            // not the package details option.
+            return $shippingOptions;
+        }
+
+        $selectedPaketOnlyServices = array_filter(
+            $this->selectionManager->load((int) $shipment->getShippingAddressId()),
+            static function (SelectionInterface $selection) {
+                return in_array(
+                    $selection->getShippingOptionCode(),
+                    [
+                        ServiceCodes::SERVICE_OPTION_PREFERRED_DAY,
+                        ServiceCodes::SERVICE_OPTION_DROPOFF_DELIVERY,
+                        ServiceCodes::SERVICE_OPTION_NEIGHBOR_DELIVERY,
+                        ServiceCodes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY,
+                        CoreCodes::SERVICE_OPTION_DELIVERY_LOCATION,
+                        CoreCodes::SERVICE_OPTION_CASH_ON_DELIVERY,
+                    ],
+                    true
+                );
+            }
+        );
+
+        if (!empty($selectedPaketOnlyServices)) {
+            // a service was selected that is not supported by INTERNETMARKE shipping products.
             return $shippingOptions;
         }
 
