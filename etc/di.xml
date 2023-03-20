@@ -86,11 +86,8 @@
     </virtualType>
     <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingDataProcessor\Virtual">
         <arguments>
-            <argument name="carrierDataProcessors" xsi:type="array">
-                <item name="deutschePostProductFilter" sortOrder="1100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\Carrier\ProductFilterProcessor</item>
-            </argument>
             <argument name="shippingOptionsProcessors" xsi:type="array">
-                <item name="deutschePostShippingProductsProcessor" sortOrder="1100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\ShippingOptions\ShippingProductsProcessor</item>
+                <item name="deutschePostAddShippingProductsProcessor" sortOrder="1100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
             </argument>
             <argument name="compatibilityProcessors" xsi:type="array">
                 <item name="deutschePostDisableParcelGermanyInputs" sortOrder="1100" xsi:type="object">DeutschePost\Internetmarke\Model\ShippingSettings\TypeProcessor\Compatibility\DisableParcelGermanyInputsProcessor</item>
