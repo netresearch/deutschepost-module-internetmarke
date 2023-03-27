@@ -1,6 +1,6 @@
 {
     "name": "deutschepost/module-internetmarke",
-    "version": "2.3.1",
+    "version": "2.3.2",
     "type": "magento2-module",
     "description": "INTERNETMARKE shipping product capabilities for the DHL Paket carrier module",
     "license": "OSL-3.0",
@@ -37,10 +37,5 @@
         "magento/module-store": "^101.0.0",
         "netresearch/config-fields-m2": "^1.3.0",
         "netresearch/module-shipping-core": "^2.9.0"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "2.3.2.x-dev"
-        }
     }
 }
