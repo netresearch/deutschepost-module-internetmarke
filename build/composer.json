@@ -1,7 +1,7 @@
 {
   "name": "deutschepost/module-internetmarke-meta",
   "description": "Metapackage for testing the DHL paket carrier extension with dependencies",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "type": "metapackage",
   "require": {
   },
