@@ -116,6 +116,7 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
                         ServiceCodes::SERVICE_OPTION_DROPOFF_DELIVERY,
                         ServiceCodes::SERVICE_OPTION_NEIGHBOR_DELIVERY,
                         ServiceCodes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY,
+                        ServiceCodes::SERVICE_OPTION_DELIVERY_TYPE,
                         CoreCodes::SERVICE_OPTION_DELIVERY_LOCATION,
                         CoreCodes::SERVICE_OPTION_CASH_ON_DELIVERY,
                     ],
