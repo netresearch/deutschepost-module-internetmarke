@@ -8,31 +8,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://git.netresearch.de/deutschepost/sdk-api-oneclickforapp.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/deutschepost/sdk-api-prodws.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/deutschepost/sdk-api-oneclickforrefund.git"
-    },
-    {
-      "type": "vcs",
       "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-bcs.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-parcel-management.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-location-finder.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://git.netresearch.de/dhl/global-web-services/sdk-api-unified-tracking.git"
     },
     {
       "type": "vcs",
