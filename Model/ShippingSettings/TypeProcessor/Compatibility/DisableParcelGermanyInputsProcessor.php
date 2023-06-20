@@ -94,6 +94,7 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
             Codes::SERVICE_OPTION_DELIVERY_TYPE,
             Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY,
             Codes::SERVICE_OPTION_PDDP,
+            Codes::SERVICE_OPTION_RECIPIENT_SIGNATURE,
             // some inputs of the "package details" package option
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_WIDTH),
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_LENGTH),
