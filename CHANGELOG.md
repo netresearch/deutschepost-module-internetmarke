@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.4.0
+
+### Added
+
+- Compatibility for Magento 2.4.7.
+
+### Changed
+
+- Use escaper instead of block for escaping in templates
+
+### Removed
+
+- PHP7.x support
+- PHP8.1 support
+
 ## 2.3.3
 
 ### Changed
