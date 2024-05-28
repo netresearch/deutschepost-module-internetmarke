@@ -7,24 +7,24 @@
 $viewModel = $block->getData('view_model');
 ?>
 <?php if (!$viewModel->isWalletConfigured()): ?>
-    <span class="message-warning"><?= $block->escapeHtml(__('Please complete your account settings (wallet credentials) to proceed.')) ?></span>
+    <span class="message-warning"><?= $escaper->escapeHtml(__('Please complete your account settings (wallet credentials) to proceed.')) ?></span>
 <?php else: ?>
-    <a href="<?= $block->escapeUrl($viewModel->getFormatsUpdateUrl()); ?>" class="action-default">
-        <span><?= $block->escapeHtml(__('Update Page Formats')) ?></span>
+    <a href="<?= $escaper->escapeUrl($viewModel->getFormatsUpdateUrl()); ?>" class="action-default">
+        <span><?= $escaper->escapeHtml(__('Update Page Formats')) ?></span>
     </a>
-    <a href="<?= $block->escapeUrl($viewModel->getProductsUpdateUrl()); ?>" class="action-default">
-        <span><?= $block->escapeHtml(__('Update Product List')) ?></span>
+    <a href="<?= $escaper->escapeUrl($viewModel->getProductsUpdateUrl()); ?>" class="action-default">
+        <span><?= $escaper->escapeHtml(__('Update Product List')) ?></span>
     </a>
     <p class="note">
         <?php if ($viewModel->getPageFormatCount() > 0): ?>
-            <span class="message-success"><?= $block->escapeHtml(__('Page formats are available.')) ?></span>
+            <span class="message-success"><?= $escaper->escapeHtml(__('Page formats are available.')) ?></span>
         <?php else: ?>
-            <span class="message-warning"><?= $block->escapeHtml(__('Please update page formats.')) ?></span>
+            <span class="message-warning"><?= $escaper->escapeHtml(__('Please update page formats.')) ?></span>
         <?php endif; ?>
         <?php if ($viewModel->getProductsCount() > 0): ?>
-            <span class="message-success"><?= $block->escapeHtml(__('Product list is available.')) ?></span>
+            <span class="message-success"><?= $escaper->escapeHtml(__('Product list is available.')) ?></span>
         <?php else: ?>
-            <span class="message-warning"><?= $block->escapeHtml(__('Please update shipping products.')) ?></span>
+            <span class="message-warning"><?= $escaper->escapeHtml(__('Please update shipping products.')) ?></span>
         <?php endif; ?>
     </p>
 <?php endif; ?>

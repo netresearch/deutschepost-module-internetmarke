@@ -11,11 +11,11 @@ products to allow for smaller dimension shipping boxes (e.g. letters).
 
 Requirements
 ------------
-* PHP >= 7.2
+* PHP >= 8.2
 
 Compatibility
 -------------
-* Magento >= 2.3.0+
+* Magento >= 2.4.6
 
 Installation Instructions
 -------------------------
