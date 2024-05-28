@@ -8,12 +8,12 @@ $viewModel = $block->getData('view_model');
 ?>
 
 <div class="section">
-    <h3><?= $block->escapeHtml('Deutsche Post Internetmarke') ?></h3>
+    <h3><?= $escaper->escapeHtml('Deutsche Post Internetmarke') ?></h3>
     <p>
-        <?= $block->escapeHtml(
+        <?= $escaper->escapeHtml(
             __(
                 '%1Internetmarke of Deutsche Post%2 ideally complements DHL Parcel Germany to send small goods in a cost-effective way via mail products.',
-                '<a href="' . $block->escapeUrl($viewModel->getConfigGroupLink()) . '">',
+                '<a href="' . $escaper->escapeUrl($viewModel->getConfigGroupLink()) . '">',
                 '</a>'
             ),
             ['a']
