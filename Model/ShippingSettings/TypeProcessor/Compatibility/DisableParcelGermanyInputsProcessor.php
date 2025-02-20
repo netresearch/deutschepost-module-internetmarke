@@ -99,6 +99,8 @@ class DisableParcelGermanyInputsProcessor implements CompatibilityProcessorInter
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_WIDTH),
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_LENGTH),
             sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_DETAILS, CoreCodes::PACKAGE_INPUT_HEIGHT),
+            // MRN input of the "package custom" package option
+            sprintf('%s.%s', CoreCodes::PACKAGE_OPTION_CUSTOMS, Codes::PACKAGE_INPUT_MRN),
         ];
 
         $shipmentDate = $this->shipmentDate->getDate($shipment->getStoreId());
