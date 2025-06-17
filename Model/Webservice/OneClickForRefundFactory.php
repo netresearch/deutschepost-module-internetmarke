@@ -56,6 +56,7 @@ class OneClickForRefundFactory implements OneClickForRefundFactoryInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function createRefundService(): RefundServiceInterface
     {
         $credentials = $this->credentialsFactory->create([

@@ -80,13 +80,14 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
      * @return ShippingOptionInterface[]
      * @throws LocalizedException
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $shippingOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
         $order = $shipment->getOrder();
         $carrierCode = strtok((string) $order->getShippingMethod(), '_');

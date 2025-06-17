@@ -50,6 +50,7 @@ class MapResponseStage implements CreateShipmentsStageInterface
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         // handle requests that failed during previous stages
@@ -58,7 +59,7 @@ class MapResponseStage implements CreateShipmentsStageInterface
             $responseData = [
                 ShipmentResponseInterface::REQUEST_INDEX => (string) $requestIndex,
                 ShipmentResponseInterface::SALES_SHIPMENT => $error['shipment'],
-                ShipmentErrorResponseInterface::ERRORS => $errorMessage,
+                ShipmentErrorResponseInterface::ERRORS => [$errorMessage],
             ];
 
             $artifactsContainer->addErrorResponse(

@@ -36,6 +36,7 @@ class TrackAdditional extends AbstractDb
      *
      * @return void
      */
+    #[\Override]
     protected function _construct()
     {
         $this->_init('deutschepost_shipment_track', TrackAdditionalInterface::TRACK_ID);
