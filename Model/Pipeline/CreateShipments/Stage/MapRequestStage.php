@@ -139,6 +139,7 @@ class MapRequestStage implements CreateShipmentsStageInterface
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         try {

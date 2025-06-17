@@ -33,11 +33,13 @@ class ProductNameProvider implements ProductNameProviderInterface
         $this->resource = $resource;
     }
 
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;
     }
 
+    #[\Override]
     public function getName(string $productCode): string
     {
         /** @var SalesProduct $salesProduct */
