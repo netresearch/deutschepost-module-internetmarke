@@ -20,11 +20,13 @@ class SalesProductCollection extends AbstractCollection
     /**
      * Initialization
      */
+    #[\Override]
     public function _construct()
     {
         $this->_init(\DeutschePost\Internetmarke\Model\ProductList\SalesProduct::class, SalesProduct::class);
     }
 
+    #[\Override]
     protected function _initSelect()
     {
         parent::_initSelect();
