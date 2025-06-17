@@ -24,6 +24,7 @@ class PageFormats implements OptionSourceInterface
         $this->collectionFactory = $collectionFactory;
     }
 
+    #[\Override]
     public function toOptionArray()
     {
         $collection = $this->collectionFactory->create();

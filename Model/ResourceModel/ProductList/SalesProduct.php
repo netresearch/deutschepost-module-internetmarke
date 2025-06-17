@@ -58,6 +58,7 @@ class SalesProduct extends AbstractDb
      *
      * @return void
      */
+    #[\Override]
     protected function _construct()
     {
         $this->_init('deutschepost_product_sales', SalesProductInterface::PRODUCT_ID);
@@ -70,18 +71,21 @@ class SalesProduct extends AbstractDb
         ];
     }
 
-    public function save(AbstractModel $object)
+    #[\Override]
+    public function save(AbstractModel $object): never
     {
         $className = SaveHandler::class;
         throw new \RuntimeException("Use {$className} for updating the product list.");
     }
 
-    public function delete(AbstractModel $object)
+    #[\Override]
+    public function delete(AbstractModel $object): never
     {
         $className = SaveHandler::class;
         throw new \RuntimeException("Use {$className} for updating the product list.");
     }
 
+    #[\Override]
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);

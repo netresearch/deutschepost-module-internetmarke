@@ -41,6 +41,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * @param int $storeId
      * @return void
      */
+    #[\Override]
     public function setStoreId(int $storeId): void
     {
         $this->storeId = $storeId;
@@ -75,6 +76,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      *
      * @return int
      */
+    #[\Override]
     public function getStoreId(): int
     {
         return (int) $this->storeId;

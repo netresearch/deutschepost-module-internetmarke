@@ -19,12 +19,14 @@ class SetupActions extends Field
      * @param AbstractElement $element
      * @return string
      */
+    #[\Override]
     public function render(AbstractElement $element): string
     {
         $element->unsetData('scope')->unsetData('can_use_website_value')->unsetData('can_use_default_value');
         return parent::render($element);
     }
 
+    #[\Override]
     protected function _getElementHtml(AbstractElement $element)
     {
         $fieldContent = $this->getBlockHtml('deutschepost_internetmarke_setup_actions');
