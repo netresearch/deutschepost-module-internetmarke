@@ -35,6 +35,7 @@ class SendRequestStage implements CreateShipmentsStageInterface
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         if (empty($requests)) {
@@ -63,7 +64,7 @@ class SendRequestStage implements CreateShipmentsStageInterface
 
             // no requests passed the stage
             return [];
-        } catch (ServiceException $exception) {
+        } catch (ServiceException) {
             // mark all requests as failed
             foreach ($requests as $requestIndex => $shipmentRequest) {
                 $artifactsContainer->addError(

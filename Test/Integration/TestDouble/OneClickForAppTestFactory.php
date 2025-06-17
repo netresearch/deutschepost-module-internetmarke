@@ -33,7 +33,7 @@ class OneClickForAppTestFactory implements OneClickForAppFactoryInterface
      */
     private $order;
 
-    public function __construct(array $pageFormats = [], array $contractProducts = [], OrderInterface $order = null)
+    public function __construct(array $pageFormats = [], array $contractProducts = [], ?OrderInterface $order = null)
     {
         $this->pageFormats = $pageFormats;
         $this->contractProducts = $contractProducts;

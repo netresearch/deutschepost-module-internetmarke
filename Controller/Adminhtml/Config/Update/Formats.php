@@ -31,6 +31,7 @@ class Formats extends Action implements HttpGetActionInterface
         parent::__construct($context);
     }
 
+    #[\Override]
     public function execute(): ResultInterface
     {
         try {

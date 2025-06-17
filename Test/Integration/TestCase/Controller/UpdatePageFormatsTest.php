@@ -63,7 +63,7 @@ class UpdatePageFormatsTest extends AbstractBackendController
     /**
      * @return PageFormatInterface[]
      */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             [PageFormatsProvider::getPageFormats()],
@@ -71,11 +71,10 @@ class UpdatePageFormatsTest extends AbstractBackendController
     }
 
     /**
-     * @test
-     * @dataProvider dataProvider
-     *
      * @param PageFormatInterface[] $apiPageFormats
      */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     public function updatePageFormats(array $apiPageFormats)
     {
         $serviceFactory = $this->_objectManager->create(

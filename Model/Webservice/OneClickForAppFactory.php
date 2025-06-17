@@ -57,6 +57,7 @@ class OneClickForAppFactory implements OneClickForAppFactoryInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function createInfoService(): AccountInformationServiceInterface
     {
         $credentials = $this->credentialsFactory->create([
@@ -71,6 +72,7 @@ class OneClickForAppFactory implements OneClickForAppFactoryInterface
         return $this->serviceFactory->createAccountInformationService($credentials, $this->logger);
     }
 
+    #[\Override]
     public function createOrderService(): OrderServiceInterface
     {
         $credentials = $this->credentialsFactory->create([

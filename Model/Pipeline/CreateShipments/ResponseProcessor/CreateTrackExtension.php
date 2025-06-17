@@ -52,6 +52,7 @@ class CreateTrackExtension implements ShipmentResponseProcessorInterface
      * @param LabelResponseInterface[] $labelResponses
      * @param ShipmentErrorResponseInterface[] $errorResponses
      */
+    #[\Override]
     public function processResponse(array $labelResponses, array $errorResponses): void
     {
         /** @var LabelResponse $labelResponse */

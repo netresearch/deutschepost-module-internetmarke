@@ -36,6 +36,7 @@ class Products extends Action implements HttpGetActionInterface
      *
      * @return ResultInterface
      */
+    #[\Override]
     public function execute(): ResultInterface
     {
         try {

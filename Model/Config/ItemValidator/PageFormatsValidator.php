@@ -37,6 +37,7 @@ class PageFormatsValidator implements ItemValidatorInterface
         $this->formatsCollectionFactory = $formatsCollectionFactory;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $collection = $this->formatsCollectionFactory->create();
