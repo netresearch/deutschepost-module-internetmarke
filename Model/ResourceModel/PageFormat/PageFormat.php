@@ -37,6 +37,7 @@ class PageFormat extends AbstractDb
      *
      * @return void
      */
+    #[\Override]
     protected function _construct()
     {
         $this->_init('deutschepost_internetmarke_pageformat', PageFormatInterface::FORMAT_ID);
@@ -50,6 +51,7 @@ class PageFormat extends AbstractDb
      * @param AbstractModel $object
      * @return AbstractDb
      */
+    #[\Override]
     protected function _beforeSave(AbstractModel $object)
     {
         $select = $this->_getLoadSelect($object->getIdFieldName(), $object->getId(), $object);

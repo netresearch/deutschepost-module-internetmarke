@@ -15,6 +15,7 @@ class PageFormatCollection extends AbstractCollection
     /**
      * Initialization
      */
+    #[\Override]
     public function _construct()
     {
         $this->_init(\DeutschePost\Internetmarke\Model\PageFormat\PageFormat::class, PageFormat::class);

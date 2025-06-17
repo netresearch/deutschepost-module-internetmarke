@@ -30,6 +30,7 @@ class ProdWsFactory implements ProdWsFactoryInterface
         $this->logger = $logger;
     }
 
+    #[\Override]
     public function create(): ProductInformationServiceInterface
     {
         return $this->serviceFactory->createProductInformationService(

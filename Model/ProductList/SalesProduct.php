@@ -18,39 +18,46 @@ class SalesProduct extends AbstractModel implements SalesProductInterface
     /**
      * Initialize resource model.
      */
+    #[\Override]
     protected function _construct()
     {
         $this->_init(SalesProductResource::class);
         parent::_construct();
     }
 
+    #[\Override]
     public function getId(): int
     {
         return (int) parent::getId();
     }
 
+    #[\Override]
     public function getPPLId(): int
     {
         return (int) $this->getData(self::PPL_ID);
     }
 
+    #[\Override]
     public function getName(): string
     {
         return (string) $this->getData(self::NAME);
     }
 
+    #[\Override]
     public function getPrice(): int
     {
         return (int) $this->getData(self::PRICE);
     }
 
-    public function save()
+    #[\Override]
+    public function save(): never
     {
         $className = SaveHandler::class;
         throw new \RuntimeException("Use {$className} for updating the product list.");
     }
 
-    public function delete()
+    #[\Override]
+    public function delete(): never
     {
         $className = SaveHandler::class;
         throw new \RuntimeException("Use {$className} for updating the product list.");

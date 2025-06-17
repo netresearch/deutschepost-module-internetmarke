@@ -37,6 +37,7 @@ class ProductListValidator implements ItemValidatorInterface
         $this->productCollectionLoader = $productCollectionLoader;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $collection = $this->productCollectionLoader->getCollection();
