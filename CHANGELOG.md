@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Changed
+
+- Migrate from legacy SOAP SDKs (sdk-api-oneclickforapp, sdk-api-oneclickforrefund) to new REST SDK (sdk-api-internetmarke).
+- Replace legacy factory classes with unified `InternetmarkeServiceFactory`.
+
+### Removed
+
+- Dependencies on `deutschepost/sdk-api-oneclickforapp` and `deutschepost/sdk-api-oneclickforrefund`.
+
 ## 2.6.0
 
 ### Added

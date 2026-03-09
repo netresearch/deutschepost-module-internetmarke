@@ -14,6 +14,7 @@ Errors,Errors
 "If you do not have a Portokasse account yet, please %1register and create a new account%2.","If you do not have a Portokasse account yet, please %1register and create a new account%2."
 "Info (All API Activities)","Info (All API Activities)"
 "Label could not be created: %1","Label could not be created: %1"
+"Label could not be created: API response contained no voucher","Label could not be created: API response contained no voucher"
 "Log Level","Log Level"
 Logging,Logging
 "Page Format","Page Format"
@@ -40,6 +41,7 @@ Password,Password
 "To get started, shipping label formats and shipping products must be imported.","To get started, shipping label formats and shipping products must be imported."
 "To get started, you need a Portokasse account.","To get started, you need a Portokasse account."
 "Update Page Formats","Update Page Formats"
+"Unknown product code: %1","Unknown product code: %1"
 "Update Product List","Update Product List"
 "Voucher %1 could not be cancelled: %2","Voucher %1 could not be cancelled: %2"
 "With Deutsche Post Internetmarke, you can ship your orders cost-effectively with mail products.","With Deutsche Post Internetmarke, you can ship your orders cost-effectively with mail products."

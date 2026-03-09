@@ -9,31 +9,9 @@
     <!-- Virtual types for SDK classes to ensure proper DI compilation -->
     <virtualType name="DeutschePost\Internetmarke\Model\Sdk\ProdWS\ServiceFactory\Virtual" type="DeutschePost\Sdk\ProdWS\Service\ServiceFactory"/>
     <preference for="DeutschePost\Sdk\ProdWS\Api\ServiceFactoryInterface" type="DeutschePost\Internetmarke\Model\Sdk\ProdWS\ServiceFactory\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\Credentials\Virtual" type="DeutschePost\Sdk\OneClickForApp\Auth\Credentials"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\CredentialsInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\Credentials\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\PageFormat\Virtual" type="DeutschePost\Sdk\OneClickForApp\Service\AccountInformationService\PageFormat"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\PageFormat\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\ServiceFactory\Virtual" type="DeutschePost\Sdk\OneClickForApp\Service\ServiceFactory"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\ServiceFactoryInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\ServiceFactory\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\TokenStorage\Virtual" type="DeutschePost\Sdk\OneClickForApp\Auth\TokenStorage"/>
-    <preference for="DeutschePost\Sdk\OneClickForApp\Api\TokenStorageInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForApp\TokenStorage\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\Credentials\Virtual" type="DeutschePost\Sdk\OneClickForRefund\Auth\Credentials"/>
-    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\Data\CredentialsInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\Credentials\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\TokenStorage\Virtual" type="DeutschePost\Sdk\OneClickForRefund\Auth\TokenStorage"/>
-    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\TokenStorageInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\TokenStorage\Virtual"/>
-    
-    <virtualType name="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\ServiceFactory\Virtual" type="DeutschePost\Sdk\OneClickForRefund\Service\ServiceFactory"/>
-    <preference for="DeutschePost\Sdk\OneClickForRefund\Api\ServiceFactoryInterface" type="DeutschePost\Internetmarke\Model\Sdk\OneClickForRefund\ServiceFactory\Virtual"/>
 
     <!-- # service interface preferences -->
-    <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory"/>
-    <preference for="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactory"/>
+    <preference for="DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactory"/>
     <preference for="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface" type="DeutschePost\Internetmarke\Model\Webservice\ProdWsFactory"/>
     <!-- # data interface preferences -->
     <preference for="DeutschePost\Internetmarke\Api\Data\PageFormatInterface" type="DeutschePost\Internetmarke\Model\PageFormat\PageFormat"/>
@@ -81,7 +59,7 @@
     </virtualType>
     <virtualType name="DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual" type="Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
         <arguments>
-            <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer</argument>
+            <argument name="instanceName" xsi:type="string">DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainer</argument>
         </arguments>
     </virtualType>
     <!-- bulk shipment response processor -->
@@ -130,12 +108,7 @@
             <argument name="connectionName" xsi:type="const">Netresearch\ShippingCore\Setup\Module\Constants::SALES_CONNECTION_NAME</argument>
         </arguments>
     </type>
-    <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactory">
-        <arguments>
-            <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
-        </arguments>
-    </type>
-    <type name="DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactory">
+    <type name="DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactory">
         <arguments>
             <argument name="logger" xsi:type="object">DeutschePost\Internetmarke\Model\Logger\Virtual</argument>
         </arguments>
@@ -181,10 +154,14 @@
     <type name="Netresearch\ShippingCore\Model\Util\ApiLogAnonymizer">
         <arguments>
             <argument name="patterns" xsi:type="array">
-                <item name="dpimPartnerSignature" xsi:type="string"><![CDATA[|PARTNER_SIGNATURE>([^<]+)<|]]></item>
-                <item name="dpimUserName" xsi:type="string"><![CDATA[|username>([^<]+)<|]]></item>
-                <item name="dpimPassword" xsi:type="string"><![CDATA[|password>([^<]+)<|]]></item>
-                <item name="dpimUserToken" xsi:type="string"><![CDATA[|userToken>([^<]+)<|]]></item>
+                <item name="dpimUsername" xsi:type="string"><![CDATA[|username=([^&\s]+)|]]></item>
+                <item name="dpimPassword" xsi:type="string"><![CDATA[|password=([^&\s]+)|]]></item>
+                <item name="dpimClientId" xsi:type="string"><![CDATA[|client_id=([^&\s]+)|]]></item>
+                <item name="dpimClientSecret" xsi:type="string"><![CDATA[|client_secret=([^&\s]+)|]]></item>
+                <item name="dpimBearerToken" xsi:type="string"><![CDATA[|Authorization: Bearer (.+)|]]></item>
+                <item name="dpimAccessToken" xsi:type="string"><![CDATA[|"access_token"\s*:\s*"([^"]+)"|]]></item>
+                <item name="dpimAuthenticatedUser" xsi:type="string"><![CDATA[|"authenticated_user"\s*:\s*"([^"]+)"|]]></item>
+                <item name="dpimExternalCustomerId" xsi:type="string"><![CDATA[|"external_customer_id"\s*:\s*"([^"]+)"|]]></item>
             </argument>
         </arguments>
     </type>

@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Test\Integration\Provider;
 
-use DeutschePost\Sdk\OneClickForApp\Api\Data\OrderInterface;
-use DeutschePost\Sdk\OneClickForApp\Service\OrderService\Order;
-use DeutschePost\Sdk\OneClickForApp\Service\OrderService\Voucher;
+use DeutschePost\Sdk\Internetmarke\Api\Data\OrderInterface;
+use DeutschePost\Sdk\Internetmarke\Model\Order;
+use DeutschePost\Sdk\Internetmarke\Model\Voucher;
 
 class OrderProvider
 {
@@ -48,14 +48,17 @@ B64;
     {
         $pdf = self::getLabelPdf();
 
+        $voucher = SdkModelFactory::create(Voucher::class, [
+            'voucherId' => $voucherId,
+            'trackId' => $voucherId,
+        ]);
+
         return new Order(
             '1234',
-            1234,
+            [$voucher],
             $pdf,
-            [
-                new Voucher($voucherId, $voucherId, $pdf),
-            ],
-            null
+            null,
+            1234
         );
     }
 
@@ -70,12 +73,15 @@ B64;
         $pdf = self::getLabelPdf();
 
         $vouchers = array_map(
-            static function (string $voucherId) use ($pdf) {
-                return new Voucher($voucherId, $voucherId, $pdf);
+            static function (string $voucherId) {
+                return SdkModelFactory::create(Voucher::class, [
+                    'voucherId' => $voucherId,
+                    'trackId' => $voucherId,
+                ]);
             },
             $voucherIds
         );
 
-        return new Order('1234', 1234, $pdf, $vouchers, null);
+        return new Order('1234', $vouchers, $pdf, null, 1234);
     }
 }

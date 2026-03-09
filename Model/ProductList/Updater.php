@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\ProductList;
 
 use DeutschePost\Internetmarke\Model\ResourceModel\ProductList\SaveHandler;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
 use DeutschePost\Internetmarke\Model\Webservice\ProdWsFactoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
@@ -22,9 +22,9 @@ class Updater
     private $productsWsFactory;
 
     /**
-     * @var OneClickForAppFactoryInterface
+     * @var InternetmarkeServiceFactoryInterface
      */
-    private $pricesWsFactory;
+    private $internetmarkeFactory;
 
     /**
      * @var ProductFilter
@@ -43,13 +43,13 @@ class Updater
 
     public function __construct(
         ProdWsFactoryInterface $productsWsFactory,
-        OneClickForAppFactoryInterface $pricesWsFactory,
+        InternetmarkeServiceFactoryInterface $internetmarkeFactory,
         ProductFilter $productFilter,
         SaveHandler $saveHandler,
         LoggerInterface $logger
     ) {
         $this->productsWsFactory = $productsWsFactory;
-        $this->pricesWsFactory = $pricesWsFactory;
+        $this->internetmarkeFactory = $internetmarkeFactory;
         $this->productFilter = $productFilter;
         $this->saveHandler = $saveHandler;
         $this->logger = $logger;
@@ -64,8 +64,8 @@ class Updater
             $productsWebservice = $this->productsWsFactory->create();
             $productLists = $this->productFilter->filter($productsWebservice->getProductLists('NETRESEARCH'));
 
-            $pricesWebservice = $this->pricesWsFactory->createInfoService();
-            $prices = $pricesWebservice->getContractProducts();
+            $catalogService = $this->internetmarkeFactory->createCatalogService();
+            $prices = $catalogService->getContractProducts();
 
             $this->saveHandler->save($productLists, $prices);
         } catch (\Exception $exception) {
