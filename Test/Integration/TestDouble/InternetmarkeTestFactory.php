@@ -8,15 +8,17 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Test\Integration\TestDouble;
 
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\AccountInformationServiceInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\ContractProductInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\OrderInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\OrderServiceInterface;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
+use DeutschePost\Sdk\Internetmarke\Api\ApiInfoServiceInterface;
+use DeutschePost\Sdk\Internetmarke\Api\CatalogServiceInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\ContractProductInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\OrderInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\PageFormatInterface;
+use DeutschePost\Sdk\Internetmarke\Api\OrderServiceInterface;
+use DeutschePost\Sdk\Internetmarke\Api\RefundServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class OneClickForAppTestFactory implements OneClickForAppFactoryInterface
+class InternetmarkeTestFactory implements InternetmarkeServiceFactoryInterface
 {
     /**
      * @var PageFormatInterface[]
@@ -40,10 +42,15 @@ class OneClickForAppTestFactory implements OneClickForAppFactoryInterface
         $this->order = $order;
     }
 
-    public function createInfoService(): AccountInformationServiceInterface
+    public function createApiInfoService(): ApiInfoServiceInterface
+    {
+        return Bootstrap::getObjectManager()->create(ApiInfoServiceStub::class);
+    }
+
+    public function createCatalogService(): CatalogServiceInterface
     {
         return Bootstrap::getObjectManager()->create(
-            InfoServiceStub::class,
+            CatalogServiceStub::class,
             [
                 'pageFormats' => $this->pageFormats,
                 'contractProducts' => $this->contractProducts,
@@ -59,5 +66,10 @@ class OneClickForAppTestFactory implements OneClickForAppFactoryInterface
                 'order' => $this->order,
             ]
         );
+    }
+
+    public function createRefundService(): RefundServiceInterface
+    {
+        return Bootstrap::getObjectManager()->create(RefundServiceStub::class);
     }
 }

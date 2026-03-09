@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments;
 
-use DeutschePost\Sdk\OneClickForApp\Api\Data\OrderInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\OrderInterface;
+use DeutschePost\Sdk\Internetmarke\Model\OrderRequest;
 use Magento\Sales\Model\Order\Shipment;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
@@ -31,18 +32,18 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     private $errors = [];
 
     /**
-     * Container for the API (SDK) request data.
+     * Container for the API (SDK) request data, indexed by request index.
      *
-     * @var Order|null
+     * @var OrderRequest[]
      */
-    private $apiRequest;
+    private $apiRequests = [];
 
     /**
-     * API (SDK) response objects.
+     * API (SDK) response objects, indexed by request index.
      *
-     * @var OrderInterface
+     * @var OrderInterface[]
      */
-    private $apiResponse;
+    private $apiResponses = [];
 
     /**
      * Label response suitable for processing by the core.
@@ -78,12 +79,12 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      *
      * @see addErrorResponse
      *
-     * @param string $requestIndex
+     * @param int $requestIndex
      * @param Shipment $shipment
      * @param string $errorMessage
      * @return void
      */
-    public function addError(string $requestIndex, Shipment $shipment, string $errorMessage): void
+    public function addError(int $requestIndex, Shipment $shipment, string $errorMessage): void
     {
         $this->errors[$requestIndex] = [
             'shipment' => $shipment,
@@ -92,35 +93,37 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     }
 
     /**
-     * Add a prepared request object, ready for the web service call.
+     * Add a prepared request object for a specific shipment, ready for the web service call.
      *
-     * @param Order $shipmentOrder
+     * @param int $requestIndex
+     * @param OrderRequest $orderRequest
      * @return void
      */
-    public function setApiRequest(Order $shipmentOrder): void
+    public function addApiRequest(int $requestIndex, OrderRequest $orderRequest): void
     {
-        $this->apiRequest = $shipmentOrder;
+        $this->apiRequests[$requestIndex] = $orderRequest;
     }
 
     /**
-     * Add the received response object.
+     * Add the received response object for a specific shipment.
      *
+     * @param int $requestIndex
      * @param OrderInterface $apiResponse
      * @return void
      */
-    public function setApiResponse(OrderInterface $apiResponse): void
+    public function addApiResponse(int $requestIndex, OrderInterface $apiResponse): void
     {
-        $this->apiResponse = $apiResponse;
+        $this->apiResponses[$requestIndex] = $apiResponse;
     }
 
     /**
      * Add positive label response.
      *
-     * @param string $requestIndex
+     * @param int $requestIndex
      * @param LabelResponseInterface $labelResponse
      * @return void
      */
-    public function addLabelResponse(string $requestIndex, LabelResponseInterface $labelResponse): void
+    public function addLabelResponse(int $requestIndex, LabelResponseInterface $labelResponse): void
     {
         $this->labelResponses[$requestIndex] = $labelResponse;
     }
@@ -128,11 +131,11 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * Add label error.
      *
-     * @param string $requestIndex
+     * @param int $requestIndex
      * @param ShipmentErrorResponseInterface $errorResponse
      * @return void
      */
-    public function addErrorResponse(string $requestIndex, ShipmentErrorResponseInterface $errorResponse): void
+    public function addErrorResponse(int $requestIndex, ShipmentErrorResponseInterface $errorResponse): void
     {
         $this->errorResponses[$requestIndex] = $errorResponse;
     }
@@ -159,23 +162,23 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     }
 
     /**
-     * Obtain the prepared request objects, ready for the web service call.
+     * Obtain the prepared request objects, indexed by request index.
      *
-     * @return Order|null
+     * @return OrderRequest[]
      */
-    public function getApiRequest(): ?Order
+    public function getApiRequests(): array
     {
-        return $this->apiRequest;
+        return $this->apiRequests;
     }
 
     /**
-     * Obtain the response object as received from the web service.
+     * Obtain the response objects as received from the web service, indexed by request index.
      *
-     * @return OrderInterface|null
+     * @return OrderInterface[]
      */
-    public function getApiResponse(): ?OrderInterface
+    public function getApiResponses(): array
     {
-        return $this->apiResponse;
+        return $this->apiResponses;
     }
 
     /**

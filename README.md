@@ -59,4 +59,4 @@ License
 
 Copyright
 ---------
-(c) 2023 DHL Paket GmbH
+(c) 2026 DHL Paket GmbH
