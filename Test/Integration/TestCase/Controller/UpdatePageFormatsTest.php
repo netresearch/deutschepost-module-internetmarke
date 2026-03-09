@@ -10,10 +10,10 @@ namespace DeutschePost\Internetmarke\Test\Integration\TestCase\Controller;
 
 use DeutschePost\Internetmarke\Model\PageFormat\PageFormat;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollection;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
 use DeutschePost\Internetmarke\Test\Integration\Provider\PageFormatsProvider;
-use DeutschePost\Internetmarke\Test\Integration\TestDouble\OneClickForAppTestFactory;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
+use DeutschePost\Internetmarke\Test\Integration\TestDouble\InternetmarkeTestFactory;
+use DeutschePost\Sdk\Internetmarke\Api\Data\PageFormatInterface;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
@@ -54,7 +54,7 @@ class UpdatePageFormatsTest extends AbstractBackendController
         $this->_objectManager->configure(
             [
                 'preferences' => [
-                    OneClickForAppFactoryInterface::class => OneClickForAppTestFactory::class
+                    InternetmarkeServiceFactoryInterface::class => InternetmarkeTestFactory::class
                 ]
             ]
         );
@@ -78,10 +78,10 @@ class UpdatePageFormatsTest extends AbstractBackendController
     public function updatePageFormats(array $apiPageFormats)
     {
         $serviceFactory = $this->_objectManager->create(
-            OneClickForAppTestFactory::class,
+            InternetmarkeTestFactory::class,
             ['pageFormats' => $apiPageFormats]
         );
-        $this->_objectManager->addSharedInstance($serviceFactory, OneClickForAppTestFactory::class);
+        $this->_objectManager->addSharedInstance($serviceFactory, InternetmarkeTestFactory::class);
 
         $pageFormatIds = array_map(
             function (PageFormatInterface $pageFormat) {
@@ -104,8 +104,9 @@ class UpdatePageFormatsTest extends AbstractBackendController
             $pageFormat = $pageFormats[$apiPageFormat->getId()];
             self::assertSame($apiPageFormat->getId(), $pageFormat->getId());
             self::assertSame($apiPageFormat->getName(), $pageFormat->getName());
-            self::assertSame($apiPageFormat->getColumns(), $pageFormat->getVoucherColumns());
-            self::assertSame($apiPageFormat->getRows(), $pageFormat->getVoucherRows());
+            $labelCount = $apiPageFormat->getPageLayout()->getLabelCount();
+            self::assertSame($labelCount->getLabelX(), $pageFormat->getVoucherColumns());
+            self::assertSame($labelCount->getLabelY(), $pageFormat->getVoucherRows());
         }
     }
 }

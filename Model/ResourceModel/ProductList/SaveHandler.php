@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Model\ResourceModel\ProductList;
 
-use DeutschePost\Sdk\OneClickForApp\Api\Data\ContractProductInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\ContractProductInterface;
 use DeutschePost\Sdk\ProdWS\Api\Data\SalesProductListInterface;
 use Magento\Framework\App\ResourceConnection;
 
@@ -55,7 +55,7 @@ class SaveHandler
 
         $contractPrices = [];
         foreach ($contractProducts as $contractProduct) {
-            $contractPrices[$contractProduct->getId()] = $contractProduct->getPrice();
+            $contractPrices[$contractProduct->getProductCode()] = $contractProduct->getPrice();
         }
 
         $utcTz = new \DateTimeZone('UTC');

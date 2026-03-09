@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
-use DeutschePost\Sdk\OneClickForApp\Exception\DetailedServiceException;
-use DeutschePost\Sdk\OneClickForApp\Exception\ServiceException;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
+use DeutschePost\Sdk\Internetmarke\Exception\DetailedServiceException;
+use DeutschePost\Sdk\Internetmarke\Exception\ServiceException;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -19,17 +19,20 @@ use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 class SendRequestStage implements CreateShipmentsStageInterface
 {
     /**
-     * @var OneClickForAppFactoryInterface
+     * @var InternetmarkeServiceFactoryInterface
      */
     private $webserviceFactory;
 
-    public function __construct(OneClickForAppFactoryInterface $webserviceFactory)
+    public function __construct(InternetmarkeServiceFactoryInterface $webserviceFactory)
     {
         $this->webserviceFactory = $webserviceFactory;
     }
 
     /**
      * Send label request objects to shipment service.
+     *
+     * Each shipment request is sent as an individual API call so that each
+     * shipment receives its own label. Failures are recorded per-request.
      *
      * @param Request[] $requests
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
@@ -42,40 +45,27 @@ class SendRequestStage implements CreateShipmentsStageInterface
             return [];
         }
 
-        $apiRequest = $artifactsContainer->getApiRequest();
+        $orderService = $this->webserviceFactory->createOrderService();
 
-        try {
-            $webservice = $this->webserviceFactory->createOrderService();
-            $order = $webservice->createOrder(
-                $apiRequest->getPositions(),
-                $apiRequest->getAmount(),
-                $apiRequest->getPageFormatId()
-            );
-            $artifactsContainer->setApiResponse($order);
-        } catch (DetailedServiceException $exception) {
-            // mark all requests as failed
-            foreach ($requests as $requestIndex => $shipmentRequest) {
+        foreach ($artifactsContainer->getApiRequests() as $requestIndex => $orderRequest) {
+            try {
+                $order = $orderService->createOrder($orderRequest);
+                $artifactsContainer->addApiResponse($requestIndex, $order);
+            } catch (DetailedServiceException $exception) {
                 $artifactsContainer->addError(
-                    (string) $requestIndex,
-                    $shipmentRequest->getOrderShipment(),
+                    $requestIndex,
+                    $requests[$requestIndex]->getOrderShipment(),
                     $exception->getMessage()
                 );
-            }
-
-            // no requests passed the stage
-            return [];
-        } catch (ServiceException) {
-            // mark all requests as failed
-            foreach ($requests as $requestIndex => $shipmentRequest) {
+                unset($requests[$requestIndex]);
+            } catch (ServiceException) {
                 $artifactsContainer->addError(
-                    (string) $requestIndex,
-                    $shipmentRequest->getOrderShipment(),
+                    $requestIndex,
+                    $requests[$requestIndex]->getOrderShipment(),
                     'Web service request failed.'
                 );
+                unset($requests[$requestIndex]);
             }
-
-            // no requests passed the stage
-            return [];
         }
 
         return $requests;

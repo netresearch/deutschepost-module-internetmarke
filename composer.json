@@ -12,6 +12,12 @@
             "homepage": "https://www.netresearch.de/"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://git.netresearch.de/deutschepost/sdk-api-internetmarke.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "DeutschePost\\Internetmarke\\": ""
@@ -25,9 +31,8 @@
         "dhl/module-shipping-core": "^2.5.0",
         "dhl/module-carrier-paket": "^3.4.0",
         "dhl/module-unified-tracking": "^2.3.0",
+        "deutschepost/sdk-api-internetmarke": "dev-develop as 1.0.0",
         "deutschepost/sdk-api-prodws": "^1.3.0",
-        "deutschepost/sdk-api-oneclickforapp": "^1.3.0",
-        "deutschepost/sdk-api-oneclickforrefund": "^1.3.0",
         "magento/framework": "^103.0.8",
         "magento/module-backend": "^102.0.8",
         "magento/module-config": "^101.2.8",
@@ -39,6 +44,7 @@
         "netresearch/module-shipping-core": "^4.0.0"
     },
     "require-dev": {
+        "nyholm/psr7": "^1.5.0",
         "phpunit/phpunit": "^10.5.0"
     }
 }
