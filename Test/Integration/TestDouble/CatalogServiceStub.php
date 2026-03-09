@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace DeutschePost\Internetmarke\Test\Integration\TestDouble;
 
-use DeutschePost\Sdk\OneClickForApp\Api\AccountInformationServiceInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\ContractProductInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
+use DeutschePost\Sdk\Internetmarke\Api\CatalogServiceInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\ContractProductInterface;
+use DeutschePost\Sdk\Internetmarke\Api\Data\PageFormatInterface;
 
-class InfoServiceStub implements AccountInformationServiceInterface
+class CatalogServiceStub implements CatalogServiceInterface
 {
     /**
      * @var PageFormatInterface[]
@@ -38,5 +38,15 @@ class InfoServiceStub implements AccountInformationServiceInterface
     public function getContractProducts(): array
     {
         return $this->contractProducts;
+    }
+
+    public function getPublicCatalog(): array
+    {
+        return [];
+    }
+
+    public function getPrivateCatalog(): array
+    {
+        return [];
     }
 }

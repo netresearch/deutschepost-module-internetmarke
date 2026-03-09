@@ -14,6 +14,7 @@ Errors,Fehler
 "If you do not have a Portokasse account yet, please %1register and create a new account%2.","Sollten Sie bisher noch nicht für eine Portokasse angemeldet sein, führen Sie die %1Registrierung für Neukunden%2 durch."
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "Label could not be created: %1","Versandetikett konnte nicht erstellt werden: %1"
+"Label could not be created: API response contained no voucher","Versandetikett konnte nicht erstellt werden: API-Antwort enthielt keine Frankierung"
 "Log Level",Protokollierungsstufe
 Logging,Protokollierung
 "Page Format",Druckformat
@@ -40,6 +41,7 @@ Password,Passwort
 "To get started, shipping label formats and shipping products must be imported.","Um zu beginnen, müssen Druckformate und Versandprodukte abgerufen werden."
 "To get started, you need a Portokasse account.","Für die Verwendung von Deutsche Post Internetmarke benötigen Sie eine Portokasse."
 "Update Page Formats","Druckformate aktualisieren"
+"Unknown product code: %1","Unbekannter Produktcode: %1"
 "Update Product List","Produktliste aktualisieren"
 "Voucher %1 could not be cancelled: %2","Das Label %1 konnte nicht storniert werden: %2"
 "With Deutsche Post Internetmarke, you can ship your orders cost-effectively with mail products.","Mit Deutsche Post Internetmarke können Sie Bestellungen kosteneffizient per Briefprodukt versenden."
