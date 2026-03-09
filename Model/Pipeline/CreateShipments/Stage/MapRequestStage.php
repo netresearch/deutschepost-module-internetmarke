@@ -10,11 +10,11 @@ namespace DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\Stage;
 
 use DeutschePost\Internetmarke\Model\Config\ModuleConfig;
 use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\ArtifactsContainer;
-use DeutschePost\Internetmarke\Model\Pipeline\CreateShipments\OrderFactory;
 use DeutschePost\Internetmarke\Model\ProductList\SalesProductCollectionLoader;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterface;
-use DeutschePost\Sdk\OneClickForApp\Api\Data\PageFormatInterfaceFactory;
-use DeutschePost\Sdk\OneClickForApp\Model\ShoppingCartPositionBuilder;
+use DeutschePost\Sdk\Internetmarke\Api\ShoppingCartPositionBuilderInterface;
+use DeutschePost\Sdk\Internetmarke\Api\VoucherLayout;
+use DeutschePost\Sdk\Internetmarke\Model\OrderRequest;
+use DeutschePost\Sdk\Internetmarke\Model\ShoppingCartPositionBuilder;
 use Dhl\Paket\Model\ShipmentDate\ShipmentDate;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -42,16 +42,6 @@ class MapRequestStage implements CreateShipmentsStageInterface
     private $config;
 
     /**
-     * @var PageFormatInterfaceFactory
-     */
-    private $pageFormatFactory;
-
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
-
-    /**
      * @var RequestExtractorInterfaceFactory
      */
     private $requestExtractorFactory;
@@ -65,16 +55,12 @@ class MapRequestStage implements CreateShipmentsStageInterface
         ShipmentDate $shipmentDate,
         SalesProductCollectionLoader $productCollectionLoader,
         ModuleConfig $config,
-        PageFormatInterfaceFactory $pageFormatFactory,
-        OrderFactory $orderFactory,
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         CountryCodeConverterInterface $country
     ) {
         $this->shipmentDate = $shipmentDate;
         $this->productCollectionLoader = $productCollectionLoader;
         $this->config = $config;
-        $this->pageFormatFactory = $pageFormatFactory;
-        $this->orderFactory = $orderFactory;
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->country = $country;
     }
@@ -103,35 +89,10 @@ class MapRequestStage implements CreateShipmentsStageInterface
     }
 
     /**
-     * Create SDK page format from local data for usage in the cart position builder.
-     *
-     * @return PageFormatInterface
-     * @throws LocalizedException
-     */
-    private function getPageFormat(): PageFormatInterface
-    {
-        $pageFormat = $this->config->getPageFormat();
-        if (!$pageFormat) {
-            throw new LocalizedException(__('Please update page formats in the module configuration.'));
-        }
-
-        return $this->pageFormatFactory->create([
-            'id' => $pageFormat->getId(),
-            'name' => $pageFormat->getName(),
-            'description' => $pageFormat->getDescription(),
-            'orientation' => '',
-            'printMedium' => '',
-            'sizeX' => 0,
-            'sizeY' => 0,
-            'columns' => $pageFormat->getVoucherColumns(),
-            'rows' => $pageFormat->getVoucherRows(),
-            'addressPossible' => $pageFormat->isAddressPossible(),
-            'imagePossible' => $pageFormat->isImagePossible()
-        ]);
-    }
-
-    /**
      * Transform core shipment requests into request objects suitable for the label API.
+     *
+     * Each shipment request is mapped to an individual OrderRequest so that each
+     * shipment receives its own label from the API.
      *
      * Requests with mapping errors are removed from requests and instantly added as error responses.
      *
@@ -142,14 +103,15 @@ class MapRequestStage implements CreateShipmentsStageInterface
     #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
+        $pageFormat = $this->config->getPageFormat();
+
         try {
             $productPrices = $this->getPrices($artifactsContainer->getStoreId());
-            $pageFormat = $this->getPageFormat();
         } catch (LocalizedException $exception) {
             // mark all requests as failed
             foreach ($requests as $requestIndex => $shipmentRequest) {
                 $artifactsContainer->addError(
-                    (string) $requestIndex,
+                    $requestIndex,
                     $shipmentRequest->getOrderShipment(),
                     $exception->getMessage()
                 );
@@ -159,9 +121,22 @@ class MapRequestStage implements CreateShipmentsStageInterface
             return [];
         }
 
-        $builder = ShoppingCartPositionBuilder::forPageFormat($pageFormat);
+        if (!$pageFormat) {
+            foreach ($requests as $requestIndex => $shipmentRequest) {
+                $artifactsContainer->addError(
+                    $requestIndex,
+                    $shipmentRequest->getOrderShipment(),
+                    (string) __('Please update page formats in the module configuration.')
+                );
+            }
 
-        $positions = [];
+            return [];
+        }
+
+        $voucherLayout = $pageFormat->isAddressPossible()
+            ? VoucherLayout::AddressZone
+            : VoucherLayout::FrankingZone;
+
         foreach ($requests as $requestIndex => $request) {
             $requestExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $request]);
             $shipper = $requestExtractor->getShipper();
@@ -174,56 +149,70 @@ class MapRequestStage implements CreateShipmentsStageInterface
                 continue;
             }
 
+            try {
+                $shipperCountry = $this->country->convert($shipper->getCountryCode());
+                $recipientCountry = $this->country->convert($recipient->getCountryCode());
+            } catch (NoSuchEntityException $exception) {
+                $artifactsContainer->addError(
+                    $requestIndex,
+                    $request->getOrderShipment(),
+                    $exception->getMessage()
+                );
+                continue;
+            }
+
+            $builder = ShoppingCartPositionBuilder::forPageFormat(
+                $pageFormat->getId(),
+                $pageFormat->getVoucherColumns(),
+                $pageFormat->getVoucherRows(),
+            );
+            $positions = [];
+
             foreach ($packages as $packageId => $package) {
-                try {
-                    $shipperCountry = $this->country->convert($shipper->getCountryCode());
-                    $recipientCountry = $this->country->convert($recipient->getCountryCode());
-                } catch (NoSuchEntityException $exception) {
+                $productCode = (int) $package->getProductCode();
+                if (!isset($productPrices[$productCode])) {
                     $artifactsContainer->addError(
                         $requestIndex,
                         $request->getOrderShipment(),
-                        $exception->getMessage()
+                        (string) __('Unknown product code: %1', $productCode)
                     );
-                    break;
+                    continue 2;
                 }
 
-                $builder->setItemDetails((int) $package->getProductCode(), $productPrices[$package->getProductCode()]);
-                $builder->setShipperAddress(
+                $builder->setItemDetails($productCode, $productPrices[$productCode]);
+                $builder->setVoucherLayout($voucherLayout);
+                $builder->setSenderAddress(
                     $shipper->getContactCompanyName(),
-                    $shipperCountry,
+                    trim($shipper->getStreetName() . ' ' . $shipper->getStreetNumber()),
                     $shipper->getPostalCode(),
                     $shipper->getCity(),
-                    $shipper->getStreetName(),
-                    $shipper->getStreetNumber()
+                    $shipperCountry
                 );
 
                 $builder->setRecipientAddress(
-                    $recipient->getContactPersonLastName(),
-                    $recipient->getContactPersonFirstName(),
-                    $recipientCountry,
+                    trim($recipient->getContactPersonFirstName() . ' ' . $recipient->getContactPersonLastName()),
+                    trim($recipient->getStreetName() . ' ' . $recipient->getStreetNumber()),
                     $recipient->getPostalCode(),
                     $recipient->getCity(),
-                    $recipient->getStreetName(),
-                    $recipient->getStreetNumber(),
-                    null,
-                    null,
-                    $recipient->getContactCompanyName(),
-                    $recipient->getAddressAddition()
+                    $recipientCountry,
+                    $recipient->getContactCompanyName() ?: null,
+                    $recipient->getAddressAddition() ?: null
                 );
 
                 $positions[] = $builder->create();
             }
+
+            if (empty($positions)) {
+                continue;
+            }
+
+            $orderRequest = new OrderRequest(
+                $positions,
+                $builder->getTotalAmount(),
+                $pageFormat->getId()
+            );
+            $artifactsContainer->addApiRequest($requestIndex, $orderRequest);
         }
-
-        $order = $this->orderFactory->create(
-            [
-                'amount' => $builder->getTotalAmount(),
-                'pageFormatId' => $builder->getPageFormatId(),
-                'positions' => $positions
-            ]
-        );
-
-        $artifactsContainer->setApiRequest($order);
 
         // pass on all shipment requests with no mapping errors
         return array_diff_key($requests, $artifactsContainer->getErrors());

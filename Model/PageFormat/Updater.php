@@ -11,14 +11,14 @@ namespace DeutschePost\Internetmarke\Model\PageFormat;
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterface;
 use DeutschePost\Internetmarke\Api\Data\PageFormatInterfaceFactory;
 use DeutschePost\Internetmarke\Model\ResourceModel\PageFormat\PageFormatCollectionFactory;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForAppFactoryInterface;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Psr\Log\LoggerInterface;
 
 class Updater
 {
     /**
-     * @var OneClickForAppFactoryInterface
+     * @var InternetmarkeServiceFactoryInterface
      */
     private $webserviceFactory;
 
@@ -38,7 +38,7 @@ class Updater
     private $logger;
 
     public function __construct(
-        OneClickForAppFactoryInterface $webserviceFactory,
+        InternetmarkeServiceFactoryInterface $webserviceFactory,
         PageFormatCollectionFactory $collectionFactory,
         PageFormatInterfaceFactory $itemFactory,
         LoggerInterface $logger
@@ -55,11 +55,13 @@ class Updater
     public function updatePageFormats(): void
     {
         try {
-            $webservice = $this->webserviceFactory->createInfoService();
-            $pageFormats = $webservice->getPageFormats();
+            $catalogService = $this->webserviceFactory->createCatalogService();
+            $pageFormats = $catalogService->getPageFormats();
 
             $collection = $this->collectionFactory->create();
             foreach ($pageFormats as $pageFormat) {
+                $labelCount = $pageFormat->getPageLayout()->getLabelCount();
+
                 /** @var PageFormat $item */
                 $item = $this->itemFactory->create(
                     [
@@ -67,9 +69,9 @@ class Updater
                             PageFormatInterface::FORMAT_ID => $pageFormat->getId(),
                             PageFormatInterface::NAME => $pageFormat->getName(),
                             PageFormatInterface::DESCRIPTION => $pageFormat->getDescription(),
-                            PageFormatInterface::PRINT_MEDIUM => $pageFormat->getPrintMedium(),
-                            PageFormatInterface::VOUCHER_COLUMNS => $pageFormat->getColumns(),
-                            PageFormatInterface::VOUCHER_ROWS => $pageFormat->getRows(),
+                            PageFormatInterface::PRINT_MEDIUM => $pageFormat->getPageType(),
+                            PageFormatInterface::VOUCHER_COLUMNS => $labelCount->getLabelX(),
+                            PageFormatInterface::VOUCHER_ROWS => $labelCount->getLabelY(),
                             PageFormatInterface::IS_ADDRESS_POSSIBLE => $pageFormat->isAddressPossible(),
                             PageFormatInterface::IS_IMAGE_POSSIBLE => $pageFormat->isImagePossible(),
                         ]

@@ -10,8 +10,10 @@ namespace DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\Stage;
 
 use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ArtifactsContainer;
 use DeutschePost\Internetmarke\Model\Pipeline\DeleteShipments\ResponseDataMapper;
-use DeutschePost\Internetmarke\Model\Webservice\OneClickForRefundFactoryInterface;
-use DeutschePost\Sdk\OneClickForRefund\Exception\ServiceException;
+use DeutschePost\Internetmarke\Model\Webservice\InternetmarkeServiceFactoryInterface;
+use DeutschePost\Sdk\Internetmarke\Exception\ServiceException;
+use DeutschePost\Sdk\Internetmarke\Model\RefundRequest;
+use DeutschePost\Sdk\Internetmarke\Model\RefundVoucher;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 use Netresearch\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
@@ -19,7 +21,7 @@ use Netresearch\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 class RequestRefundStage implements RequestTracksStageInterface
 {
     /**
-     * @var OneClickForRefundFactoryInterface
+     * @var InternetmarkeServiceFactoryInterface
      */
     private $webserviceFactory;
 
@@ -29,7 +31,7 @@ class RequestRefundStage implements RequestTracksStageInterface
     private $responseDataMapper;
 
     public function __construct(
-        OneClickForRefundFactoryInterface $webserviceFactory,
+        InternetmarkeServiceFactoryInterface $webserviceFactory,
         ResponseDataMapper $responseDataMapper
     ) {
         $this->webserviceFactory = $webserviceFactory;
@@ -52,11 +54,11 @@ class RequestRefundStage implements RequestTracksStageInterface
             return [];
         }
 
-        $shipmentService = $this->webserviceFactory->createRefundService();
+        $refundService = $this->webserviceFactory->createRefundService();
 
         return array_filter(
             $requests,
-            function (TrackRequestInterface $request) use ($artifactsContainer, $shipmentService) {
+            function (TrackRequestInterface $request) use ($artifactsContainer, $refundService) {
                 $track = $request->getSalesTrack();
                 if (!$track) {
                     return false;
@@ -64,9 +66,12 @@ class RequestRefundStage implements RequestTracksStageInterface
 
                 $shopOrderId = $track->getExtensionAttributes()->getDpdhlOrderId();
                 $voucherId = $track->getExtensionAttributes()->getDpdhlVoucherId();
+                $trackId = $track->getExtensionAttributes()->getDpdhlTrackId() ?? '';
 
                 try {
-                    $shipmentService->cancelVouchers($shopOrderId, [$voucherId]);
+                    $refundService->requestRefund(
+                        new RefundRequest($shopOrderId, [new RefundVoucher($voucherId, $trackId)])
+                    );
                     $response = $this->responseDataMapper->createTrackResponse(
                         $track->getTrackNumber(),
                         $request->getSalesShipment(),

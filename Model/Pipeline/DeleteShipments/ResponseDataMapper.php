@@ -78,7 +78,7 @@ class ResponseDataMapper
     ): TrackErrorResponseInterface {
         $responseData = [
             TrackErrorResponseInterface::TRACK_NUMBER => $trackNumber,
-            TrackErrorResponseInterface::ERRORS => $message,
+            TrackErrorResponseInterface::ERRORS => [$message],
             TrackErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
             TrackErrorResponseInterface::SALES_TRACK => $salesTrack,
         ];
