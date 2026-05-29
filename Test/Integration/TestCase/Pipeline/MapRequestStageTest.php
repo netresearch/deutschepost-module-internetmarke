@@ -47,7 +47,7 @@ class MapRequestStageTest extends TestCase
 
     private function createPageFormat(): PageFormatInterface
     {
-        $pageFormat = $this->createMock(PageFormatInterface::class);
+        $pageFormat = $this->createStub(PageFormatInterface::class);
         $pageFormat->method('getId')->willReturn(self::PAGE_FORMAT_ID);
         $pageFormat->method('isAddressPossible')->willReturn(true);
         $pageFormat->method('getVoucherColumns')->willReturn(1);
@@ -58,7 +58,7 @@ class MapRequestStageTest extends TestCase
 
     private function createShipper(): ShipperInterface
     {
-        $shipper = $this->createMock(ShipperInterface::class);
+        $shipper = $this->createStub(ShipperInterface::class);
         $shipper->method('getContactCompanyName')->willReturn('Test GmbH');
         $shipper->method('getStreetName')->willReturn('Teststraße');
         $shipper->method('getStreetNumber')->willReturn('1');
@@ -71,7 +71,7 @@ class MapRequestStageTest extends TestCase
 
     private function createRecipient(): RecipientInterface
     {
-        $recipient = $this->createMock(RecipientInterface::class);
+        $recipient = $this->createStub(RecipientInterface::class);
         $recipient->method('getContactPersonFirstName')->willReturn('Max');
         $recipient->method('getContactPersonLastName')->willReturn('Mustermann');
         $recipient->method('getStreetName')->willReturn('Musterweg');
@@ -90,7 +90,7 @@ class MapRequestStageTest extends TestCase
      */
     private function createPackage(int $productCode): PackageInterface
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createStub(PackageInterface::class);
         $package->method('getProductCode')->willReturn((string) $productCode);
 
         return $package;
@@ -98,7 +98,7 @@ class MapRequestStageTest extends TestCase
 
     private function createShipmentRequest(): Request
     {
-        $shipment = $this->createMock(Shipment::class);
+        $shipment = $this->createStub(Shipment::class);
 
         return new Request(['order_shipment' => $shipment]);
     }
@@ -113,12 +113,12 @@ class MapRequestStageTest extends TestCase
         $shipper = $this->createShipper();
         $recipient = $this->createRecipient();
 
-        $requestExtractor = $this->createMock(RequestExtractorInterface::class);
+        $requestExtractor = $this->createStub(RequestExtractorInterface::class);
         $requestExtractor->method('getShipper')->willReturn($shipper);
         $requestExtractor->method('getRecipient')->willReturn($recipient);
         $requestExtractor->method('getPackages')->willReturn($packages);
 
-        $requestExtractorFactory = $this->createMock(RequestExtractorInterfaceFactory::class);
+        $requestExtractorFactory = $this->createStub(RequestExtractorInterfaceFactory::class);
         $requestExtractorFactory->method('create')->willReturn($requestExtractor);
 
         // Mock SalesProductCollectionLoader to return a collection with known prices.
@@ -149,19 +149,19 @@ class MapRequestStageTest extends TestCase
             $productItems[] = $product;
         }
 
-        $productCollection = $this->createMock(SalesProductCollection::class);
+        $productCollection = $this->createStub(SalesProductCollection::class);
         $productCollection->method('getIterator')->willReturn(new \ArrayIterator($productItems));
 
-        $productCollectionLoader = $this->createMock(SalesProductCollectionLoader::class);
+        $productCollectionLoader = $this->createStub(SalesProductCollectionLoader::class);
         $productCollectionLoader->method('getCollectionByDate')->willReturn($productCollection);
 
-        $shipmentDate = $this->createMock(ShipmentDate::class);
+        $shipmentDate = $this->createStub(ShipmentDate::class);
         $shipmentDate->method('getDate')->willReturn(new \DateTime());
 
-        $config = $this->createMock(ModuleConfig::class);
+        $config = $this->createStub(ModuleConfig::class);
         $config->method('getPageFormat')->willReturn($this->createPageFormat());
 
-        $country = $this->createMock(CountryCodeConverterInterface::class);
+        $country = $this->createStub(CountryCodeConverterInterface::class);
         $country->method('convert')->willReturnArgument(0);
 
         return new MapRequestStage(
