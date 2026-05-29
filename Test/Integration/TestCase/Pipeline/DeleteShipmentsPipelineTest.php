@@ -38,16 +38,16 @@ class DeleteShipmentsPipelineTest extends TestCase
 
     private function createTrackRequest(): TrackRequest
     {
-        $extensionAttributes = $this->createMock(ShipmentTrackExtensionInterface::class);
+        $extensionAttributes = $this->createStub(ShipmentTrackExtensionInterface::class);
         $extensionAttributes->method('getDpdhlOrderId')->willReturn(self::SHOP_ORDER_ID);
         $extensionAttributes->method('getDpdhlVoucherId')->willReturn(self::VOUCHER_ID);
         $extensionAttributes->method('getDpdhlTrackId')->willReturn(self::TRACK_ID);
 
-        $salesTrack = $this->createMock(ShipmentTrackInterface::class);
+        $salesTrack = $this->createStub(ShipmentTrackInterface::class);
         $salesTrack->method('getTrackNumber')->willReturn(self::TRACK_NUMBER);
         $salesTrack->method('getExtensionAttributes')->willReturn($extensionAttributes);
 
-        $salesShipment = $this->createMock(ShipmentInterface::class);
+        $salesShipment = $this->createStub(ShipmentInterface::class);
 
         return new TrackRequest(1, self::TRACK_NUMBER, $salesShipment, $salesTrack);
     }

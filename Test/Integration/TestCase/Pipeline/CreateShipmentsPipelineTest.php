@@ -39,7 +39,7 @@ class CreateShipmentsPipelineTest extends TestCase
 
     private function createShipmentRequest(): Request
     {
-        $shipment = $this->createMock(Shipment::class);
+        $shipment = $this->createStub(Shipment::class);
 
         return new Request(['order_shipment' => $shipment]);
     }
