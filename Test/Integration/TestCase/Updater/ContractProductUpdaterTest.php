@@ -103,10 +103,10 @@ class ContractProductUpdaterTest extends TestCase
 
     private function createMockProdWsFactory(array $productLists): ProdWsFactoryInterface
     {
-        $productInfoService = $this->createMock(ProductInformationServiceInterface::class);
+        $productInfoService = $this->createStub(ProductInformationServiceInterface::class);
         $productInfoService->method('getProductLists')->willReturn($productLists);
 
-        $factory = $this->createMock(ProdWsFactoryInterface::class);
+        $factory = $this->createStub(ProdWsFactoryInterface::class);
         $factory->method('create')->willReturn($productInfoService);
 
         return $factory;
