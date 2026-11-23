@@ -15,8 +15,8 @@ use DeutschePost\Internetmarke\Test\Integration\TestDouble\HttpResponseFactory;
 use DeutschePost\Internetmarke\Test\Integration\TestDouble\QueueHttpClient;
 use DeutschePost\Sdk\ProdWS\Api\ProductInformationServiceInterface;
 use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\BasicProduct;
-use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\SalesProduct;
 use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\ProductAddition;
+use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\SalesProduct;
 use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\SalesProductComponents;
 use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\SalesProductList;
 use DeutschePost\Sdk\ProdWS\Service\ProductInformationService\Value;
@@ -163,6 +163,34 @@ class ContractProductUpdaterTest extends TestCase
         );
         self::assertCount(1, $basicRows);
         self::assertEquals(100, $basicRows[0]['product_id']);
+    }
+
+    /**
+     * A second update replaces all product data, including the sales/additional product links.
+     *
+     * HTTP queue per run: auth → contractProducts success
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function updateProductListsReplacesExistingData(): void
+    {
+        $productLists = $this->createTestProductLists();
+
+        foreach ([1, 2] as $run) {
+            $httpClient = new QueueHttpClient();
+            $httpClient->addResponse(HttpResponseFactory::authSuccess());
+            $httpClient->addResponse(HttpResponseFactory::publicCatalogSuccess());
+            $this->createUpdater($httpClient, $productLists)->updateProductLists();
+        }
+
+        /** @var ResourceConnection $resource */
+        $resource = Bootstrap::getObjectManager()->get(ResourceConnection::class);
+        $connection = $resource->getConnection();
+
+        foreach (['deutschepost_product_list', 'deutschepost_product_basic', 'deutschepost_product_additional',
+                     'deutschepost_product_sales', 'deutschepost_product_sales_additional'] as $table) {
+            $rows = $connection->fetchAll($connection->select()->from($resource->getTableName($table)));
+            self::assertCount(1, $rows, $table);
+        }
     }
 
     /**

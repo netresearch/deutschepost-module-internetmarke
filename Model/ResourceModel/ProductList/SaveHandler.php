@@ -146,6 +146,8 @@ class SaveHandler
         $connection->beginTransaction();
 
         try {
+            // The link table has no product list reference, so deleting the lists does not cascade to it.
+            $connection->delete($this->resourceConnection->getTableName(self::PRODUCT_REFERENCE_TABLE));
             $connection->delete($this->resourceConnection->getTableName(self::LIST_TABLE));
 
             $connection->insertMultiple(
